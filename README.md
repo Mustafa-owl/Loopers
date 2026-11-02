@@ -1,6 +1,6 @@
 # Erbil Utilities
 
-Built by NorthPoint Tech. © 2026 NorthPoint Tech. All rights reserved.
+
 
 A website where neighbours in Erbil share power cuts and water problems, and where the electricity and water teams answer them. It works in English, Central Kurdish (Sorani), Northern Kurdish (Kurmanji) and Arabic; Sorani and Arabic read right to left.
 
