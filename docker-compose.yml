@@ -1,0 +1,15 @@
+# © 2026 NorthPoint Tech. All rights reserved.
+# The app and its data in one container. Put nginx (deploy/nginx.conf) or
+# another proxy with https in front of port 8080.
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080"
+    env_file: .env
+    environment:
+      HOST: 0.0.0.0
+      DATA_DIR: /data
+    volumes:
+      - ./data:/data

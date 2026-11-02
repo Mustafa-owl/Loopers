@@ -1,0 +1,9 @@
+node_modules/
+data/
+package-lock.json
+public/assets/vendor/
+public/assets/js/scene.bundle.js
+# HTML pages are left as written: they hold server includes and spacing
+# between inline elements that a formatter would change
+*.html
+*.md
