@@ -1,0 +1,1091 @@
+/* © 2026 NorthPoint Tech. All rights reserved.
+
+   home.css: the home page, top to bottom.
+
+   1. The 3D street story: the stage behind, the hero and four chapters over it
+   2. The page under the story: section rhythm
+   3. "Is the power on in your neighbourhood?" (the search)
+   4. "From the teams": the slideshow and the list beside it
+   5. The Runaki panel beside the latest reports
+   6. "Ask in your own language" */
+
+/* ---------------------------------------------------------------------------
+   1. The 3D street story
+   The stage (a 3D street, or a still picture) sticks to the screen while
+   the hero and the chapters scroll over it, each one panel tall.
+   --------------------------------------------------------------------------- */
+
+body[data-page="home"] main {
+  margin-top: calc(var(--top-h) * -1); /* the street starts under the header */
+}
+.story {
+  position: relative;
+  background: #0d1018;
+  color: #f5f5f7;
+}
+.story-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: 860px;
+}
+.story__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  contain: paint;
+}
+.story__panels {
+  position: relative;
+  margin-top: -100vh;
+  margin-top: -100svh;
+}
+.stage {
+  position: absolute;
+  inset: 0;
+}
+.stage canvas {
+  position: absolute;
+  inset: 0;
+  width: 100% !important; /* three.js writes its own size on the canvas */
+  height: 100% !important;
+  opacity: 0;
+  transition: opacity 1.2s var(--ease);
+}
+.stage.is-live canvas {
+  opacity: 1;
+}
+.stage__poster,
+.stage__poster img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.stage.is-live .stage__poster {
+  opacity: 0;
+  transition: opacity 1.2s 0.2s;
+}
+.stage__film {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease);
+}
+.stage__film.is-on {
+  opacity: 1;
+}
+.stage__layer {
+  transition: opacity 0.7s var(--ease);
+}
+@media (prefers-reduced-motion: reduce) {
+  .stage__film,
+  .stage__layer {
+    transition: none;
+  }
+}
+/* darker towards the text, so it stays readable over any frame */
+.stage__shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, #04060cd1, #04060c59 38%, #04060c00 62%),
+    linear-gradient(to bottom, #04060c73, #04060c00 20%),
+    linear-gradient(to right, #04060ca8, #04060c66 34%, #04060c00 62%);
+}
+[dir="rtl"] .stage__shade {
+  background: linear-gradient(to top, #04060cd1, #04060c59 38%, #04060c00 62%),
+    linear-gradient(to bottom, #04060c73, #04060c00 20%),
+    linear-gradient(to left, #04060ca8, #04060c66 34%, #04060c00 62%);
+}
+
+/* One screen-tall panel of the story, its text at the bottom */
+.panel {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding-bottom: 12vh;
+}
+.panel > .wrap {
+  position: relative;
+}
+.panel--hero {
+  padding-bottom: 14vh;
+}
+
+/* The hero */
+.hero {
+  max-width: 760px;
+}
+.hero h1 {
+  font-size: clamp(2.4rem, 1.2rem + 4.6vw, 4.6rem);
+  line-height: 1.04;
+  letter-spacing: 0;
+  color: #fff;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.35);
+}
+:lang(ckb) .hero h1,
+:lang(ar) .hero h1 {
+  line-height: 1.3;
+  font-size: clamp(2.1rem, 1.1rem + 3.8vw, 3.9rem);
+}
+.hero__sub {
+  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.35rem);
+  line-height: 1.45;
+  color: #f5f5f7db;
+  margin-top: 18px;
+  max-width: 32em;
+}
+.hero__actions {
+  display: flex;
+  align-items: center;
+  gap: 14px 28px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+.hero__actions .btn {
+  min-height: 48px;
+  padding-inline: 26px;
+  font-size: 1.04rem;
+}
+/* "Your neighbourhood: no power" for someone who picked one before */
+.hero__mine {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 26px;
+  padding: 9px 16px;
+  border-radius: var(--radius);
+  background: #14161e9e;
+  color: #fff;
+  font-size: 0.92rem;
+}
+.hero__mine:hover {
+  text-decoration: none;
+  background: #22242eb8;
+}
+.hero__mine > span:first-child {
+  font-weight: 600;
+}
+.hero__mine .tag {
+  color: #fff;
+}
+.hero__mine .tag--none {
+  color: #ffffffb3;
+}
+/* the arrow that says there's more below */
+.hero__more {
+  position: absolute;
+  bottom: 26px;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  color: #fffc;
+  border-radius: var(--radius);
+}
+[dir="rtl"] .hero__more {
+  translate: 50% 0;
+}
+.hero__more svg {
+  width: 26px;
+  height: 26px;
+  animation: nudge 2.4s var(--ease) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__more svg {
+    animation: none;
+  }
+}
+@keyframes nudge {
+  0%,
+  to {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+/* The facts under the headline, as plain sentences */
+.now {
+  display: block;
+  margin-top: 22px;
+  max-width: 44em;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #f5f5f7bf;
+  flex-wrap: wrap;
+  gap: 6px 0;
+}
+.now__item {
+  display: inline;
+  align-items: center;
+  gap: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+.now__item + .now__item {
+  margin-inline-start: 0.4em;
+}
+.now__item--out {
+  color: #fff;
+  font-weight: 600;
+}
+.now__item a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.45);
+  text-underline-offset: 3px;
+}
+
+/* The four chapters */
+.chapter {
+  max-width: 620px;
+}
+.chapter__step {
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+.chapter__step,
+.feat__kicker span {
+  color: rgba(240, 246, 252, 0.75);
+}
+.chapter h2 {
+  font-size: clamp(2rem, 1.2rem + 3vw, 3.4rem);
+  line-height: 1.06;
+  letter-spacing: 0;
+  color: #fff;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
+}
+:lang(ckb) .chapter h2,
+:lang(ar) .chapter h2 {
+  line-height: 1.3;
+}
+.chapter p,
+.hero__sub {
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.55);
+}
+.chapter p:not(.chapter__step) {
+  font-size: clamp(1.06rem, 1rem + 0.35vw, 1.25rem);
+  line-height: 1.5;
+  color: #f5f5f7d6;
+  margin-top: 16px;
+  max-width: 32em;
+}
+.chapter p.chapter__source {
+  font-size: 0.86rem;
+}
+.chapter p.chapter__cta {
+  margin-top: 28px;
+}
+
+/* Links over the dark story stay white */
+.story p a:not(.btn):not(.more):not(.chip),
+.chapter__source a,
+.now a {
+  color: #fff;
+  text-decoration-color: rgba(255, 255, 255, 0.45);
+}
+.story p a:not(.btn):not(.more):not(.chip):hover,
+.chapter__source a:hover {
+  text-decoration-color: #fff;
+}
+.chapter__source a {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+/* ---------------------------------------------------------------------------
+   2. The page under the story: the same space above every section
+   --------------------------------------------------------------------------- */
+
+body[data-page="home"] main > section:not(.story) {
+  padding: clamp(64px, 7vw, 104px) 0 0;
+}
+body[data-page="home"] main > section.asksec {
+  padding-bottom: clamp(64px, 7vw, 104px);
+}
+
+/* ---------------------------------------------------------------------------
+   3. "Is the power on in your neighbourhood?"
+   A search box for the neighbourhood, with suggestions as you type, and
+   "Use my location" under it. What it finds shows in the box below.
+   --------------------------------------------------------------------------- */
+
+.find {
+  padding: 96px 0 24px;
+  text-align: center;
+}
+.find__in {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: start;
+}
+.find h2 {
+  letter-spacing: 0;
+}
+.find .lead {
+  margin-inline: 0;
+  margin-top: 8px;
+}
+.find__alt {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px 14px;
+  flex-wrap: wrap;
+  min-height: 30px;
+  margin-top: 10px;
+}
+.finder {
+  position: relative;
+  width: min(560px, 100%);
+  margin-top: 24px;
+  text-align: start;
+}
+.finder__field {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 66px;
+  padding: 10px 76px 10px 30px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  cursor: text;
+  transition: box-shadow 0.2s;
+}
+[dir="rtl"] .finder__field {
+  padding: 10px 30px 10px 76px;
+}
+.finder__field:focus-within {
+  box-shadow: var(--shadow-lg);
+}
+.finder__label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.finder input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  padding: 0;
+  font-size: 1rem;
+  color: var(--ink);
+  width: 100%;
+}
+.finder input::placeholder {
+  color: var(--ink-3);
+}
+.finder__go {
+  position: absolute;
+  inset-inline-end: 9px;
+  top: 9px;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius);
+  border: 0;
+  background: var(--press);
+  color: var(--press-ink);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.finder__go svg {
+  width: 18px;
+  height: 18px;
+}
+.finder__list {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 10px);
+  inset-inline: 0;
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+  max-height: 360px;
+  overflow: auto;
+  background: var(--bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+}
+.finder__list li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.finder__list li[aria-selected="true"],
+.finder__list li:hover {
+  background: var(--bg-2);
+}
+.finder__list .pinbox {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius);
+  background: var(--bg-2);
+  display: grid;
+  place-items: center;
+  flex: none;
+  color: var(--ink-2);
+}
+.finder__list li[aria-selected="true"] .pinbox,
+.finder__list li:hover .pinbox {
+  background: var(--bg-3);
+}
+.finder__list .pinbox svg {
+  width: 20px;
+  height: 20px;
+}
+.finder__list .opt-name {
+  font-weight: 500;
+  display: block;
+}
+.finder__list .opt-sub {
+  font-size: 0.84rem;
+  color: var(--ink-2);
+  display: block;
+}
+.finder__list .opt-none {
+  cursor: default;
+  color: var(--ink-2);
+  padding: 14px;
+}
+.finder__list .opt-none:hover {
+  background: none;
+}
+/* "Use my location": a link-looking button with a pin */
+.locate {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: none;
+  padding: 6px 0;
+  cursor: pointer;
+  font-size: 0.94rem;
+  color: var(--ink);
+}
+.locate svg {
+  width: 16px;
+  height: 16px;
+}
+.locate span {
+  text-decoration: underline;
+  text-decoration-color: var(--line-2);
+  text-underline-offset: 0.22em;
+}
+.locate:hover {
+  text-decoration: none;
+}
+.locate:hover span {
+  text-decoration-color: currentColor;
+}
+
+/* ---------------------------------------------------------------------------
+   4. "From the teams": one story at a time on the left, all of them listed
+   on the right. On a phone the list goes under the story as plain rows.
+   --------------------------------------------------------------------------- */
+
+.feats {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  align-items: stretch;
+  gap: 28px;
+}
+.feats__stage {
+  position: relative;
+  min-width: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  color: #f5f5f7;
+  background: #151b23;
+}
+/* the line along the bottom, above the buttons */
+.feats__stage::after {
+  content: "";
+  position: absolute;
+  inset-inline: 32px;
+  bottom: 60px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  pointer-events: none;
+}
+.feats__viewport {
+  overflow: hidden;
+  outline: none;
+  height: 100%;
+}
+.feats__viewport:focus-visible {
+  box-shadow: inset 0 0 0 2px #4493f8;
+}
+.feats__track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.6s var(--ease);
+}
+@media (prefers-reduced-motion: reduce) {
+  .feats__track {
+    transition: none;
+  }
+}
+
+/* One story */
+.feat {
+  position: relative;
+  flex: 0 0 100%;
+  min-width: 0;
+  min-height: 400px;
+  display: flex;
+  align-items: flex-end;
+  isolation: isolate;
+}
+.feat__pic {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+.feat__pic img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.feat::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, rgba(13, 17, 23, 0.96) 0%, rgba(13, 17, 23, 0.8) 42%, rgba(13, 17, 23, 0.2) 100%);
+}
+.feat--cut::after {
+  background: linear-gradient(
+    to top,
+    rgba(13, 17, 23, 0.97) 0%,
+    rgba(13, 17, 23, 0.84) 50%,
+    rgba(13, 17, 23, 0.3) 100%
+  );
+}
+.feat__body {
+  display: grid;
+  width: 100%;
+  max-width: 720px;
+  gap: 10px;
+  padding: 32px 32px 88px;
+}
+.feat__kicker {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #4493f8;
+}
+.feat--news .feat__kicker {
+  gap: 8px;
+}
+.feat__now {
+  letter-spacing: 0;
+  border-radius: 0;
+  padding: 0;
+  background: none;
+  color: #fff;
+  font-size: inherit;
+  font-weight: 600;
+}
+.feat__meta {
+  color: rgba(240, 246, 252, 0.78);
+  font-weight: 500;
+}
+.feat__title {
+  font-family: var(--heading);
+  font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.1rem);
+  line-height: 1.15;
+  max-width: 22ch;
+  text-wrap: balance;
+  color: #fff;
+}
+.feat__title--news {
+  font-size: clamp(1.3rem, 1rem + 1vw, 1.75rem);
+  line-height: 1.25;
+  max-width: 26ch;
+}
+:lang(ckb) .feat__title,
+:lang(ar) .feat__title {
+  line-height: 1.5;
+}
+.feat__when {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  align-items: baseline;
+  font-size: 1.05rem;
+}
+.feat__when span {
+  font-size: 0.92rem;
+  color: rgba(240, 246, 252, 0.72);
+}
+.feat__when strong {
+  color: #fff;
+}
+.feat__text {
+  color: rgba(240, 246, 252, 0.86);
+  max-width: 52ch;
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+.feat__src {
+  margin: 0;
+  color: rgba(240, 246, 252, 0.62);
+  font-size: 0.84rem;
+}
+
+/* A planned cut shows its 24 hours, with the cut marked and a line for now */
+.tl {
+  margin: 6px 0 4px;
+  max-width: 560px;
+}
+.tl__track {
+  position: relative;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(240, 246, 252, 0.16);
+}
+.tl__cut {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+.tl__cut,
+.feat--cut.is-now .tl__cut {
+  border-radius: 4px;
+  background: #4493f8;
+}
+.tl__now {
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  width: 2px;
+  margin-inline-start: -1px;
+  border-radius: 1px;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.55);
+}
+.tl__ticks {
+  position: relative;
+  height: 18px;
+  margin-top: 6px;
+  font-size: 0.74rem;
+  font-variant-numeric: tabular-nums;
+  color: rgba(240, 246, 252, 0.62);
+}
+.tl__ticks span {
+  position: absolute;
+  translate: -50% 0;
+}
+[dir="rtl"] .tl__ticks span {
+  translate: 50% 0;
+}
+.tl__ticks span:first-child {
+  translate: 0 0;
+}
+.tl__ticks span:last-child {
+  translate: -100% 0;
+}
+[dir="rtl"] .tl__ticks span:last-child {
+  translate: 100% 0;
+}
+
+/* Along the bottom: back, count, next and pause on one side, the link on the other */
+.feats__nav {
+  position: absolute;
+  inset-inline-start: 32px;
+  bottom: 12px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.feats__btn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 6px;
+  background: none;
+  box-shadow: inset 0 0 0 1px rgba(240, 246, 252, 0.3);
+  backdrop-filter: none;
+  color: #fff;
+  cursor: pointer;
+}
+.feats__btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.feats__btn svg {
+  width: 16px;
+  height: 16px;
+}
+[dir="rtl"] .feats__btn svg {
+  transform: scaleX(-1);
+}
+.feats__count {
+  min-width: 3.2em;
+  text-align: center;
+  line-height: 32px;
+  font-size: 0.84rem;
+  color: rgba(240, 246, 252, 0.86);
+}
+.feats__pause {
+  height: 32px;
+  margin-inline-start: 6px;
+  padding: 6px 4px;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.84rem;
+  color: rgba(240, 246, 252, 0.78);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.3);
+  text-underline-offset: 0.22em;
+}
+.feats__pause:hover {
+  color: #fff;
+}
+.feat__foot {
+  position: absolute;
+  inset-inline-end: 32px;
+  bottom: 12px;
+  height: 36px;
+  margin: 0;
+  padding-top: 12px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 20px;
+  border-top: 1px solid rgba(240, 246, 252, 0.18);
+  color: rgba(240, 246, 252, 0.7);
+  font-size: 0.9rem;
+}
+.feat__foot a {
+  font-weight: 600;
+  color: #fff;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.4);
+  text-underline-offset: 0.22em;
+}
+.feats .feat__foot a,
+main .feats p.feat__foot a:not(.btn):not(.more):not(.chip) {
+  color: #fff;
+  text-decoration-color: rgba(255, 255, 255, 0.4);
+}
+.feat__foot a::after {
+  content: " ›";
+}
+[dir="rtl"] .feat__foot a::after {
+  content: " ‹";
+}
+.feat__foot a:hover {
+  text-decoration-color: #fff;
+}
+.feats__btn:focus-visible,
+.feats__pause:focus-visible,
+.feat__foot a:focus-visible {
+  outline: 2px solid #4493f8;
+  outline-offset: 2px;
+}
+
+/* The list beside it: every story, the one showing in bold */
+.feats__list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  height: 0;
+  min-height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+  border-top: 1px solid var(--line-2);
+  border-radius: 0;
+  background: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-2) transparent;
+}
+.feats__list::-webkit-scrollbar {
+  width: 6px;
+}
+.feats__list::-webkit-scrollbar-thumb {
+  background: var(--line-2);
+  border-radius: 3px;
+}
+.feats__list li {
+  border-bottom: 1px solid var(--line);
+}
+.feats__list li + li {
+  border-top: 1px solid var(--line);
+}
+.feats__item {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  padding: 14px 4px 12px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font: inherit;
+  color: var(--ink);
+  text-align: start;
+  cursor: pointer;
+}
+.feats__item:hover {
+  background: none;
+}
+.feats__item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+.feats__item[aria-current="true"] {
+  background: none;
+  box-shadow: none;
+}
+.feats__kicker {
+  font-weight: 500;
+  font-size: 0.8rem;
+  color: var(--ink-3);
+}
+.feats__title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+:lang(ckb) .feats__title,
+:lang(ar) .feats__title {
+  line-height: 1.65;
+}
+.feats__item:hover .feats__title {
+  color: var(--ink);
+}
+@media (hover: hover) {
+  .feats__item:hover .feats__title {
+    text-decoration: underline;
+    text-decoration-color: var(--line-2);
+    text-underline-offset: 0.2em;
+  }
+}
+.feats__item[aria-current="true"] .feats__title {
+  color: var(--ink);
+  font-weight: 600;
+}
+.feats__item[aria-current="true"] .feats__kicker {
+  color: var(--accent-ink);
+}
+/* a thin line under the current story fills while it's shown */
+.feats__line {
+  height: 2px;
+  margin-top: 8px;
+  border-radius: 1px;
+  background: transparent;
+  overflow: hidden;
+}
+.feats__item[aria-current="true"] .feats__line {
+  background: var(--line);
+}
+.feats__line i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .feats {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .feats__list {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+  .feats__list li {
+    scroll-snap-align: start;
+    flex: none;
+  }
+  .feat__body {
+    padding: 24px 20px 84px;
+  }
+  .feats__stage::after {
+    inset-inline: 20px;
+  }
+  .feats__nav {
+    inset-inline-start: 20px;
+  }
+  .feat__foot {
+    inset-inline-end: 20px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   5. The Runaki panel beside the latest reports
+   --------------------------------------------------------------------------- */
+
+.tile {
+  padding: clamp(24px, 4vw, 40px) 0;
+  border-top: 1px solid var(--line-2);
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+.tile h2 {
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 1.9rem);
+}
+.tile > p {
+  margin-top: 12px;
+  text-align: start;
+}
+
+/* ---------------------------------------------------------------------------
+   6. "Ask in your own language": the words on one side, the box beside them
+   --------------------------------------------------------------------------- */
+
+.asksec {
+  text-align: start;
+}
+.asksec__in {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 24px 64px;
+  align-items: start;
+  flex-direction: column;
+}
+.asksec__in > p {
+  max-width: none;
+  margin: 0;
+}
+.asksec h2 {
+  letter-spacing: 0;
+}
+.asksec__text > p {
+  margin-top: 8px;
+}
+.asksec__label {
+  margin: 18px 0 0;
+  font-size: 0.84rem;
+  color: var(--ink-3);
+  text-align: start;
+}
+.ask-inline {
+  position: relative;
+  width: 100%;
+  margin-top: 0;
+}
+.ask-inline input {
+  width: 100%;
+  min-height: 58px;
+  padding: 0 64px 0 26px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-2);
+  background: var(--bg);
+  font-size: 1.04rem;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+[dir="rtl"] .ask-inline input {
+  padding: 0 26px 0 64px;
+}
+.ask-inline input:focus {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 4px var(--bg-2);
+}
+.ask-inline button {
+  position: absolute;
+  inset-inline-end: 8px;
+  top: 8px;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius);
+  border: 0;
+  background: var(--press);
+  color: var(--press-ink);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.ask-inline button svg {
+  width: 18px;
+  height: 18px;
+}
+.asksec__samples {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 8px;
+}
+.asksec__samples button {
+  border: 1px solid var(--line-2);
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 9px 16px;
+  cursor: pointer;
+  font-size: 0.92rem;
+  color: var(--ink);
+  transition: border-color 0.2s;
+}
+.asksec__samples button:hover {
+  border-color: var(--ink);
+}
+.asksec__samples button[lang="ckb"],
+.asksec__samples button[lang="ar"] {
+  font-family: var(--arabic);
+}
+@media (max-width: 860px) {
+  .asksec__in {
+    grid-template-columns: 1fr;
+  }
+}
+/* "Show the team my exact spot", after Use my location */
+.find__spot {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  max-width: 46em;
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  color: var(--ink-2);
+}
+.find__spot input {
+  margin-top: 3px;
+  flex: none;
+}

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-title="pv.title">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy – Erbil Utilities</title>
+<meta name="description" content="What Erbil Utilities keeps about you, who else gets anything, and how to have it deleted.">
+<!-- Filled in from OPERATOR_NAME and CONTACT_EMAIL in .env -->
+<meta name="eu-operator" content="{{operator}}">
+<meta name="eu-contact" content="{{contact}}">
+<!--#include head -->
+</head>
+<body data-page="privacy">
+<!--#include header -->
+
+<main id="main" class="pv">
+<div class="wrap page-head">
+  <h1 data-i18n="pv.title">Privacy</h1>
+  <p class="lead" data-i18n="pv.lead">What this site keeps about you, who else gets anything, and how to have it deleted.</p>
+  <p class="small muted" data-i18n="pv.changed">Last changed on 21 October 2026.</p>
+</div>
+
+<div class="wrap pv__body">
+  <section aria-labelledby="pv-who">
+    <h2 id="pv-who" data-i18n="pv.whoTitle">Who runs this site</h2>
+    <p id="pv-who-text"></p>
+    <p data-i18n="pv.notGov"></p>
+  </section>
+
+  <section aria-labelledby="pv-kept">
+    <h2 id="pv-kept" data-i18n="pv.keptTitle">What's kept</h2>
+    <p data-i18n="pv.kept1"></p>
+    <p data-i18n="pv.kept2"></p>
+    <p data-i18n="pv.kept3"></p>
+    <!-- The same rows as the About page, from the same strings -->
+    <div class="keep__scroll">
+    <table class="keep__table">
+      <thead><tr>
+        <th scope="col" data-i18n="about.col.what">What</th>
+        <th scope="col" data-i18n="about.col.who">Who can see it</th>
+        <th scope="col" data-i18n="about.col.long">How long</th>
+      </tr></thead>
+      <tbody>
+        <tr><th scope="row" data-i18n="about.k1w"></th><td data-i18n="about.k1s"></td><td data-i18n="about.k1l"></td></tr>
+        <tr><th scope="row" data-i18n="about.k10w"></th><td data-i18n="about.k10s"></td><td data-i18n="about.k10l"></td></tr>
+        <tr><th scope="row" data-i18n="about.k2w"></th><td data-i18n="about.k2s"></td><td data-i18n="about.k2l"></td></tr>
+        <tr><th scope="row" data-i18n="about.k3w"></th><td data-i18n="about.k3s"></td><td data-i18n="about.k3l"></td></tr>
+        <tr><th scope="row" data-i18n="about.k4w"></th><td data-i18n="about.k4s"></td><td data-i18n="about.k4l"></td></tr>
+        <tr><th scope="row" data-i18n="about.k5w"></th><td data-i18n="about.k5s"></td><td data-i18n="about.k5l"></td></tr>
+        <tr><th scope="row" data-i18n="about.k6w"></th><td data-i18n="about.k5s"></td><td data-i18n="about.k6l"></td></tr>
+        <tr><th scope="row" data-i18n="about.k7w"></th><td data-i18n="about.k7s"></td><td data-i18n="about.k7l"></td></tr>
+        <tr><th scope="row" data-i18n="about.k8w"></th><td data-i18n="about.k8s"></td><td data-i18n="about.k8l"></td></tr>
+        <tr><th scope="row" data-i18n="about.k9w"></th><td data-i18n="about.k9s"></td><td data-i18n="about.k9l"></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="pv-never">
+    <h2 id="pv-never" data-i18n="pv.neverTitle">What's never collected</h2>
+    <p data-i18n="pv.never1"></p>
+    <p data-i18n="pv.never2"></p>
+    <p data-i18n="pv.never3"></p>
+  </section>
+
+  <section aria-labelledby="pv-phone">
+    <h2 id="pv-phone" data-i18n="pv.phoneTitle">On your phone</h2>
+    <p data-i18n="pv.phone1"></p>
+    <p data-i18n="pv.phone2"></p>
+  </section>
+
+  <section aria-labelledby="pv-others">
+    <h2 id="pv-others" data-i18n="pv.othersTitle">Who else gets anything</h2>
+    <p data-i18n="pv.others1"></p>
+    <p data-i18n="pv.others2"></p>
+    <p data-i18n="pv.others3"></p>
+    <p data-i18n="pv.others4"></p>
+  </section>
+
+  <section aria-labelledby="pv-logs">
+    <h2 id="pv-logs" data-i18n="pv.logsTitle">Logs</h2>
+    <p data-i18n="pv.logs1"></p>
+    <p data-i18n="pv.logs2"></p>
+  </section>
+
+  <section aria-labelledby="pv-choice">
+    <h2 id="pv-choice" data-i18n="pv.choiceTitle">Your choices</h2>
+    <ul>
+      <li data-i18n="pv.choice1"></li>
+      <li data-i18n="pv.choice2"></li>
+      <li data-i18n="pv.choice3"></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="pv-contact">
+    <h2 id="pv-contact" data-i18n="pv.contactTitle">Contact</h2>
+    <p id="pv-contact-text"></p>
+    <p class="small muted" data-i18n="pv.changes"></p>
+  </section>
+</div>
+</main>
+
+<!--#include footer -->
+
+<!--#include scripts -->
+<script defer src="/assets/js/pages/privacy.js?v={{v}}"></script>
+
+</body>
+</html>

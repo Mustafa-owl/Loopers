@@ -1,0 +1,501 @@
+/* © 2026 NorthPoint Tech. All rights reserved.
+
+   about.css: the About page.
+
+   1. The head
+   2. What happens to a report: a power line with one point per step, lit
+      up to the step you're on, and beside it what the site shows then
+   3. What we keep, who sees it, and for how long: a table like the back
+      of a bill
+   4. Two short pieces side by side, then the small print
+   5. The privacy page: plain sections at reading width, and the same
+      table as section 3 */
+
+/* ---------------------------------------------------------------------------
+   1. The head
+   --------------------------------------------------------------------------- */
+
+.ab-head {
+  padding-bottom: 8px;
+}
+.ab-head .lead {
+  max-width: 32em;
+}
+.ab-head__note {
+  margin-top: 14px;
+  max-width: 40em;
+  color: var(--ink-2);
+  line-height: 1.55;
+}
+
+/* ---------------------------------------------------------------------------
+   2. What happens to a report
+   --------------------------------------------------------------------------- */
+
+.life {
+  margin-top: 56px;
+}
+.life > h2 {
+  font-size: clamp(1.6rem, 1.3rem + 1.2vw, 2.25rem);
+  line-height: 1.15;
+}
+.life__lead {
+  margin-top: 10px;
+  max-width: 40em;
+  color: var(--ink-2);
+  line-height: 1.55;
+}
+.life__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  column-gap: clamp(28px, 5vw, 72px);
+  align-items: start;
+  margin-top: 36px;
+}
+
+/* The wire: each step is a point on it; the cable is drawn piece by piece
+   (li::before) so the lit part can stop exactly at the current point */
+.life__wire {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.life__wire li {
+  position: relative;
+}
+.life__wire li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 7px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--line-2);
+}
+.life__wire li:first-child::before {
+  top: 26px;
+}
+.life__wire li:last-child::before {
+  bottom: calc(100% - 26px);
+}
+.life__wire li.is-lit::before {
+  background: var(--accent);
+}
+.life__wire li.is-now::before {
+  background: linear-gradient(var(--accent) 26px, var(--line-2) 26px);
+}
+.life__wire li:first-child.is-now::before {
+  background: var(--line-2);
+}
+.life__wire li::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 18px;
+  width: 17px;
+  height: 17px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 3px solid var(--line-2);
+  background: var(--bg);
+}
+.life__wire li.is-lit::after {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.life__wire li.is-now::after {
+  box-shadow:
+    0 0 0 6px var(--accent-soft),
+    0 0 18px 2px var(--accent-soft);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .life__wire li::before,
+  .life__wire li::after {
+    transition:
+      background-color 0.25s ease,
+      border-color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+}
+.life__wire button {
+  display: block;
+  width: 100%;
+  padding: 12px 8px 12px 0;
+  padding-inline-start: 38px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--ink-3);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+.life__wire li.is-lit button {
+  color: var(--ink-2);
+}
+.life__wire li.is-now button {
+  color: var(--ink);
+}
+.life__wire button:hover .life__title {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.life__wire button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.life__clock {
+  display: block;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.3;
+}
+.life__title {
+  display: block;
+  font-family: var(--heading);
+  font-size: 1.12rem;
+  line-height: 1.3;
+}
+.life__wire li.is-now .life__title {
+  font-size: 1.3rem;
+}
+
+/* The panel: the report as plain lines, then what's happening */
+.life__panel {
+  position: sticky;
+  top: 88px;
+}
+.life__screen {
+  border-top: 2px solid var(--ink);
+  padding-top: 16px;
+  min-height: 168px;
+}
+.life__label {
+  font-size: 0.9rem;
+  color: var(--ink-2);
+  margin-bottom: 4px;
+}
+.life__where {
+  font-family: var(--heading);
+  font-size: 1.6rem;
+  line-height: 1.2;
+}
+.life__what {
+  font-size: 1.1rem;
+  margin-top: 2px;
+}
+.life__crew {
+  margin-top: 10px;
+  font-weight: 600;
+}
+.life__who {
+  margin-top: 6px;
+  color: var(--ink-2);
+  font-size: 0.95rem;
+}
+.life__map {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  color: var(--ink-2);
+  font-size: 0.95rem;
+}
+.life__map b {
+  color: var(--ink);
+}
+.life__gone {
+  color: var(--ink-3);
+  font-size: 1.1rem;
+  padding-top: 8px;
+}
+/* the step's name, shown here only on a phone where the wire has no room */
+.life__now {
+  display: none;
+  margin-top: 20px;
+  font-family: var(--heading);
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
+.life__now + .life__text {
+  margin-top: 20px;
+}
+.life__text {
+  line-height: 1.6;
+  font-size: 1.05rem;
+  max-width: 34em;
+  min-height: 6.4em;
+}
+.life__nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.life__count {
+  margin-inline-start: auto;
+  color: var(--ink-3);
+  font-size: 0.9rem;
+}
+
+/* ---------------------------------------------------------------------------
+   3. What we keep, who sees it, and for how long
+   --------------------------------------------------------------------------- */
+
+.keep {
+  margin-top: 96px;
+}
+.keep > h2 {
+  font-size: clamp(1.4rem, 1.2rem + 0.8vw, 1.85rem);
+  line-height: 1.2;
+  max-width: 22em;
+}
+.keep__more {
+  margin-top: 16px;
+}
+.keep__table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 24px;
+  font-size: 0.98rem;
+}
+.keep__table thead th {
+  text-align: start;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--ink-2);
+  padding: 0 0 10px;
+  padding-inline-end: 20px;
+  border-bottom: 2px solid var(--ink);
+}
+.keep__table tbody th,
+.keep__table td {
+  text-align: start;
+  vertical-align: top;
+  padding: 16px 0;
+  padding-inline-end: 20px;
+  border-bottom: 1px solid var(--line);
+  line-height: 1.5;
+}
+.keep__table tbody th {
+  font-weight: 600;
+  width: 34%;
+}
+.keep__table td:last-child {
+  width: 30%;
+  font-family: var(--heading);
+  font-size: 1.02rem;
+}
+
+/* ---------------------------------------------------------------------------
+   4. Two short pieces side by side, then the small print
+   --------------------------------------------------------------------------- */
+
+.pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(28px, 5vw, 72px);
+  margin-top: 88px;
+}
+.pair h2 {
+  font-size: 1.35rem;
+  line-height: 1.25;
+  margin-bottom: 12px;
+}
+.pair p {
+  line-height: 1.6;
+  max-width: 36em;
+}
+.pair p + p {
+  margin-top: 0.8em;
+}
+.pair .alerts {
+  margin-top: 18px;
+}
+.pair--small {
+  margin-top: 64px;
+  padding: 36px 0 72px;
+  border-top: 1px solid var(--line);
+  font-size: 0.95rem;
+}
+.pair--small h2 {
+  font-size: 1.1rem;
+}
+.ab-credits-h {
+  margin-top: 28px;
+}
+.ab-links {
+  list-style: none;
+  padding: 0;
+  margin: 14px 0 0;
+}
+.ab-links li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+}
+.ab-links span {
+  color: var(--ink-3);
+  font-size: 0.88rem;
+  white-space: nowrap;
+}
+
+/* Sorani and Arabic: more room between lines in the heading-font spots */
+:lang(ckb) :is(.life__title, .life__where, .life__now, .keep__table td:last-child),
+:lang(ar) :is(.life__title, .life__where, .life__now, .keep__table td:last-child) {
+  line-height: 1.6;
+}
+:lang(ckb) :is(.life__title, .life__where, .life__now),
+:lang(ar) :is(.life__title, .life__where, .life__now) {
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------------
+   On a phone: one column, the wire runs across the top as six short stops,
+   and the table becomes one block per row with its column names
+   --------------------------------------------------------------------------- */
+
+@media (max-width: 860px) {
+  .life__grid {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 20px;
+  }
+  .life__panel {
+    position: static;
+  }
+  .life__now {
+    display: block;
+  }
+  .life__now + .life__text {
+    margin-top: 6px;
+  }
+  .life__text {
+    min-height: 0;
+  }
+  .life__wire {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .life__wire li::before {
+    top: 7px;
+    bottom: auto;
+    height: 3px;
+    width: auto;
+    inset-inline: 0;
+  }
+  .life__wire li:first-child::before {
+    top: 7px;
+    inset-inline-start: 8px;
+  }
+  .life__wire li:last-child::before {
+    bottom: auto;
+    inset-inline-end: calc(100% - 9px);
+  }
+  .life__wire li.is-now::before {
+    background: var(--line-2);
+  }
+  .life__wire li.is-lit:not(.is-now)::before {
+    background: var(--accent);
+  }
+  .life__wire li::after {
+    top: 0;
+    inset-inline-start: 0;
+  }
+  .life__wire button {
+    min-height: 44px;
+    padding: 26px 4px 6px 0;
+    padding-inline-start: 0;
+  }
+  .life__clock {
+    font-size: 0.75rem;
+  }
+  /* the names don't fit under the stops, but screen readers still need them */
+  .life__title,
+  .life__wire li.is-now .life__title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .pair {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 48px;
+  }
+
+  .keep__table thead {
+    display: none;
+  }
+  .keep__table,
+  .keep__table tbody,
+  .keep__table tr,
+  .keep__table th,
+  .keep__table td {
+    display: block;
+    width: auto;
+  }
+  .keep__table tr {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .keep__table tbody th,
+  .keep__table td,
+  .keep__table td:last-child {
+    border: 0;
+    padding: 0;
+    width: auto;
+  }
+  .keep__table td {
+    margin-top: 6px;
+  }
+  .keep__table td::before {
+    content: attr(data-label);
+    display: block;
+    font-family: inherit;
+    font-size: 0.82rem;
+    color: var(--ink-2);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   5. The privacy page. Text a person reads from top to bottom: one column
+   at reading width, headings a step above the text, nothing boxed.
+   --------------------------------------------------------------------------- */
+
+.pv__body {
+  padding-bottom: 72px;
+}
+/* the width goes on the sections, so the text lines up with the heading */
+.pv__body section {
+  max-width: 46em;
+  margin-top: 48px;
+}
+.pv__body h2 {
+  font-size: 1.35rem;
+  line-height: 1.25;
+  margin-bottom: 12px;
+}
+.pv__body p,
+.pv__body li {
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.pv__body p + p {
+  margin-top: 10px;
+}
+.pv__body ul {
+  margin: 0;
+  padding-inline-start: 20px;
+}
+.pv__body li + li {
+  margin-top: 8px;
+}
+.pv__body .keep__table {
+  margin-top: 16px;
+}

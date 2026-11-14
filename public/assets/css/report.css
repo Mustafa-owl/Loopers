@@ -1,0 +1,352 @@
+/* © 2026 NorthPoint Tech. All rights reserved.
+
+   report.css: the report form, the screen after sending, and looking up a
+   report you sent before.
+
+   1. Choosing: who it affects, which service, what's wrong
+   2. Only your house: the private request
+   3. Photo
+   4. "Already reported" and the done screen
+   5. Looking up a report */
+
+/* ---------------------------------------------------------------------------
+   1. Choosing. Every choice is a real radio input hidden behind its label,
+   so it works with a keyboard and a screen reader.
+   --------------------------------------------------------------------------- */
+
+.who-pick input,
+.service-pick input,
+.problem-pick input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.who-pick input:focus-visible + label,
+.service-pick input:focus-visible + label,
+.problem-pick label:has(input:focus-visible) {
+  outline: 3px solid color-mix(in srgb, var(--blue) 55%, transparent);
+  outline-offset: 2px;
+}
+
+/* Who it affects: the whole street, or only your house */
+.who-pick {
+  display: grid;
+  gap: 10px;
+}
+.who-pick label {
+  display: block;
+  padding: 16px 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-2);
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.who-pick label:hover {
+  border-color: var(--ink);
+}
+.who-pick strong {
+  display: block;
+  font-weight: 600;
+}
+.who-pick span {
+  display: block;
+  color: var(--ink-2);
+  font-size: 0.88rem;
+  margin-top: 2px;
+}
+.who-pick input:checked + label {
+  border-color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink);
+  background: var(--bg-2);
+}
+
+/* Which service: electricity or water, as two plain choices */
+.service-pick {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.service-pick label {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  padding: 18px 20px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-2);
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.service-pick label:hover {
+  border-color: var(--ink);
+}
+.service-pick label svg {
+  display: none;
+}
+.service-pick input:checked + label {
+  border-color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--ink);
+  background: var(--bg-2);
+}
+
+/* What's wrong */
+.problem-pick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.problem-pick label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 8px 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-2);
+  cursor: pointer;
+  font-size: 0.94rem;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
+}
+.problem-pick label:hover {
+  border-color: var(--ink);
+}
+.problem-pick label:has(input:checked) {
+  background: var(--press);
+  color: var(--press-ink);
+  border-color: var(--press);
+}
+
+/* ---------------------------------------------------------------------------
+   2. Only your house: the phone number and landmark go to the team only,
+   so this part of the form says so with a small lock
+   --------------------------------------------------------------------------- */
+
+.private {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  background: var(--bg-2);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+.private .field > label,
+.private legend {
+  font-size: 0.98rem;
+  margin-bottom: 8px;
+}
+.private__lead {
+  color: var(--ink-2);
+  font-size: 0.94rem;
+}
+.private__lead:before {
+  content: "";
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  margin-inline-end: 8px;
+  vertical-align: -1px;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 10V7a5 5 0 0 1 10 0v3h1.5v11h-13V10zm2 0h6V7a3 3 0 0 0-6 0z'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 10V7a5 5 0 0 1 10 0v3h1.5v11h-13V10zm2 0h6V7a3 3 0 0 0-6 0z'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+}
+
+/* ---------------------------------------------------------------------------
+   3. Photo: a button that opens the camera or files, then a preview
+   --------------------------------------------------------------------------- */
+
+.photo-field .label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.photo-field label.photo-pick {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: auto;
+  min-height: 44px;
+  margin: 0;
+  padding: 10px 18px;
+  background: var(--bg-2);
+  border-radius: var(--radius);
+  font-size: 0.96rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.photo-pick:hover {
+  background: var(--bg-3);
+}
+.photo-pick input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.photo-pick:focus-within {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+.photo-preview {
+  display: flex;
+  align-items: end;
+  gap: 14px;
+  margin-top: 12px;
+}
+.photo-preview img {
+  max-width: 180px;
+  max-height: 140px;
+  border-radius: var(--radius);
+}
+
+/* ---------------------------------------------------------------------------
+   4. "Already reported" and the done screen
+   --------------------------------------------------------------------------- */
+
+/* The same problem is already open here: join it instead */
+.existing {
+  background: var(--brand-soft);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+.existing--planned {
+  background: var(--blue-soft);
+}
+.existing__title {
+  font-weight: 600;
+}
+.existing p + p {
+  margin-top: 4px;
+}
+.existing .btn {
+  margin-top: 14px;
+}
+
+.done {
+  text-align: center;
+  padding: 40px 0 0;
+}
+.done h2 {
+  font-size: clamp(1.7rem, 1.3rem + 1.4vw, 2.3rem);
+}
+.done > p {
+  color: var(--ink-2);
+  margin: 12px auto 0;
+  max-width: 30em;
+}
+.done .actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+}
+.done .actions .btn {
+  min-width: min(320px, 100%);
+}
+/* the reference to look it up later, in a typewriter face so 0 and O differ */
+.ref {
+  font-size: 0.94rem;
+}
+.ref strong {
+  font-family:
+    ui-monospace,
+    SF Mono,
+    Menlo,
+    Consolas,
+    monospace;
+  font-size: 1.4rem;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+/* "See what the team gets": the message, as written */
+.preview {
+  margin: 22px auto 0;
+  max-width: 460px;
+  text-align: start;
+}
+.preview summary {
+  cursor: pointer;
+  color: var(--link);
+  text-align: center;
+  font-size: 0.94rem;
+}
+.preview pre {
+  white-space: pre-wrap;
+  font: 0.9rem/1.55 var(--sans);
+  background: var(--bg-2);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin: 12px 0 0;
+}
+:lang(ckb) .preview pre,
+:lang(ar) .preview pre {
+  font-family: var(--arabic);
+}
+
+/* ---------------------------------------------------------------------------
+   5. Looking up a report: by its reference and phone number, and a list of
+   the ones sent from this phone
+   --------------------------------------------------------------------------- */
+
+.track {
+  margin-top: 72px;
+  padding: clamp(22px, 4vw, 32px) 0;
+  border: 0;
+  border-top: 1px solid var(--line-2);
+  border-radius: 0;
+  background: none;
+}
+.track h2 {
+  font-size: 1.3rem;
+}
+.track .btn--quiet {
+  background: var(--bg);
+}
+.track .btn--quiet:hover {
+  background: var(--bg-3);
+}
+.track__form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 12px;
+  align-items: end;
+  margin-top: 16px;
+}
+.track__form .field {
+  margin: 0;
+}
+.track__form .input {
+  background: var(--bg);
+}
+.track__mine {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+}
+.track__mine li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+}
+.track__result {
+  margin-top: 16px;
+}
+.track__result .facts {
+  margin-bottom: 8px;
+}
+@media (max-width: 560px) {
+  .track__form {
+    grid-template-columns: 1fr;
+  }
+}

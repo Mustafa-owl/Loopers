@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-title="home.title">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Is the power on? – Erbil Utilities</title>
+<meta name="description" content="See power cuts and water problems in your Erbil neighbourhood, reported by neighbours. In English, Sorani, Kurmanji and Arabic.">
+<!--#include head -->
+<link rel="preload" as="image" href="/assets/img/scene-0-wide.webp" media="(min-aspect-ratio: 4/5)">
+<link rel="preload" as="image" href="/assets/img/scene-0-tall.webp" media="(max-aspect-ratio: 4/5)">
+</head>
+<body data-page="home">
+<!--#include header -->
+
+<main id="main">
+<section class="story" id="story" aria-labelledby="hero-title">
+  <div class="story__stage" aria-hidden="true">
+    <div class="stage" id="stage">
+      <picture class="stage__poster" id="poster">
+        <source media="(max-aspect-ratio: 4/5)" srcset="/assets/img/scene-0-tall.webp">
+        <img src="/assets/img/scene-0-wide.webp" alt="" decoding="async" fetchpriority="high">
+      </picture>
+    </div>
+    <div class="stage__shade"></div>
+  </div>
+
+  <div class="story__panels">
+    <div class="panel panel--hero" data-stage="0">
+      <div class="wrap">
+        <div class="hero">
+          <h1 id="hero-title" data-i18n="hero.title">When the power goes out, your neighbours know first.</h1>
+          <p class="hero__sub" data-i18n="hero.sub">A community map of power cuts and water problems in Erbil, reported street by street by the people who live there.</p>
+          <div class="hero__actions">
+            <a class="btn btn--light" href="#check" data-i18n="hero.check">Check your neighbourhood</a>
+            <a class="more more--light" href="/report.html" data-i18n="nav.report">Report a problem</a>
+          </div>
+          <a class="hero__mine" id="hero-mine" href="#check" hidden></a>
+          <p class="now" id="now" aria-live="polite"></p>
+        </div>
+      </div>
+      <a class="hero__more" href="#chapter-1" data-i18n-attr="aria-label:hero.how"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
+
+    <article class="panel" id="chapter-1" data-stage="0">
+      <div class="wrap"><div class="chapter">
+        <p class="chapter__step" data-step="1">1 of 4</p>
+        <h2 data-i18n="story.1.title"></h2>
+        <p data-i18n="story.1.body"></p>
+      </div></div>
+    </article>
+    <article class="panel" id="chapter-2" data-stage="1">
+      <div class="wrap"><div class="chapter">
+        <p class="chapter__step" data-step="2">2 of 4</p>
+        <h2 data-i18n="story.2.title"></h2>
+        <p data-i18n="story.2.body"></p>
+        <p class="chapter__source"><a href="https://www.rudaw.net/english/kurdistan/230420265" target="_blank" rel="noopener" data-i18n="story.2.source">Source: Rudaw, April 2026</a></p>
+      </div></div>
+    </article>
+    <article class="panel panel--end" id="chapter-3" data-stage="2">
+      <div class="wrap"><div class="chapter">
+        <p class="chapter__step" data-step="3">3 of 4</p>
+        <h2 data-i18n="story.3.title"></h2>
+        <p data-i18n="story.3.body"></p>
+      </div></div>
+    </article>
+    <article class="panel panel--end" id="chapter-4" data-stage="3">
+      <div class="wrap"><div class="chapter">
+        <p class="chapter__step" data-step="4">4 of 4</p>
+        <h2 data-i18n="story.4.title"></h2>
+        <p data-i18n="story.4.body"></p>
+        <p class="chapter__cta"><a class="btn btn--light" href="#check" data-i18n="hero.check">Check your neighbourhood</a></p>
+      </div></div>
+    </article>
+  </div>
+</section>
+
+
+
+<section class="find" id="check">
+  <div class="wrap find__in">
+    <h2 data-i18n="home.title">Is the power on in your neighbourhood?</h2>
+    <p class="lead" data-i18n="home.lead">Neighbours across Erbil post power cuts and water problems here as they happen.</p>
+
+    <div class="finder" id="finder">
+      <label class="finder__field" for="area-q">
+        <span class="finder__label" data-i18n="home.pick">Your neighbourhood</span>
+        <input id="area-q" type="text" autocomplete="off" spellcheck="false" dir="auto"
+          role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="area-list"
+          data-i18n-attr="placeholder:home.searchPh">
+      </label>
+      <button class="finder__go" type="button" id="area-go" data-i18n-attr="aria-label:areas.search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="m15.5 15.5 5 5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
+      <ul class="finder__list" id="area-list" role="listbox" hidden></ul>
+    </div>
+    <p class="find__alt">
+      <button type="button" class="locate" id="locate"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5a7 7 0 0 0-7 7c0 5 7 12 7 12s7-7 7-12a7 7 0 0 0-7-7zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z" fill="currentColor"/></svg><span data-i18n="home.locate">Use my location</span></button>
+      <span class="small muted" id="locate-msg" role="status"></span>
+    </p>
+
+    <div class="readout" id="readout" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="section" id="map-sec">
+  <div class="wrap">
+    <div class="section__head section__head--row">
+      <h2 data-i18n="home.mapTitle">The map right now</h2>
+      <a class="more" href="/map.html" data-i18n="home.mapOpen">Open the full map</a>
+    </div>
+    <div class="toolbar">
+      <div class="pills" role="group" data-map-filter data-i18n-attr="aria-label:map.show">
+        <button type="button" data-f="both" aria-pressed="true" data-i18n="map.both">Both</button>
+        <button type="button" data-f="electricity" aria-pressed="false" data-i18n="svc.electricity">Electricity</button>
+        <button type="button" data-f="water" aria-pressed="false" data-i18n="svc.water">Water</button>
+      </div>
+    </div>
+  <div class="map-split">
+    <div class="map-wrap"><div class="map-home" data-map></div></div>
+    <aside class="urgent" aria-labelledby="urgent-h">
+      <h2 id="urgent-h" data-i18n="map.urgent">Most urgent first</h2>
+      <p class="urgent__lead" data-i18n="map.urgentLead">No power or no water comes first, then the most people and the longest time.</p>
+      <ol class="urgent__list" id="urgent" data-map-urgent></ol>
+    </aside>
+  </div>
+    <div class="legend" id="legend"></div>
+  </div>
+</section>
+
+<section class="news-band" id="notices-sec" aria-labelledby="slides-h">
+  <div class="wrap">
+    <div class="section__head section__head--row">
+      <h2 id="slides-h" data-i18n="slides.title">From the teams</h2>
+      <p class="muted" data-i18n="slides.lead">Planned cuts and news from the electricity and water teams.</p>
+    </div>
+    <div id="slides" hidden></div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 data-i18n="home.board">Erbil right now</h2>
+      <p data-i18n="home.boardLead">Every neighbourhood, by what people reported in the last 24 hours.</p>
+      <a class="more" href="/summary.html" data-i18n="sum.homeLink">This month in numbers</a>
+    </div>
+    <ul class="board" id="board"></ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap split">
+    <div>
+      <div class="section__head section__head--row">
+        <h2 data-i18n="home.latest">Latest reports</h2>
+        <a class="more" href="/map.html" data-i18n="home.allReports">See them on the map</a>
+      </div>
+      <ul class="reports reports--card" id="latest"></ul>
+    </div>
+    <div class="tile">
+      <h2 data-i18n="home.runaki">Runaki, the 24-hour power programme</h2>
+      <p class="muted" data-i18n="home.runakiBody"></p>
+      <div class="bar" id="runaki-bar" aria-hidden="true"></div>
+      <ul class="runaki-strip" id="runaki-strip"></ul>
+      <p><a class="more" href="/runaki.html" data-i18n="home.runakiLink">Estimate your Runaki bill</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="section asksec">
+  <div class="wrap asksec__in">
+    <div class="asksec__text">
+      <h2 data-i18n="ask.title">Ask in your own language</h2>
+      <p class="muted" data-i18n="ask.body"></p>
+    </div>
+    <div class="asksec__try">
+    <form class="ask-inline" id="ask-inline" role="search">
+      <label for="ask-q" class="sr-only" data-i18n="ask.label">Or ask in your own words</label>
+      <input id="ask-q" type="text" dir="auto" autocomplete="off" maxlength="300" data-i18n-attr="placeholder:ask.ph">
+      <button type="submit" data-i18n-attr="aria-label:as.send"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m-6 6 6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </form>
+    <p class="asksec__label" data-i18n="ask.try">For example</p>
+    <ul class="asksec__samples">
+      <li><button type="button" data-ask-q lang="ckb" dir="rtl">لە عەنکاوە کارەبا هەیە؟</button></li>
+      <li><button type="button" data-ask-q lang="kmr" dir="ltr">Li Birayetî av heye?</button></li>
+      <li><button type="button" data-ask-q lang="ar" dir="rtl">وين ماكو مي؟</button></li>
+      <li><button type="button" data-ask-q lang="ckb-Latn" dir="ltr">slaw, karaba haya la Iskan?</button></li>
+      <li><button type="button" data-ask-q lang="en" dir="ltr">Any planned cuts today?</button></li>
+    </ul>
+    </div>
+  </div>
+</section>
+</main>
+
+<!--#include footer -->
+
+<!--#include scripts -->
+<script defer src="/assets/js/core/slides.js?v={{v}}"></script>
+<script defer src="/assets/js/pages/home.js?v={{v}}"></script>
+</body>
+</html>

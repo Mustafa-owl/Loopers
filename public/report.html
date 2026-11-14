@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-title="report.title">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Report a problem – Erbil Utilities</title>
+<meta name="description" content="Report a power cut or water problem in your Erbil neighbourhood. No account needed.">
+<!--#include head -->
+</head>
+<body data-page="report">
+<!--#include header -->
+
+<main id="main">
+<div class="wrap page-head page-head--narrow">
+  <h1 data-i18n="report.title">Report a problem</h1>
+  <p class="lead" data-i18n="report.lead2">Tell us what's wrong. It takes less than a minute.</p>
+</div>
+
+<div class="wrap wrap--narrow">
+  <form class="form" id="report-form" novalidate>
+    <fieldset class="field">
+      <legend data-i18n="report.who">Who is affected?</legend>
+      <div class="who-pick">
+        <input type="radio" name="who" id="who-home" value="home">
+        <label for="who-home"><strong data-i18n="who.home">Only my house</strong><span data-i18n="who.private">Private. The team calls you back.</span></label>
+        <input type="radio" name="who" id="who-few" value="few">
+        <label for="who-few"><strong data-i18n="who.few">My house and 2–3 others</strong><span data-i18n="who.private">Private. The team calls you back.</span></label>
+        <input type="radio" name="who" id="who-street" value="street">
+        <label for="who-street"><strong data-i18n="who.street">The whole street or more</strong><span data-i18n="who.public">Shown on the map so neighbours can confirm it.</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="field">
+      <legend data-i18n="report.what">What's affected?</legend>
+      <div class="service-pick">
+        <input type="radio" name="service" id="svc-e" value="electricity" checked>
+        <label for="svc-e" class="is-power"><span data-i18n="svc.electricity">Electricity</span></label>
+        <input type="radio" name="service" id="svc-w" value="water">
+        <label for="svc-w" class="is-water"><span data-i18n="svc.water">Water</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="field">
+      <legend data-i18n="report.problem">What's wrong?</legend>
+      <div class="problem-pick" id="problems"></div>
+    </fieldset>
+
+    <div class="field">
+      <label for="area" data-i18n="report.where">Which neighbourhood?</label>
+      <div class="select-wrap"><select id="area" class="select" name="area"></select></div>
+      <p class="find__alt"><button type="button" class="locate" id="locate"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5a7 7 0 0 0-7 7c0 5 7 12 7 12s7-7 7-12a7 7 0 0 0-7-7zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z" fill="currentColor"/></svg><span data-i18n="home.locate">Use my location</span></button>
+      <span class="small muted" id="locate-msg" role="status"></span></p>
+      <p class="find__spot" id="spot-box" hidden><input type="checkbox" id="share-spot" checked> <label for="share-spot" data-i18n="spot.share">Show the team my exact spot, so a crew can find it. Only the team sees it, and it's deleted after 7 days.</label></p>
+    </div>
+
+    <div class="private" id="private" hidden>
+      <p class="private__lead" data-i18n="private.lead">This goes only to the Erbil Utilities team, not on the map. Someone from the team will call or WhatsApp you to set a time to come and look.</p>
+      <div class="field">
+        <label for="p-name" data-i18n="private.name">Your name</label>
+        <input id="p-name" class="input" type="text" autocomplete="name" maxlength="60">
+      </div>
+      <div class="field">
+        <label for="p-phone" data-i18n="private.phone">Phone or WhatsApp number</label>
+        <input id="p-phone" class="input" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" dir="ltr" placeholder="0750 123 4567">
+      </div>
+      <div class="field">
+        <label for="p-place" data-i18n="private.place">Nearest landmark or street</label>
+        <input id="p-place" class="input" type="text" maxlength="120" data-i18n-attr="placeholder:private.placePh">
+      </div>
+      <div class="field">
+        <label for="p-meter"><span data-i18n="private.meter">Account or meter number</span> <span class="muted" data-i18n="report.optional">optional</span></label>
+        <input id="p-meter" class="input" type="text" inputmode="numeric" maxlength="30" dir="ltr" autocomplete="off">
+        <p class="hint" data-i18n="private.meterHint">It's printed on your Runaki bill. It helps the team find your house and check your account.</p>
+      </div>
+      <div class="field">
+        <label for="p-when" data-i18n="private.when">When can the team come?</label>
+        <div class="select-wrap"><select id="p-when" class="select">
+          <option value="any" data-i18n="when.any">Any time</option>
+          <option value="morning" data-i18n="when.morning">Morning (9–12)</option>
+          <option value="afternoon" data-i18n="when.afternoon">Afternoon (12–4)</option>
+          <option value="evening" data-i18n="when.evening">Evening (4–8)</option>
+        </select></div>
+      </div>
+      <fieldset class="field">
+        <legend data-i18n="private.how">How should the team get back to you?</legend>
+        <div class="choice">
+          <input type="radio" name="via" id="via-call" value="call" checked><label for="via-call" data-i18n="private.call">Phone call</label>
+          <input type="radio" name="via" id="via-wa" value="whatsapp"><label for="via-wa" data-i18n="private.message">WhatsApp message</label>
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="hp" aria-hidden="true">
+      <label for="website" data-i18n="report.website">Leave this empty</label>
+      <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+    </div>
+
+    <div class="existing" id="existing" hidden aria-live="polite"></div>
+
+    <div class="field">
+      <label for="note"><span data-i18n="report.note">Anything to add?</span> <span class="opt" data-i18n="report.optional">optional</span></label>
+      <textarea id="note" name="note" maxlength="280" rows="3" data-i18n-attr="placeholder:report.notePh"></textarea>
+      <p class="hint" id="note-hint" data-i18n="report.noteHint">Please don't write your name, phone number or exact address.</p>
+    </div>
+
+    <div class="field photo-field" id="photo-field">
+      <span class="label"><span data-i18n="photo.label">Photo</span> <span class="opt" data-i18n="report.optional">optional</span></span>
+      <label class="photo-pick" for="photo">
+        <input id="photo" type="file" accept="image/*">
+        <span data-i18n="photo.pick">Add a photo</span>
+      </label>
+      <div class="photo-preview" id="photo-preview" hidden>
+        <img id="photo-img" alt="">
+        <button type="button" class="link-btn" id="photo-remove" data-i18n="photo.remove">Remove</button>
+      </div>
+      <p class="hint" data-i18n="photo.hint">A fallen cable or a burst pipe, say. The team looks at every photo before anyone else can see it, and the location hidden inside photos is removed.</p>
+    </div>
+
+    <div class="form__send">
+      <button class="btn btn--wide" type="submit" id="send" data-i18n="report.send">Send report</button>
+      <p class="form__error" id="form-error" role="alert"></p>
+    </div>
+  </form>
+
+  <div class="done" id="done" hidden tabindex="-1">
+    <h2 data-i18n="report.sent">Report sent</h2>
+    <p id="done-body"></p>
+    <p class="small" id="done-photo" hidden></p>
+    <div class="actions">
+      <a class="btn" id="done-area" href="#"></a>
+      <button class="btn btn--quiet" type="button" id="again" data-i18n="report.again">Report something else</button>
+    </div>
+  </div>
+
+  <div class="done" id="done-private" hidden tabindex="-1">
+    <h2 id="p-title"></h2>
+    <p data-i18n="private.sentBody">Someone from the team will call or message you to agree a time to come and look. They work Saturday to Thursday, 9:00 to 17:00.</p>
+    <p class="ref"><span data-i18n="private.ref">Reference</span> <strong id="p-ref" dir="ltr"></strong></p>
+    <p class="small muted" data-i18n="private.keepRef">Keep this reference. You can check on your request below at any time with it and the last four digits of your phone number.</p>
+    <div class="actions">
+      <a class="btn btn--quiet" id="p-call" href="#" hidden data-i18n="private.callNow">Call the team now</a>
+      <button class="btn btn--quiet" type="button" id="again-private" data-i18n="report.again">Report something else</button>
+    </div>
+  </div>
+
+  <section class="track" id="track" aria-labelledby="track-h">
+    <h2 id="track-h" data-i18n="track.title">Check on a private request</h2>
+    <ul class="track__mine" id="track-mine" hidden></ul>
+    <form class="track__form" id="track-form" novalidate>
+      <div class="field">
+        <label for="track-ref" data-i18n="private.ref">Reference</label>
+        <input id="track-ref" class="input" type="text" autocomplete="off" spellcheck="false" dir="ltr" maxlength="12" placeholder="EU-ABC123">
+      </div>
+      <div class="field">
+        <label for="track-phone" data-i18n="track.last4">Last 4 digits of your phone</label>
+        <input id="track-phone" class="input" type="text" inputmode="numeric" autocomplete="off" dir="ltr" maxlength="4" placeholder="4567">
+      </div>
+      <button class="btn btn--quiet" type="submit" data-i18n="track.check">Check</button>
+    </form>
+    <div class="track__result" id="track-result" aria-live="polite"></div>
+  </section>
+</div>
+</main>
+
+<!--#include footer -->
+
+<!--#include scripts -->
+<script defer src="/assets/js/pages/report.js?v={{v}}"></script>
+</body>
+</html>

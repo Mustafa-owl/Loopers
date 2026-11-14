@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-title="map.title">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Map of reports – Erbil Utilities</title>
+<meta name="description" content="Map of power and water reports across Erbil's neighbourhoods.">
+<!--#include head -->
+<link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
+</head>
+<body data-page="map">
+<!--#include header -->
+
+<main id="main">
+<div class="wrap page-head">
+  <h1 data-i18n="map.title">Map of reports</h1>
+  <p class="lead" data-i18n="map.lead">Each circle is a neighbourhood.</p>
+</div>
+<div class="wrap">
+  <div class="toolbar">
+    <div class="pills" role="group" id="map-filter" data-i18n-attr="aria-label:map.show">
+      <button type="button" data-f="both" aria-pressed="true" data-i18n="map.both">Both</button>
+      <button type="button" data-f="electricity" aria-pressed="false" data-i18n="svc.electricity">Electricity</button>
+      <button type="button" data-f="water" aria-pressed="false" data-i18n="svc.water">Water</button>
+    </div>
+  </div>
+  <div class="map-split">
+    <div class="map-wrap"><div id="map"></div></div>
+    <aside class="urgent" aria-labelledby="urgent-h">
+      <h2 id="urgent-h" data-i18n="map.urgent">Most urgent first</h2>
+      <p class="urgent__lead" data-i18n="map.urgentLead">No power or no water comes first, then the most people and the longest time.</p>
+      <ol class="urgent__list" id="urgent"></ol>
+    </aside>
+  </div>
+  <div class="legend" id="legend"></div>
+</div>
+</main>
+
+<!--#include footer -->
+
+<script defer src="/assets/vendor/leaflet/leaflet.js"></script>
+<!--#include scripts -->
+<script defer src="/assets/js/pages/map.js?v={{v}}"></script>
+</body>
+</html>

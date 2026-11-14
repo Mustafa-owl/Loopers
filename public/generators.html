@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-title="gens.title">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generators – Erbil Utilities</title>
+<meta name="description" content="Which neighbourhood generators are running, their hours and price per ampere, and the committee's price in each Runaki city.">
+<!--#include head -->
+<link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
+</head>
+<body data-page="generators">
+<!--#include header -->
+
+<main id="main">
+<div class="wrap page-head">
+  <h1 data-i18n="gens.title">Neighbourhood generators</h1>
+  <p class="lead" data-i18n="gens.lead">Where Runaki hasn't reached yet, the neighbourhood generator is still the power at night. Where it has, a few are kept for when the grid fails. Here is which ones are running, their hours, and what they charge.</p>
+</div>
+
+<div class="wrap">
+  <div class="gens-pick">
+    <div class="field">
+      <label for="gens-city" data-i18n="gens.city">City</label>
+      <select class="input" id="gens-city"></select>
+    </div>
+    <div class="field">
+      <label for="gens-area" data-i18n="gens.area">Your neighbourhood</label>
+      <select class="input" id="gens-area"></select>
+    </div>
+    <label class="check gens-pick__run"><input type="checkbox" id="gens-running"> <span data-i18n="gens.onlyRunning">Only the ones running now</span></label>
+  </div>
+
+  <!-- what you need to know first: how many are running here, and the fair price -->
+  <div class="gens-sum" aria-live="polite">
+    <p class="gens-sum__n"><b id="gens-run">0</b> <span id="gens-count"></span></p>
+    <p class="gens-sum__price" id="gens-price"></p>
+  </div>
+
+  <div class="gens-map" id="gens-map" hidden></div>
+
+  <div id="gens-list"></div>
+  <p class="empty" id="gens-none" hidden></p>
+
+  <section class="section section--tight" aria-labelledby="prices-h">
+    <h2 id="prices-h" data-i18n="gens.prices">This month's committee prices</h2>
+    <p class="muted" data-i18n="gens.pricesLead">Each governorate's private-generator committee announces a price per ampere every month, for a set number of hours. An owner shouldn't charge more.</p>
+    <table class="area-table gens-prices">
+      <thead><tr><th scope="col" data-i18n="gens.city">City</th><th scope="col" data-i18n="gens.perAmp">Per ampere</th><th scope="col" data-i18n="gens.hoursCol">Hours</th><th scope="col" data-i18n="gens.month">Month</th></tr></thead>
+      <tbody id="gens-prices"></tbody>
+    </table>
+    <p class="empty" id="gens-prices-none" hidden data-i18n="gens.noPrices">No prices entered for this month yet.</p>
+  </section>
+
+  <section class="section section--tight" aria-labelledby="owner-h">
+    <h2 id="owner-h" data-i18n="gens.ownerTitle">Do you run a generator?</h2>
+    <p data-i18n="gens.ownerText">Ask the electricity team for your generator's private link. With it you can tell your subscribers, from your phone, when you're running, your hours today and your price. No account or password.</p>
+  </section>
+</div>
+</main>
+
+<!--#include footer -->
+
+<!--#include scripts -->
+<script defer src="/assets/vendor/leaflet/leaflet.js"></script>
+<script defer src="/assets/js/pages/generators.js?v={{v}}"></script>
+</body>
+</html>

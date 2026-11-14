@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-title="runaki.title">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Runaki and your bill – Erbil Utilities</title>
+<meta name="description" content="Runaki 24-hour power coverage in Erbil and a bill estimate from the official tariff.">
+<!--#include head -->
+</head>
+<body data-page="runaki">
+<!--#include header -->
+
+<main id="main">
+<div class="wrap page-head rk-head">
+  <h1 data-i18n="runaki.title">Runaki and your electricity bill</h1>
+  <p class="lead" data-i18n="runaki.lead">Runaki is the Kurdistan Regional Government's programme…</p>
+  <p class="rk-status" id="rk-status"></p>
+</div>
+
+<!-- The estimate, laid out like the bill itself: what you type on one side,
+     what you'd pay on the other, and the price steps right under it -->
+<section class="wrap rk-bill" aria-labelledby="calc-h">
+  <div class="rk-bill__in">
+    <h2 id="calc-h" data-i18n="calc.title">Estimate your monthly bill</h2>
+    <label class="rk-label" for="kwh" data-i18n="calc.kwh">Electricity used this month</label>
+    <div class="kwh-input rk-kwh">
+      <input id="kwh" type="number" inputmode="numeric" min="0" max="10000" step="10" value="600">
+      <span data-i18n="unit.kwh">kWh</span>
+    </div>
+    <input type="range" id="kwh-range" min="0" max="2500" step="10" value="600" data-i18n-attr="aria-label:calc.kwh">
+    <p class="hint" data-i18n="calc.kwhHint">You'll find it on your meter or last bill.</p>
+  </div>
+  <div class="rk-bill__out" aria-live="polite">
+    <p class="rk-bill__label" data-i18n="calc.about">About</p>
+    <p class="rk-total" id="total"></p>
+    <p class="rk-for" id="total-for"></p>
+    <div class="rk-gen">
+      <label class="rk-label" for="gen" data-i18n="gen.label">What you paid the generator last month</label>
+      <div class="kwh-input">
+        <input id="gen" type="number" inputmode="numeric" min="0" step="1000" placeholder="0">
+        <span data-i18n="unit.iqd">IQD</span>
+      </div>
+      <p class="compare__result" id="gen-result"></p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap rk-steps" aria-labelledby="tariff-h">
+  <div class="section__head">
+    <h2 id="tariff-h" data-i18n="tariff.title">Price per kWh for homes</h2>
+    <p data-i18n="calc.note">The first 400 kWh are always charged at the lowest price…</p>
+  </div>
+  <table class="rk-table">
+    <thead><tr>
+      <th scope="col" data-i18n="rk.col.band">kWh in the month</th>
+      <th scope="col" class="num" data-i18n="rk.col.price">Price per kWh</th>
+      <th scope="col" class="num" data-i18n="rk.col.yours">Your kWh</th>
+      <th scope="col" class="num" data-i18n="rk.col.cost">Cost</th>
+    </tr></thead>
+    <tbody id="tiers"></tbody>
+    <tfoot><tr><th scope="row" colspan="3" data-i18n="rk.total">Your bill</th><td class="num" id="breakdown-total"></td></tr></tfoot>
+  </table>
+  <p class="hint" data-i18n="tariff.source">Announced by the KRG on 14 May 2025.</p>
+</section>
+
+<section class="wrap rk-pay" aria-labelledby="pay-h">
+  <h2 id="pay-h" data-i18n="pay.title">Paying the bill</h2>
+  <p data-i18n="pay.body">Runaki bills are paid online.</p>
+  <p id="rk-call"></p>
+  <p class="rk-pay__links">
+    <a class="btn" href="https://epsule.gov.krd/en/" target="_blank" rel="noopener" data-i18n="pay.open">Go to e-Psûle</a>
+    <a class="more" href="https://runaki.gov.krd/en/" target="_blank" rel="noopener" data-i18n="runaki.officialSite">Runaki's own website</a>
+  </p>
+</section>
+
+<section class="wrap rk-where" aria-labelledby="where-h">
+  <div class="section__head">
+    <h2 id="where-h" data-i18n="runaki.where">Where it has reached</h2>
+    <p data-i18n="runaki.whereNote">Based on what this site has recorded.</p>
+  </div>
+  <div class="bar rk-bar" id="rk-bar" aria-hidden="true"></div>
+  <dl class="rk-groups" id="groups"></dl>
+  <p><a class="more" href="/news.html" data-i18n="news.open">Read the latest news about power and water in Erbil</a></p>
+</section>
+</main>
+
+<!--#include footer -->
+
+<!--#include scripts -->
+<script defer src="/assets/js/pages/runaki.js?v={{v}}"></script>
+</body>
+</html>

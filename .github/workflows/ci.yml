@@ -1,0 +1,48 @@
+# Runs on every push and every pull request. A pull request can't be merged
+# while this is red (turn on "Require status checks" for main in the GitHub
+# repository settings, under Branches).
+name: checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Chromium for the browser tests
+        run: npx playwright install --with-deps chromium
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Formatting
+        run: npm run format:check
+
+      - name: Tests (API, features, every page in a real browser)
+        run: npm test
+
+      - name: The 3D bundle matches its source
+        run: |
+          npm run build:scene
+          git diff --exit-code -- public/assets/js/scene.bundle.js
+
+      - name: Load test (a citywide outage, small)
+        run: npm run load-test -- --quick

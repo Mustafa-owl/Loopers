@@ -1,0 +1,27 @@
+# © 2026 NorthPoint Tech. All rights reserved.
+# systemd unit: keeps the app running and restarts it if it stops.
+#   sudo cp deploy/erbil-utilities.service /etc/systemd/system/
+#   sudo systemctl enable --now erbil-utilities
+#   journalctl -u erbil-utilities -f        (to read the log)
+
+[Unit]
+Description=Erbil Utilities
+After=network.target
+
+[Service]
+Type=simple
+User=erbil
+WorkingDirectory=/srv/erbil-utilities
+ExecStart=/usr/bin/node server/index.js
+Restart=on-failure
+RestartSec=3
+Environment=NODE_ENV=production
+# keeps the app from touching anything outside its own folder
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/srv/erbil-utilities/data
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

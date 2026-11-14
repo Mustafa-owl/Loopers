@@ -1,0 +1,3500 @@
+/* © 2026 NorthPoint Tech. All rights reserved.
+
+   team.css: the team page, on top of the public site's files (it loads
+   after them, so it can be denser: a work tool, not a leaflet).
+
+   A menu of sections down the side, the work beside it. Colour is kept for
+   the two services in the charts and for a delete that is about to happen.
+
+    1. Colours and sizes for the team page
+    2. Buttons, links and fields
+    3. The top bar
+    4. Signing in
+    5. The page: menu down the side, the work beside it
+    6. The overview: "Needs you", a few sentences, charts
+    7. Tables and report rows
+    8. The request inbox (also used by chats and admin)
+    9. Forms: planned cuts, news, people
+   10. Photos
+   11. Admin
+   12. Live chats
+   13. News found on the news sites
+   14. Pop-up messages
+   15. Phones and small laptops
+   16. System (admins) */
+
+/* ---------------------------------------------------------------------------
+   1. Colours and sizes for the team page
+   Electricity in the accent, water in grey, both together in the text grey.
+   --------------------------------------------------------------------------- */
+
+:root {
+  --side: 248px;
+  --panel: var(--bg-2);
+  --panel-2: var(--bg);
+  --c-all: var(--ink-2);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --c-all: var(--ink-2);
+  }
+}
+:root[data-theme="dark"] {
+  --c-all: var(--ink-2);
+}
+.s-electricity {
+  background: var(--c-power);
+}
+.s-water {
+  background: var(--c-water);
+}
+.s-all {
+  background: var(--c-all);
+}
+
+.team-page {
+  background: var(--bg);
+}
+
+/* ---------------------------------------------------------------------------
+   2. Buttons, links and fields
+   --------------------------------------------------------------------------- */
+
+.btn--small {
+  min-height: 34px;
+  padding: 6px 14px;
+  font-size: 0.9rem;
+}
+/* Delete and switch-off look like any other quiet button. Red only shows on
+   the second tap, when it really is about to happen. */
+.btn--danger {
+  background: none;
+  color: var(--ink);
+  box-shadow: none;
+}
+.btn--danger:hover {
+  background: var(--bg-3);
+}
+.btn--danger[data-sure] {
+  background: var(--red);
+  color: #fff;
+}
+
+/* Links and small text buttons in the text colour, underlined, instead of
+   the public site's blue */
+.team-page main a:not(.btn):not(.tm-stat):not([data-view]):not(.tm-plain),
+.team-page .link-btn {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--line-2);
+  text-underline-offset: 3px;
+}
+.team-page main a:not(.btn):not(.tm-stat):not([data-view]):not(.tm-plain):hover,
+.team-page .link-btn:hover {
+  text-decoration-color: currentColor;
+}
+
+/* Denser than the public site: shorter fields, smaller labels */
+.team-page .input,
+.team-page .select,
+.team-page textarea {
+  min-height: 44px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+}
+.team-page .field > label {
+  font-size: 0.88rem;
+  letter-spacing: 0;
+  margin-bottom: 6px;
+}
+.team-page .field {
+  margin-bottom: 14px;
+}
+
+/* Time ranges and filters: words, with a line under the chosen one */
+.team-page .filter {
+  gap: 4px;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  border-bottom: 1px solid var(--line);
+}
+.team-page .filter button {
+  min-height: 36px;
+  padding: 6px 4px;
+  margin-inline-end: 14px;
+  margin-bottom: -1px;
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  box-shadow: none;
+  color: var(--ink-2);
+}
+.team-page .filter button:hover {
+  background: none;
+  color: var(--ink);
+}
+.team-page .filter button[aria-pressed="true"] {
+  background: none;
+  box-shadow: none;
+  color: var(--ink);
+  font-weight: 600;
+  border-bottom-color: var(--ink);
+}
+
+/* Two choices side by side, the chosen one raised */
+.tm-seg {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  margin: 12px 0 14px;
+  background: var(--bg-3);
+  border-radius: 10px;
+}
+.tm-seg label {
+  display: block;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.tm-seg input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.tm-seg label:has(input:checked) {
+  background: var(--bg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.tm-seg label:has(input:focus-visible) {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+}
+
+/* A checkbox with its label */
+.tm-check {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 5px 0;
+  margin: 2px 0 10px;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+.tm-check--all {
+  font-weight: 600;
+}
+
+/* A row of buttons at the end of a line; they keep their own height */
+.tm-row-acts {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-end;
+  white-space: nowrap;
+}
+.tm-row-acts > .btn {
+  align-self: center;
+}
+.tm-row-acts--start {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  white-space: normal;
+}
+
+/* ---------------------------------------------------------------------------
+   4. Signing in: a white card on the grey page, the logo on top, and two
+   quiet lines under it for people who are stuck
+   --------------------------------------------------------------------------- */
+
+body[data-screen="login"],
+body[data-screen="password"] {
+  background: var(--bg-2);
+}
+.tm-gate {
+  max-width: 420px;
+  margin: clamp(36px, 9vh, 96px) auto 72px;
+  padding: 0 16px;
+}
+.tm-gate__card {
+  padding: clamp(28px, 5vw, 40px);
+  background: var(--bg);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 8px 28px rgba(0, 0, 0, 0.06),
+    0 0 0 1px var(--line);
+}
+.tm-gate__logo {
+  display: block;
+  margin: 0 auto 18px;
+}
+.tm-gate h1 {
+  font-family: var(--display);
+  font-size: 1.75rem;
+  letter-spacing: 0;
+  text-align: center;
+}
+.tm-gate__lead {
+  margin: 8px auto 0;
+  color: var(--ink-2);
+  text-align: center;
+  font-size: 0.95rem;
+  max-width: 30em;
+}
+.tm-gate form {
+  margin-top: 26px;
+  display: grid;
+  gap: 2px;
+}
+.tm-gate .field label {
+  font-size: 0.88rem;
+}
+.tm-gate .input {
+  background: var(--bg);
+}
+.tm-gate form > .btn {
+  justify-self: stretch;
+  margin-top: 10px;
+  min-height: 46px;
+}
+.tm-gate__acts {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+.tm-gate__acts .btn {
+  flex: 1;
+}
+.tm-gate__help {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--ink-2);
+}
+.tm-gate__help + .tm-gate__help {
+  margin-top: 6px;
+}
+.tm-gate__help a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--line-2);
+}
+/* The password box is always written left to right, so its Show button
+   sits on the right in any page language and never covers the dots */
+.tm-secret {
+  position: relative;
+}
+.tm-secret .input {
+  width: 100%;
+  padding-left: 14px;
+  padding-right: 92px;
+}
+.tm-secret__show {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  left: auto;
+  transform: translateY(-50%);
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+.tm-secret__show:hover {
+  background: var(--bg-2);
+}
+.tm-caps {
+  margin-top: 6px;
+  font-size: 0.84rem;
+  color: var(--ink);
+  font-weight: 600;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .tm-gate__card {
+    background: var(--bg-2);
+    box-shadow: 0 0 0 1px var(--line);
+  }
+  :root:not([data-theme="light"]) body[data-screen="login"],
+  :root:not([data-theme="light"]) body[data-screen="password"] {
+    background: var(--bg);
+  }
+  :root:not([data-theme="light"]) .tm-gate .input {
+    background: var(--bg);
+  }
+}
+:root[data-theme="dark"] .tm-gate__card {
+  background: var(--bg-2);
+  box-shadow: 0 0 0 1px var(--line);
+}
+:root[data-theme="dark"] body[data-screen="login"],
+:root[data-theme="dark"] body[data-screen="password"] {
+  background: var(--bg);
+}
+:root[data-theme="dark"] .tm-gate .input {
+  background: var(--bg);
+}
+
+/* "All 3 came from one internet address" under a report */
+.tm-oneplace {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* The work */
+.tm-main {
+  min-width: 0;
+  max-width: 1240px;
+  padding: 32px clamp(18px, 3.4vw, 48px) 96px;
+  outline: none;
+}
+.tm-head {
+  margin-bottom: 22px;
+}
+.tm-head h1 {
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 1.4rem + 1vw, 2.4rem);
+  letter-spacing: 0;
+  line-height: 1.1;
+}
+.tm-head p {
+  margin-top: 6px;
+  max-width: 54em;
+}
+.tm-head--row {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.tm-sec {
+  margin-top: 36px;
+}
+.tm-sec--first {
+  margin-top: 28px;
+}
+.tm-sec h2 {
+  font-size: 1.15rem;
+  margin-bottom: 14px;
+  letter-spacing: 0;
+}
+.tm-sec__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.tm-sec__head h2 {
+  margin: 0;
+}
+.tm-sub {
+  font-size: 1rem;
+  margin: 24px 0 10px;
+}
+.tm-empty {
+  color: var(--ink-2);
+  padding: 28px;
+  background: var(--panel);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+.tm-grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  gap: 40px;
+  margin-top: 0;
+}
+.tm-grid2 > * {
+  min-width: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   6. The overview, written like a report. "Needs you" is a short list with
+   the task first, the period is a few sentences, and the charts sit on the
+   page with a rule above them, like figures in a printed report.
+   --------------------------------------------------------------------------- */
+
+.tm-sec .tm-needs__h {
+  font-size: 1.35rem;
+}
+.tm-needs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 860px;
+  border-top: 2px solid var(--accent);
+}
+.tm-needs li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.tm-needs p {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+.tm-needs b {
+  font-weight: 600;
+}
+.tm-needs .btn {
+  flex: none;
+}
+@media (max-width: 640px) {
+  .tm-needs li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+.tm-summary {
+  max-width: 64ch;
+  margin: 18px 0 8px;
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+.tm-summary p + p {
+  margin-top: 8px;
+}
+.tm-summary b {
+  font-weight: 600;
+}
+
+/* A chart: its title and totals on one line, the switch to a table beside */
+.tm-chart,
+.tm-grid2 .tm-chart {
+  margin: 36px 0 0;
+  padding: 18px 0 0;
+  background: none;
+  border-radius: 0;
+  border-top: 1px solid var(--line);
+}
+.tm-chart figcaption {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.tm-chart__title > span {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.tm-chart__sum {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 16px;
+  margin-top: 4px;
+  font-size: 0.86rem;
+  color: var(--ink-2);
+}
+.tm-chart__sum b {
+  font-family: var(--display);
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--ink);
+  font-size: 1rem;
+}
+.tm-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-variant-numeric: tabular-nums;
+}
+.tm-key i {
+  width: 14px;
+  height: 4px;
+  border-radius: 2px;
+}
+.tm-chart__switch {
+  flex: none;
+  padding: 6px 2px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  box-shadow: none;
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: var(--line-2);
+  text-underline-offset: 3px;
+}
+.tm-chart__switch:hover {
+  background: none;
+  color: var(--ink);
+  text-decoration-color: currentColor;
+}
+.tm-chart .tm-table {
+  border-radius: var(--radius);
+  background: none;
+}
+
+/* Columns: a fixed height, gridlines behind, numbers up the side, days under */
+.tm-cols {
+  --h: 200px;
+  --foot: 26px;
+  --gut: 30px;
+  position: relative;
+  height: var(--h);
+}
+.tm-cols__grid {
+  position: absolute;
+  inset: 8px 0 0;
+  inset-inline-start: var(--gut);
+}
+.tm-cols__grid i {
+  position: absolute;
+  inset-inline: 0;
+  bottom: calc(var(--foot) + var(--at) * (100% - var(--foot)));
+  border-top: 1px solid var(--line);
+}
+.tm-cols__grid i:last-child {
+  border-top-color: var(--line-2);
+}
+.tm-cols__bars {
+  position: absolute;
+  inset: 8px 0 0;
+  inset-inline-start: var(--gut);
+  display: flex;
+  gap: 2px;
+}
+.tm-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 6px;
+  outline: none;
+  cursor: default;
+}
+.tm-col:hover,
+.tm-col:focus-visible {
+  background: color-mix(in srgb, var(--ink) 5%, transparent);
+}
+.tm-col__stack {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 2px;
+  width: min(14px, 40%);
+}
+.tm-col__stack i {
+  display: block;
+  min-height: 2px;
+}
+.tm-col__stack i:first-child {
+  border-radius: 1px 1px 0 0;
+}
+.tm-col__day {
+  height: var(--foot);
+  padding-top: 8px;
+  font-size: 0.74rem;
+  color: var(--ink-3);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.tm-col:hover .tm-col__day,
+.tm-col:focus-visible .tm-col__day {
+  color: var(--ink);
+}
+.tm-cols__nums {
+  position: absolute;
+  top: 8px;
+  bottom: 0;
+  inset-inline-start: 0;
+  width: var(--gut);
+}
+.tm-cols__nums span {
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: calc(var(--foot) + var(--at) * (100% - var(--foot)));
+  transform: translateY(50%);
+  font-size: 0.72rem;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+/* the figures for a column, while you point at it */
+.tm-tip {
+  position: absolute;
+  z-index: 50;
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  box-shadow: var(--shadow);
+  pointer-events: none;
+}
+
+/* Neighbourhoods ranked, each with a bar */
+.tm-rank {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.tm-rank li {
+  display: grid;
+  grid-template-columns: minmax(90px, 9em) 1fr 3em;
+  gap: 12px;
+  align-items: center;
+  padding: 7px 0;
+  font-size: 0.92rem;
+}
+.tm-rank li + li {
+  border-top: 1px solid var(--line);
+}
+.tm-rank__bar {
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: none;
+}
+.tm-rank__bar i {
+  display: block;
+  height: 6px;
+  border-radius: 1px;
+  background: var(--c-all);
+}
+.tm-rank__n {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------------
+   7. Tables and report rows
+   --------------------------------------------------------------------------- */
+
+.tm-scroll {
+  overflow-x: auto;
+}
+.tm-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.93rem;
+}
+.tm-table th,
+.tm-table td {
+  text-align: start;
+  padding: 11px 14px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.tm-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+.tm-table thead th {
+  font-size: 0.78rem;
+  color: var(--ink-3);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.tm-table tbody th {
+  font-weight: 500;
+}
+.tm-table .num {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+.tm-table tr.is-past {
+  color: var(--ink-3);
+}
+.tm-table .select {
+  min-width: 9.5em;
+}
+.tm-table .select,
+.tm-table select {
+  min-height: 36px;
+  padding-block: 6px;
+  font-size: 0.9rem;
+}
+/* tables on the overview sit on the page */
+.tm-sec .tm-table th,
+.tm-sec .tm-table td {
+  padding-inline: 4px;
+}
+.tm-sec > .tm-table,
+.tm-grid2 .tm-table {
+  background: none;
+}
+.tm-sec .tm-table tbody th,
+.tm-grid2 .tm-table tbody th {
+  font-weight: 400;
+}
+
+/* A list of rows on one grey panel (the reports list) */
+.tm-table--rows {
+  margin-top: 16px;
+  background: var(--panel);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.tm-table--rows tbody tr {
+  background: var(--panel);
+  transition: background-color 0.15s;
+}
+.tm-table--rows tbody tr:hover {
+  background: var(--bg-3);
+}
+.tm-r__svc {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--ink-3);
+  margin-top: 2px;
+}
+.tm-r__note {
+  color: var(--ink-2);
+  margin-top: 4px;
+}
+.tm-r__photos {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+.tm-r__photos a {
+  position: relative;
+  display: block;
+}
+.tm-r__photos img {
+  display: block;
+  width: 64px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+/* "Waiting" on a photo nobody has looked at yet */
+.tm-r__photos span {
+  position: absolute;
+  inset-inline-start: 4px;
+  bottom: 4px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  font-size: 0.66rem;
+  font-weight: 600;
+}
+/* A report's buttons: the main ones, then the small things on a quieter line */
+.tm-r__acts {
+  display: grid;
+  gap: 8px;
+  justify-items: end;
+  min-width: 250px;
+}
+.tm-r__btns {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.tm-r__more {
+  display: flex;
+  gap: 14px;
+  font-size: 0.84rem;
+  white-space: nowrap;
+}
+.tm-r__more .link-btn {
+  font-size: inherit;
+  color: var(--ink-2);
+}
+.tm-r__more .link-btn:hover {
+  color: var(--ink);
+}
+.tm-r__hide {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--ink-3);
+  cursor: pointer;
+}
+.tm-r__hide:hover,
+.tm-r__hide:focus-visible {
+  color: var(--ink);
+  text-decoration: underline;
+}
+/* the note for residents, opened under the buttons */
+.tm-note {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+  margin-top: 6px;
+}
+
+/* ---------------------------------------------------------------------------
+   8. The request inbox: the list on one side, the one you opened on the other
+   --------------------------------------------------------------------------- */
+
+.tm-inbox {
+  display: grid;
+  grid-template-columns: minmax(250px, 340px) minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+  align-items: start;
+}
+.tm-inbox__list {
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  display: grid;
+  gap: 2px;
+  max-height: 74vh;
+  overflow-y: auto;
+  background: var(--panel);
+  border-radius: var(--radius-lg);
+}
+.tm-inbox__item {
+  display: grid;
+  gap: 3px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: var(--radius);
+  background: none;
+  font: inherit;
+  color: var(--ink);
+  text-align: start;
+  cursor: pointer;
+}
+.tm-inbox__item:hover {
+  background: var(--bg-3);
+}
+.tm-inbox__item.is-open {
+  background: var(--bg);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.07),
+    0 0 0 1px var(--line);
+}
+.tm-inbox__item.is-new .tm-inbox__status {
+  color: var(--ink);
+  font-weight: 600;
+}
+.tm-inbox__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+.tm-inbox__top span,
+.tm-inbox__status {
+  font-size: 0.82rem;
+  color: var(--ink-2);
+}
+.tm-inbox__detail {
+  min-width: 0;
+  padding: 4px clamp(18px, 2.5vw, 30px) 26px;
+  background: var(--panel);
+  border-radius: var(--radius-lg);
+}
+.tm-inbox__detail > .tm-empty {
+  background: none;
+}
+.tm-req__head {
+  padding: 18px 0 12px;
+  border-bottom: 1px solid var(--line);
+}
+.tm-req__head h2 {
+  font-size: 1.4rem;
+  letter-spacing: 0;
+}
+.tm-dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0 28px;
+  margin: 0;
+}
+.tm-dl > div {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.tm-dl > div.wide {
+  grid-column: 1 / -1;
+}
+.tm-dl dt {
+  font-size: 0.8rem;
+  color: var(--ink-3);
+}
+.tm-dl dd {
+  margin: 3px 0 0;
+}
+.tm-req__form {
+  margin-top: 20px;
+  display: grid;
+  gap: 6px;
+  max-width: 660px;
+}
+.tm-req__form .input,
+.tm-req__form .select,
+.tm-req__form textarea {
+  background: var(--bg);
+}
+.tm-req__form .choice {
+  background: var(--bg-3);
+}
+.tm-req__form > .btn,
+.tm-form .actions .btn {
+  justify-self: start;
+  min-width: 140px;
+}
+.tm-req__notes {
+  margin-top: 26px;
+}
+.tm-req__notes h3 {
+  font-size: 1rem;
+}
+.tm-req__notes ol {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: grid;
+  gap: 8px;
+}
+.tm-req__notes li {
+  padding: 12px 14px;
+  background: var(--bg);
+  border-radius: var(--radius);
+}
+
+/* ---------------------------------------------------------------------------
+   9. Forms: planned cuts, news, people
+   --------------------------------------------------------------------------- */
+
+.tm-form {
+  display: grid;
+  gap: 6px;
+  max-width: 900px;
+  margin: 8px 0 28px;
+  padding: clamp(20px, 3vw, 30px);
+  background: var(--panel);
+  border-radius: var(--radius-lg);
+}
+.tm-form h2 {
+  font-size: 1.25rem;
+  margin-bottom: 6px;
+  letter-spacing: 0;
+}
+.tm-form .input,
+.tm-form .select,
+.tm-form textarea {
+  background: var(--bg);
+}
+.tm-form > .btn {
+  justify-self: start;
+  min-width: 160px;
+  padding-inline: 22px;
+}
+.tm-row,
+.tm-langs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 16px;
+}
+.tm-langs textarea {
+  width: 100%;
+}
+/* the neighbourhoods a cut affects, as checkboxes */
+.tm-areas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 2px 12px;
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: var(--bg);
+  border-radius: var(--radius);
+}
+.tm-areas.is-off {
+  opacity: 0.4;
+  pointer-events: none;
+}
+.tm-list {
+  list-style: none;
+  padding: 6px 20px;
+  margin: 0;
+  background: var(--panel);
+  border-radius: var(--radius-lg);
+}
+.tm-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 0;
+}
+.tm-list li + li {
+  border-top: 1px solid var(--line);
+}
+.tm-notice {
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  background: var(--bg);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 0 0 1px var(--line-2);
+}
+/* a new temporary password, big enough to read out */
+.tm-pass {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 1.5rem;
+  letter-spacing: 0.06em;
+  margin: 6px 0;
+}
+
+/* ---------------------------------------------------------------------------
+   10. Photos waiting to be checked
+   --------------------------------------------------------------------------- */
+
+.tm-photos {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 16px;
+}
+.tm-photos li {
+  padding: 10px 10px 14px;
+  background: var(--panel);
+  border-radius: var(--radius-lg);
+}
+.tm-photos img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border-radius: var(--radius);
+}
+.tm-photos p {
+  padding: 0 4px;
+}
+.tm-photos .actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 0 4px;
+}
+
+/* ---------------------------------------------------------------------------
+   11. Admin: the same two panes as the inbox, everyone on one side and one
+   person on the other, in plain sections divided by hairlines
+   --------------------------------------------------------------------------- */
+
+.tm-adm__side {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  min-width: 0;
+}
+.tm-adm__search {
+  min-height: 40px;
+}
+.tm-adm__side .filter {
+  justify-self: start;
+}
+.tm-adm .tm-inbox__list {
+  max-height: 56vh;
+}
+.tm-adm__none {
+  padding: 14px;
+}
+.tm-adm__everyone {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  padding: 16px 14px;
+  border-top: 1px solid var(--line);
+}
+.tm-adm__everyone h2 {
+  font-size: 0.92rem;
+}
+.tm-adm__detail {
+  padding-bottom: 8px;
+}
+.tm-adm__head {
+  padding: 20px 0 16px;
+  border-bottom: 1px solid var(--line);
+}
+.tm-adm__head h2 {
+  font-size: 1.45rem;
+  letter-spacing: 0;
+}
+.tm-adm__head p {
+  margin-top: 4px;
+  font-size: 0.92rem;
+}
+.tm-adm__sec {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+.tm-adm__sec:last-child {
+  border-bottom: 0;
+}
+.tm-adm__sec > h3 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+.tm-adm__sec p,
+.tm-adm__sec .muted {
+  font-size: 0.92rem;
+}
+.tm-adm__sec .small {
+  font-size: 0.82rem;
+}
+.tm-adm__sec > p + p,
+.tm-adm__sec > p + .tm-row-acts,
+.tm-adm__sec > .tm-row-acts + p {
+  margin-top: 10px;
+}
+.tm-adm__form {
+  display: grid;
+  gap: 0;
+  max-width: 620px;
+}
+.tm-adm__form > .btn,
+.tm-adm__form > .tm-row-acts {
+  justify-self: start;
+  margin-top: 4px;
+}
+.tm-adm__form .input,
+.tm-adm__form .select {
+  background: var(--bg);
+}
+
+/* Where someone is signed in */
+.tm-sessions {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.tm-sessions li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+}
+.tm-sessions li + li {
+  border-top: 1px solid var(--line);
+}
+.tm-sessions__when {
+  display: block;
+  font-size: 0.84rem;
+  color: var(--ink-2);
+  margin-top: 2px;
+}
+
+/* What someone has done: a few numbers, then the latest actions */
+.tm-work {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 28px;
+  margin: 0 0 8px;
+}
+.tm-work dt {
+  font-size: 0.8rem;
+  color: var(--ink-3);
+}
+.tm-work dd {
+  margin: 2px 0 0;
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.tm-feed {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.tm-feed li {
+  display: grid;
+  grid-template-columns: 7.5em 1fr;
+  gap: 12px;
+  padding: 7px 0;
+  font-size: 0.92rem;
+}
+.tm-feed li + li {
+  border-top: 1px solid var(--line);
+}
+.tm-feed time {
+  color: var(--ink-3);
+  font-size: 0.84rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* "Type your own password", asked again before anything big */
+.tm-dialog {
+  width: min(420px, calc(100vw - 32px));
+  padding: 26px;
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.25),
+    0 0 0 1px var(--line);
+}
+.tm-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(2px);
+}
+.tm-dialog h2 {
+  font-size: 1.25rem;
+  letter-spacing: 0;
+}
+.tm-dialog p {
+  margin: 6px 0 18px;
+  font-size: 0.92rem;
+}
+.tm-dialog__acts {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .tm-dialog {
+    background: var(--bg-2);
+  }
+}
+:root[data-theme="dark"] .tm-dialog {
+  background: var(--bg-2);
+}
+
+/* ---------------------------------------------------------------------------
+   12. Live chats: a transcript, not bubbles. Who and when on a small line,
+   then the words; the team's own lines sit a little in.
+   --------------------------------------------------------------------------- */
+
+.tm-ch__preview {
+  font-size: 0.9rem;
+  color: var(--ink-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tm-ch__thread {
+  list-style: none;
+  margin: 0;
+  padding: 14px 0;
+  display: grid;
+  gap: 14px;
+  max-height: 52vh;
+  overflow-y: auto;
+  border-bottom: 1px solid var(--line);
+}
+.tm-ch__who {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.tm-ch__who time {
+  font-weight: 400;
+  color: var(--ink-3);
+  margin-inline-start: 6px;
+  font-variant-numeric: tabular-nums;
+}
+.tm-ch__msg p {
+  margin-top: 3px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.tm-ch__msg--team {
+  padding-inline-start: 14px;
+  border-inline-start: 2px solid var(--line-2);
+}
+.tm-ch__note {
+  padding: 10px 14px;
+  background: var(--bg);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+}
+.tm-ch__note span {
+  font-size: 0.78rem;
+  color: var(--ink-3);
+}
+.tm-ch__note p {
+  margin-top: 2px;
+  color: var(--ink-2);
+}
+.tm-ch__reply {
+  display: grid;
+  gap: 8px;
+  padding-top: 14px;
+}
+.tm-ch__reply textarea {
+  background: var(--bg);
+  min-height: 84px;
+  resize: vertical;
+}
+.tm-ch__reply .hint {
+  margin: 0;
+  font-size: 0.82rem;
+}
+.tm-ch__quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tm-ch__quick .btn {
+  font-weight: 400;
+  background: var(--bg);
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+/* ---------------------------------------------------------------------------
+   13. News found on the news sites, waiting to be published or skipped
+   --------------------------------------------------------------------------- */
+
+.tm-found {
+  margin: 8px 0 28px;
+  padding: 20px 22px 18px;
+  background: var(--bg-2);
+  border-radius: var(--radius-lg);
+}
+.tm-found:empty {
+  display: none;
+}
+.tm-found .tm-head {
+  margin-bottom: 12px;
+}
+.tm-found h2 {
+  font-size: 1.1rem;
+}
+.tm-found__list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+.tm-found__item {
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+}
+.tm-found__item > p {
+  margin: 0 0 4px;
+}
+.tm-found__title {
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+.tm-found__title a {
+  color: var(--ink);
+}
+.tm-found__sum {
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  max-width: 70ch;
+}
+.tm-found__item .tm-row-acts {
+  margin-top: 8px;
+}
+.tm-found__item select.input {
+  width: auto;
+  padding-block: 4px;
+  font-size: 0.86rem;
+}
+/* the sites it reads, folded away under a summary line */
+.tm-found__sites {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.tm-found__sites > summary {
+  cursor: pointer;
+  font-weight: 500;
+}
+.tm-found__sites > summary + * {
+  margin-top: 14px;
+}
+.tm-found__warn {
+  font-weight: 400;
+  color: var(--ink-2);
+}
+.tm-found__warn::before {
+  content: "(";
+}
+.tm-found__warn::after {
+  content: ")";
+}
+.tm-found__sites .tm-table {
+  margin: 12px 0 18px;
+  background: var(--bg);
+  border-radius: var(--radius);
+}
+.tm-found__sites tr.is-off td {
+  color: var(--ink-3);
+}
+.tm-found__sites .tm-form {
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+.tm-found__sites h3 {
+  font-size: 0.95rem;
+  margin: 0 0 8px;
+}
+@media (max-width: 640px) {
+  .tm-found {
+    padding: 16px 14px;
+    margin-inline: -4px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   14. Pop-up messages: the form on one side, what people will see on the
+   other (the pop-up itself and the notification on a phone)
+   --------------------------------------------------------------------------- */
+
+.tm-pop {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+  gap: 28px;
+  max-width: 1100px;
+  align-items: start;
+}
+.tm-pop__look {
+  position: sticky;
+  top: 76px;
+}
+.tm-pop__look .popup--preview {
+  position: static;
+  width: auto;
+  margin-top: 8px;
+  animation: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+.tm-pop__send {
+  display: grid;
+  gap: 6px;
+}
+.tm-pop__phoneh {
+  margin-top: 18px;
+}
+.tm-pop__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 860px;
+  border-top: 1px solid var(--line);
+}
+.tm-pop__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.tm-pop__row p {
+  margin: 0;
+}
+.tm-pop__row .tm-pop__title {
+  font-weight: 600;
+  margin: 2px 0;
+}
+/* the notification as a phone would show it */
+.tm-notif {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: 8px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--bg-3) 85%, transparent);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+.tm-notif img {
+  border-radius: 8px;
+  flex: none;
+}
+.tm-notif p {
+  margin: 0;
+}
+.tm-notif__app {
+  font-size: 0.75rem;
+  color: var(--ink-3);
+}
+.tm-notif__title {
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+.tm-notif__body {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 0.86rem;
+  color: var(--ink-2);
+}
+
+/* ---------------------------------------------------------------------------
+   15. Phones and small laptops: the menu becomes a row of tabs, panes stack
+   --------------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .tm-main {
+    overflow-x: hidden;
+  }
+  .tm-grid2,
+  .tm-row,
+  .tm-langs,
+  .tm-inbox {
+    grid-template-columns: 1fr;
+  }
+  .tm-inbox__list {
+    max-height: 42vh;
+  }
+  .tm-r__acts {
+    min-width: 0;
+    justify-items: start;
+  }
+  .tm-r__btns,
+  .tm-row-acts {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    white-space: normal;
+  }
+  .tm-r__more {
+    white-space: normal;
+    flex-wrap: wrap;
+  }
+  .tm-table--rows {
+    display: block;
+    overflow-x: auto;
+    position: relative;
+  }
+  .tm-feed li {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+  .tm-pop {
+    grid-template-columns: 1fr;
+  }
+  .tm-pop__look {
+    position: static;
+    order: -1;
+  }
+}
+@media (max-width: 700px) {
+  /* Reports on a phone: each report is a block, not a squeezed table row */
+  .tm-table--rows thead {
+    display: none;
+  }
+  .tm-table--rows,
+  .tm-table--rows tbody {
+    display: block;
+  }
+  .tm-table--rows tr.tm-r {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px 12px;
+    padding: 14px 4px;
+    border-bottom: 1px solid var(--line);
+  }
+  .tm-table--rows tr.tm-r > td {
+    display: block;
+    padding: 0;
+    border: 0;
+  }
+  .tm-table--rows tr.tm-r > td:nth-child(1) {
+    grid-column: 1;
+  }
+  .tm-table--rows tr.tm-r > td:nth-child(4) {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: end;
+    color: var(--ink-2);
+    font-size: 0.86rem;
+  }
+  .tm-table--rows tr.tm-r > td:nth-child(2),
+  .tm-table--rows tr.tm-r > td:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+  .tm-table--rows tr.tm-r > td:nth-child(3) {
+    color: var(--ink-2);
+    font-size: 0.9rem;
+  }
+  .tm-table--rows tr.tm-r > td:nth-child(5) {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+  }
+  /* Generators on a phone: name, then what it's doing, the owner, the buttons */
+  .tm-gens tr.tm-g {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+    padding: 14px 4px;
+    border-bottom: 1px solid var(--line);
+  }
+  .tm-gens tr.tm-g > td {
+    display: block;
+    padding: 0;
+    border: 0;
+  }
+  .tm-gens .tm-row-acts {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    white-space: normal;
+  }
+  .tm-r__acts,
+  .tm-r__btns {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+  .tm-scroll {
+    overflow: visible;
+  }
+  /* lists aren't boxes with their own scroll on a phone; the page scrolls */
+  .tm-inbox__list,
+  .tm-adm .tm-inbox__list {
+    max-height: none;
+    overflow: visible;
+  }
+  /* nothing picked yet: no empty grey box under the list */
+  .tm-inbox__detail:empty,
+  .tm-inbox__detail:has(> .tm-empty:only-child) {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   16. System (admins): plain text and tables. Red only says something is
+   broken, and only in the sentence that says so.
+   --------------------------------------------------------------------------- */
+
+.tm-sys__bad {
+  color: var(--red);
+}
+.tm-sys__bad + ul {
+  margin: 6px 0 16px;
+  padding-inline-start: 20px;
+}
+.tm-sys__errors td {
+  vertical-align: top;
+}
+.tm-sys__errors td:nth-child(3) {
+  max-width: 46ch;
+  overflow-wrap: anywhere;
+}
+.tm-sys__errors details {
+  margin-top: 4px;
+}
+.tm-sys__errors summary {
+  cursor: pointer;
+  color: var(--link);
+  font-size: 0.86rem;
+}
+.tm-sys__errors pre {
+  margin: 6px 0 0;
+  padding: 10px 12px;
+  background: var(--bg-2);
+  border-radius: var(--radius);
+  font:
+    0.8rem/1.5 ui-monospace,
+    SF Mono,
+    Menlo,
+    Consolas,
+    monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 560px) {
+  /* the busiest addresses: the average goes, the slowest stays */
+  .tm-sys__routes th:nth-child(3),
+  .tm-sys__routes td:nth-child(3) {
+    display: none;
+  }
+  .tm-sys__routes code {
+    overflow-wrap: anywhere;
+  }
+  .tm-sys__routes td.num {
+    white-space: nowrap;
+  }
+  /* each error becomes a short block: when and where, then the message */
+  .tm-sys__errors thead {
+    display: none;
+  }
+  .tm-sys__errors,
+  .tm-sys__errors tbody,
+  .tm-sys__errors tr,
+  .tm-sys__errors td {
+    display: block;
+  }
+  .tm-sys__errors tr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .tm-sys__errors td {
+    padding: 0;
+    border: 0;
+  }
+  /* no separator marks (see docs/design-rules.md): just space between them */
+  .tm-sys__errors td:nth-child(1),
+  .tm-sys__errors td:nth-child(2),
+  .tm-sys__errors td:nth-child(4) {
+    display: inline-block;
+    margin-inline-end: 14px;
+    font-size: 0.86rem;
+    color: var(--ink-3);
+  }
+  .tm-sys__errors td:nth-child(4)::before {
+    content: "×";
+  }
+  .tm-sys__errors td:nth-child(3) {
+    order: 1;
+    flex-basis: 100%;
+    max-width: none;
+    margin-top: 4px;
+  }
+}
+
+/* Words: a suggestion that lost one of the site's {placeholders} */
+.tm-wd-bad {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------------
+   17. The dashboard frame (November 2026)
+   A grey canvas with the work on white panels. On a computer: the top bar,
+   a menu down the side in three groups, the screen beside it. On a phone:
+   the four screens used most as tabs at the bottom, the rest in a sheet
+   that More opens. The page you're on is the one blue thing in the menu.
+   --------------------------------------------------------------------------- */
+
+:root {
+  --tm-canvas: var(--bg-2);
+  --tm-card: var(--bg);
+  --tm-side: 244px;
+  --tm-top: 56px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --tm-canvas: var(--bg);
+    --tm-card: var(--bg-2);
+  }
+}
+:root[data-theme="dark"] {
+  --tm-canvas: var(--bg);
+  --tm-card: var(--bg-2);
+}
+body[data-screen="app"] {
+  background: var(--tm-canvas);
+}
+.tm-locked {
+  overflow: hidden;
+}
+
+/* the top bar */
+.tm-top {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: var(--tm-top);
+  padding: 0 16px 0 20px;
+  background: var(--tm-card);
+  border-bottom: 1px solid var(--line);
+}
+[dir="rtl"] .tm-top {
+  padding: 0 20px 0 16px;
+}
+.tm-top .brand {
+  font-weight: 600;
+  color: var(--ink);
+}
+.tm-top__label {
+  color: var(--ink-2);
+  padding-inline-start: 14px;
+  border-inline-start: 1px solid var(--line-2);
+  font-size: 0.94rem;
+}
+.tm-top__tools {
+  margin-inline-start: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+}
+.tm-live {
+  font-size: 0.82rem;
+  color: var(--ink-3);
+}
+.tm-live.is-off {
+  color: var(--ink);
+  font-weight: 600;
+}
+.tm-service select {
+  font: inherit;
+  font-size: 0.88rem;
+  min-height: 34px;
+  padding: 4px 10px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius);
+  background: var(--tm-card);
+  color: var(--ink);
+  max-width: 11em;
+}
+
+/* the account: two letters in a circle, the name beside it on a wide screen */
+.tm-acct {
+  position: relative;
+}
+.tm-acct__btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px;
+  border: 0;
+  border-radius: 20px;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+.tm-acct__btn:hover,
+.tm-acct__btn[aria-expanded="true"] {
+  background: var(--bg-3);
+}
+.tm-acct__face {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  flex: none;
+}
+/* the name beside the circle only on a wide screen; screen readers always get it */
+.tm-acct__text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  padding-inline-end: 8px;
+  line-height: 1.2;
+}
+.tm-acct__name {
+  display: block;
+  font-weight: 600;
+  font-size: 0.88rem;
+  max-width: 12em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tm-acct__role {
+  display: block;
+  font-size: 0.76rem;
+  color: var(--ink-2);
+}
+@media (min-width: 1100px) {
+  .tm-acct__text {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    display: block;
+  }
+}
+.tm-acct__menu {
+  position: absolute;
+  inset-inline-end: 0;
+  top: calc(100% + 8px);
+  z-index: 40;
+  width: 250px;
+  display: grid;
+  padding: 6px;
+  background: var(--tm-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+.tm-acct__who {
+  padding: 8px 10px 10px;
+  margin: 0 0 4px;
+  font-size: 0.8rem;
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--line);
+}
+.tm-acct__who b {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.tm-acct__menu > button,
+.tm-acct__menu > a {
+  display: block;
+  width: 100%;
+  padding: 9px 10px;
+  border: 0;
+  border-radius: var(--radius);
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.92rem;
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+}
+.tm-acct__menu > button:hover,
+.tm-acct__menu > a:hover,
+.tm-acct__menu > :focus-visible {
+  background: var(--bg-3);
+}
+.tm-acct__menu > .is-out {
+  margin-top: 4px;
+  border-top: 1px solid var(--line);
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+/* the page: the menu beside the work */
+.tm {
+  display: grid;
+  grid-template-columns: var(--tm-side) minmax(0, 1fr);
+  min-height: calc(100dvh - var(--tm-top));
+}
+.tm-nav {
+  position: sticky;
+  top: var(--tm-top);
+  height: calc(100dvh - var(--tm-top));
+  overflow-y: auto;
+  padding: 14px 12px 24px;
+  background: var(--tm-card);
+  border-inline-end: 1px solid var(--line);
+}
+.tm-nav__head {
+  display: none;
+}
+.tm-nav__links {
+  display: grid;
+  gap: 1px;
+}
+.tm-nav__group {
+  margin: 18px 10px 6px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink-3);
+}
+.tm-nav__group:first-child {
+  margin-top: 4px;
+}
+.tm-nav__links > a {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  color: var(--ink-2);
+  font-size: 0.94rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+.tm-nav__links > a:hover {
+  background: var(--bg-3);
+  color: var(--ink);
+  text-decoration: none;
+}
+.tm-nav__links > a[aria-current="page"] {
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+.tm-ico {
+  width: 19px;
+  height: 19px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.tm-nav__links > a > span {
+  flex: 1;
+}
+/* counts as plain numbers, the way a mail app shows them */
+.tm-count {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.tm-count--wait {
+  color: var(--ink);
+  font-weight: 700;
+}
+.tm-count:empty {
+  display: none;
+}
+.tm-nav__links > a[aria-current="page"] .tm-count {
+  color: var(--accent-ink);
+}
+.tm-scrim,
+.tm-tabs {
+  display: none;
+}
+
+/* the work */
+.tm-main {
+  min-width: 0;
+  max-width: 1360px;
+  padding: 26px clamp(16px, 2.6vw, 36px) 72px;
+  outline: none;
+}
+.tm-head {
+  margin-bottom: 20px;
+}
+.tm-head h1 {
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 1.25rem + 0.8vw, 1.9rem);
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+.tm-head p {
+  margin-top: 4px;
+  max-width: 62em;
+  color: var(--ink-2);
+}
+.tm-head--row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px 16px;
+  flex-wrap: wrap;
+}
+
+/* a white panel on the grey canvas, for one job */
+.tm-panel {
+  min-width: 0;
+  padding: 18px 20px 20px;
+  background: var(--tm-card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.tm-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 14px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.tm-panel__head h2 {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+.tm-panel__head a {
+  font-size: 0.88rem;
+}
+.tm-panel > :last-child {
+  margin-bottom: 0;
+}
+
+/* ---- phones and small laptops: tabs at the bottom, the menu as a sheet ---- */
+@media (max-width: 900px) {
+  :root {
+    --tm-top: 52px;
+  }
+  .tm-top {
+    gap: 8px;
+    padding: 0 10px;
+  }
+  .tm-top__label,
+  .tm-live {
+    display: none;
+  }
+  .tm-top .brand span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .tm-top__tools {
+    gap: 6px;
+  }
+  .tm-service select {
+    max-width: 8.5em;
+    font-size: 0.84rem;
+    padding: 4px 6px;
+  }
+  .tm {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .tm-main {
+    padding: 18px 14px calc(92px + env(safe-area-inset-bottom));
+  }
+  .tm-nav {
+    position: fixed;
+    inset-inline: 0;
+    top: auto;
+    bottom: 0;
+    z-index: 60;
+    height: auto;
+    max-height: 82dvh;
+    padding: 6px 12px calc(16px + env(safe-area-inset-bottom));
+    border: 0;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.18);
+    transform: translateY(105%);
+    visibility: hidden;
+    transition:
+      transform 0.25s var(--ease),
+      visibility 0s linear 0.25s;
+  }
+  .tm-nav.is-open {
+    transform: none;
+    visibility: visible;
+    transition: transform 0.25s var(--ease);
+  }
+  .tm-nav__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 4px 2px 10px;
+  }
+  .tm-nav__title {
+    font-weight: 650;
+  }
+  .tm-nav__close {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    color: var(--ink-2);
+    cursor: pointer;
+  }
+  .tm-nav__close svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+  }
+  .tm-nav__links > a {
+    padding: 11px 10px;
+  }
+  .tm-scrim:not([hidden]) {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    background: rgba(1, 4, 9, 0.45);
+  }
+  .tm-tabs {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 50;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    padding: 4px 4px env(safe-area-inset-bottom);
+    background: var(--tm-card);
+    border-top: 1px solid var(--line);
+  }
+  .tm-tabs > a,
+  .tm-tabs > button {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: 3px;
+    min-height: 56px;
+    padding: 4px 2px;
+    border: 0;
+    background: none;
+    color: var(--ink-2);
+    font: inherit;
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .tm-tabs .tm-ico {
+    width: 22px;
+    height: 22px;
+  }
+  .tm-tabs > [aria-current="page"] {
+    color: var(--accent-ink);
+    font-weight: 650;
+  }
+  .tm-tabs > [aria-current="page"] .tm-ico {
+    stroke-width: 2;
+  }
+  .tm-tabs__n {
+    position: absolute;
+    top: 3px;
+    inset-inline-start: calc(50% + 6px);
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 9px;
+    background: var(--ink);
+    color: var(--bg);
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .tm-tabs__n:empty {
+    display: none;
+  }
+  .tm-panel {
+    padding: 16px 14px 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tm-nav,
+  .tm-nav.is-open {
+    transition: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   18. Home: what needs someone, the board of places, then the period
+   --------------------------------------------------------------------------- */
+
+.tm-home {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 18px;
+  align-items: start;
+}
+.tm-home + .tm-panel,
+.tm-main > .tm-panel + .tm-panel,
+.tm-panel + .tm-home__pair,
+.tm-home__pair + .tm-panel {
+  margin-top: 18px;
+}
+.tm-home__pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+@media (max-width: 1100px) {
+  .tm-home,
+  .tm-home__pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* "Needs you": a count, what it is, one button */
+.tm-queue {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.tm-queue li {
+  display: grid;
+  grid-template-columns: 2.6ch minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+.tm-queue li:first-child {
+  border-top: 0;
+  padding-top: 2px;
+}
+.tm-queue__n {
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.tm-queue li.is-out .tm-queue__n {
+  color: var(--red);
+}
+.tm-queue p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+.tm-queue p small {
+  display: block;
+  margin-top: 2px;
+  color: var(--ink-2);
+  font-size: 0.84rem;
+}
+.tm-queue .btn {
+  flex: none;
+}
+.tm-calm {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 6px 0 2px;
+  color: var(--ink-2);
+}
+.tm-calm svg {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  fill: none;
+  stroke: var(--green);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+@media (max-width: 520px) {
+  .tm-queue li {
+    grid-template-columns: 2.6ch minmax(0, 1fr);
+  }
+  .tm-queue .btn {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
+
+/* The period: a strip of figures, then the charts */
+.tm-figs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  margin: 0 0 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.tm-figs > div {
+  padding: 12px 14px;
+  border-inline-start: 1px solid var(--line);
+}
+.tm-figs > div:first-child {
+  border-inline-start: 0;
+}
+.tm-figs dt {
+  font-size: 0.8rem;
+  color: var(--ink-2);
+}
+.tm-figs dd {
+  margin: 2px 0 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.tm-figs dd small {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+@media (max-width: 520px) {
+  .tm-figs {
+    grid-template-columns: 1fr 1fr;
+  }
+  .tm-figs > div {
+    border-inline-start: 0;
+    border-top: 1px solid var(--line);
+  }
+  .tm-figs > div:nth-child(2n) {
+    border-inline-start: 1px solid var(--line);
+  }
+  .tm-figs > div:nth-child(-n + 2) {
+    border-top: 0;
+  }
+}
+.tm-panel .tm-chart {
+  margin: 18px 0 0;
+  padding: 0;
+  border-top: 0;
+}
+.tm-foot-note {
+  margin-top: 18px;
+}
+
+/* ---------------------------------------------------------------------------
+   19. Home's map, cities, gauges and service bars, in the site's own colours:
+   flat surfaces, thin lines, the one blue, red only for no power or no water,
+   green only for fixed. No glows, no gradients.
+   --------------------------------------------------------------------------- */
+
+:root {
+  --tm-line: var(--line);
+  --tm-radius: var(--radius-lg);
+}
+.tm-panel {
+  border-color: var(--tm-line);
+  border-radius: var(--tm-radius);
+}
+
+/* the cities in the map's head: tapping one moves the map there */
+.tm-strip {
+  display: flex;
+  gap: 2px;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  padding: 3px;
+  background: var(--bg-2);
+  border-radius: var(--radius);
+}
+.tm-strip__c {
+  flex: none;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 5px 10px;
+  border: 0;
+  border-radius: 5px;
+  background: none;
+  color: var(--ink-2);
+  font: inherit;
+  font-size: 0.84rem;
+  cursor: pointer;
+}
+.tm-strip__c:hover {
+  color: var(--ink);
+}
+.tm-strip__c[aria-pressed="true"] {
+  background: var(--bg);
+  color: var(--ink);
+  font-weight: 600;
+  box-shadow: var(--shadow);
+}
+.tm-strip__c b {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.tm-strip__c.is-out b {
+  color: var(--red);
+}
+.tm-panel--map .tm-panel__head h2 {
+  flex: none;
+}
+
+/* Home, map first: the map big on the left, numbers and Needs you beside it */
+.tm-dash {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+  gap: 18px;
+  align-items: stretch;
+}
+.tm-dash__side {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+.tm-panel--map {
+  display: flex;
+  flex-direction: column;
+}
+.tm-panel--map .tm-panel__head {
+  align-items: center;
+}
+.tm-mapbox {
+  flex: 1;
+  min-height: 440px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-2);
+  z-index: 0;
+}
+.tm-map__off {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  margin: 0;
+  color: var(--ink-2);
+}
+/* the labels on the map */
+.leaflet-tooltip.tm-maptip {
+  display: grid;
+  padding: 5px 9px 6px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.76rem;
+  line-height: 1.3;
+  box-shadow: var(--shadow);
+  white-space: nowrap;
+}
+.leaflet-tooltip.tm-maptip::before {
+  display: none;
+}
+.tm-maptip b {
+  font-size: 0.82rem;
+}
+.tm-maptip span {
+  font-weight: 600;
+}
+.tm-maptip small {
+  color: var(--ink-2);
+}
+.tm-maptip.is-out {
+  border-color: var(--red);
+}
+.tm-maptip.is-out span {
+  color: var(--red);
+}
+.tm-map__key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 12px 0 0;
+  font-size: 0.8rem;
+  color: var(--ink-2);
+}
+.tm-map__key span::before {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-inline-end: 6px;
+  border-radius: 50%;
+  background: var(--ink-3);
+}
+.tm-map__key .is-out::before {
+  background: var(--red);
+}
+.tm-map__key .is-trouble::before {
+  background: var(--accent);
+}
+.tm-map__key .is-unconfirmed::before {
+  background: var(--bg);
+  border: 2px solid var(--accent);
+  width: 5px;
+  height: 5px;
+}
+
+/* under the map: the places with something confirmed */
+.tm-places {
+  width: 100%;
+  margin-top: 12px;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.tm-places tr {
+  border-top: 1px solid var(--line);
+}
+.tm-places tr:first-child {
+  border-top: 0;
+}
+.tm-places th,
+.tm-places td {
+  padding: 8px 0;
+  text-align: start;
+  vertical-align: baseline;
+}
+.tm-places th {
+  width: 34%;
+  padding-inline-start: 18px;
+  position: relative;
+  font-weight: 600;
+}
+.tm-places th::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 2px;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  margin-top: -4px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.tm-places tr.is-out th::before {
+  background: var(--red);
+}
+.tm-places tr.is-out .tm-places__what {
+  color: var(--red);
+  font-weight: 600;
+}
+.tm-places td.num {
+  text-align: end;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+.tm-places__none {
+  margin: 12px 0 0;
+  color: var(--ink-2);
+}
+
+/* three numbers for right now */
+.tm-kpis {
+  display: grid;
+  gap: 10px;
+}
+.tm-kpi {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--tm-card);
+  border: 1px solid var(--tm-line);
+  border-radius: var(--tm-radius);
+}
+.tm-kpi b {
+  min-width: 2ch;
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.tm-kpi span {
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
+.tm-kpi.is-out b {
+  color: var(--red);
+}
+
+/* the period, by service, each day */
+.tm-row3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+  align-items: stretch;
+}
+.tm-row3 + .tm-home__pair {
+  margin-top: 18px;
+}
+.tm-row3 .tm-svcs {
+  grid-template-columns: 1fr;
+}
+@media (max-width: 1240px) {
+  .tm-row3 {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .tm-row3 > :last-child {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 980px) {
+  .tm-dash,
+  .tm-row3 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* on a phone, what to do comes before the map */
+  .tm-dash__side {
+    order: -1;
+  }
+  .tm-mapbox {
+    min-height: 380px;
+  }
+  .tm-kpis {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .tm-kpi {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 12px;
+  }
+  .tm-kpi b {
+    font-size: 1.5rem;
+  }
+  .tm-kpi span {
+    font-size: 0.78rem;
+  }
+}
+
+/* the two gauges */
+.tm-gauges {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 4px 0 14px;
+}
+.tm-gauge {
+  position: relative;
+  margin: 0;
+  text-align: center;
+}
+.tm-gauge svg {
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+}
+.tm-gauge__track,
+.tm-gauge__fill {
+  fill: none;
+  stroke-width: 12;
+  stroke-linecap: round;
+}
+.tm-gauge__track {
+  stroke: var(--bg-3);
+}
+.tm-gauge__fill {
+  stroke: var(--accent);
+}
+.tm-gauge.is-fixed .tm-gauge__fill {
+  stroke: var(--green);
+}
+.tm-gauge figcaption {
+  display: grid;
+  margin-top: -52px;
+}
+.tm-gauge figcaption b {
+  font-size: 1.7rem;
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.tm-gauge figcaption b small {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.tm-gauge figcaption span {
+  margin-top: 6px;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+.tm-gauge figcaption > small {
+  font-size: 0.76rem;
+  color: var(--ink-3);
+}
+.tm-figs--two {
+  grid-template-columns: 1fr 1fr;
+}
+.tm-figs--two > div:nth-child(odd) {
+  border-inline-start: 0;
+}
+.tm-figs--two > div:nth-child(n + 3) {
+  border-top: 1px solid var(--line);
+}
+.tm-figs--two dd {
+  font-size: 1.15rem;
+}
+
+/* electricity and water, a bar per problem */
+.tm-svcs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 560px) {
+  .tm-svcs {
+    grid-template-columns: 1fr;
+  }
+}
+.tm-svc {
+  padding: 14px 14px 12px;
+  border: 1px solid var(--tm-line);
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+}
+.tm-svc__head {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 0 0 12px;
+}
+.tm-svc__head span {
+  flex: 1;
+  font-weight: 650;
+}
+.tm-svc__head b {
+  font-size: 1.4rem;
+  font-variant-numeric: tabular-nums;
+}
+.tm-svc__head small {
+  color: var(--ink-3);
+}
+.tm-bars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  align-items: end;
+}
+.tm-bars li {
+  display: grid;
+  grid-template-rows: 120px auto;
+  gap: 6px;
+  min-width: 0;
+}
+.tm-bars__bar {
+  align-self: end;
+  position: relative;
+  height: calc(120px * var(--h) / 100);
+  border-radius: 3px 3px 0 0;
+  background: var(--c-power);
+}
+.is-water .tm-bars__bar {
+  background: var(--c-water);
+}
+.tm-bars__bar b {
+  position: absolute;
+  top: -20px;
+  inset-inline: 0;
+  text-align: center;
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+}
+.tm-bars__name {
+  font-size: 0.72rem;
+  line-height: 1.25;
+  color: var(--ink-2);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.tm-bars__none {
+  grid-column: 1 / -1;
+  color: var(--ink-3);
+  font-size: 0.86rem;
+}
+
+/* ---------------------------------------------------------------------------
+   20. Reports as a list: the next step, and More for the rest
+   --------------------------------------------------------------------------- */
+
+.tm-panel--list {
+  padding: 8px 20px 6px;
+}
+.tm-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 0 12px;
+}
+.tm-bar .filter {
+  margin: 0;
+}
+.tm-bar__pick select {
+  min-height: 36px;
+  padding: 4px 10px;
+  font-size: 0.9rem;
+  max-width: 14em;
+}
+.tm-rlist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.tm-ri {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 190px auto;
+  gap: 8px 18px;
+  align-items: start;
+  padding: 14px 0;
+  border-top: 1px solid var(--tm-line);
+}
+.tm-ri p {
+  margin: 0;
+}
+.tm-ri__title strong {
+  font-size: 1.02rem;
+}
+.tm-ri__svc {
+  margin-inline-start: 6px;
+  font-size: 0.8rem;
+  color: var(--ink-3);
+}
+.tm-ri__problem {
+  margin-top: 2px;
+  font-weight: 500;
+}
+.tm-ri.is-out .tm-ri__problem {
+  color: var(--red);
+  font-weight: 650;
+}
+.tm-ri__teamnote {
+  margin-top: 6px;
+  font-size: 0.86rem;
+  color: var(--ink-2);
+}
+.tm-ri__teamnote span:first-child {
+  font-weight: 600;
+  color: var(--ink);
+}
+.tm-ri__meta {
+  display: grid;
+  gap: 4px;
+  font-size: 0.86rem;
+  color: var(--ink-2);
+}
+.tm-ri__meta b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.tm-ri__acts {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: flex-end;
+}
+.tm-ri .tm-note {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.tm-ri .tm-note[hidden] {
+  display: none;
+}
+.tm-ri .tm-note .input {
+  flex: 1 1 240px;
+}
+@media (max-width: 760px) {
+  .tm-ri {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .tm-ri__meta {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .tm-ri__acts {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+}
+
+/* the More menu on a row */
+.tm-menu {
+  position: relative;
+}
+.tm-menu > summary {
+  list-style: none;
+  width: 36px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.tm-menu > summary::-webkit-details-marker {
+  display: none;
+}
+.tm-menu > summary svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+.tm-menu__list {
+  position: absolute;
+  inset-inline-end: 0;
+  top: calc(100% + 6px);
+  z-index: 20;
+  display: grid;
+  min-width: 220px;
+  padding: 6px;
+  background: var(--bg);
+  border: 1px solid var(--tm-line);
+  border-radius: 10px;
+  box-shadow: var(--shadow-lg);
+}
+.tm-menu__list > button {
+  padding: 9px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9rem;
+  text-align: start;
+  cursor: pointer;
+}
+.tm-menu__list > button:hover,
+.tm-menu__list > button:focus-visible {
+  background: var(--bg-3);
+}
+
+/* ---------------------------------------------------------------------------
+   21. Every screen in panels: what used to sit on the page now sits in a
+   solid panel, so the old boxes and margins inside are taken away.
+   --------------------------------------------------------------------------- */
+
+.tm-main > .tm-panel + .tm-panel {
+  margin-top: 18px;
+}
+.tm-panel > .tm-form,
+.tm-panel > .tm-form--inline {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+}
+.tm-panel > .tm-form + *,
+.tm-panel > * + .tm-form {
+  margin-top: 18px;
+}
+.tm-panel > .tm-empty {
+  margin: 0;
+  padding: 24px 12px;
+  background: none;
+}
+.tm-panel > .filter {
+  margin: 0 0 14px;
+}
+.tm-panel > .tm-table,
+.tm-panel > .tm-scroll {
+  margin: 0;
+}
+.tm-panel > .tm-table:first-child,
+.tm-panel > .tm-scroll:first-child {
+  margin-top: -6px;
+}
+.tm-panel > .tm-sub,
+.tm-panel__head > .tm-sub {
+  margin: 0;
+  font-size: 1.02rem;
+}
+.tm-panel.tm-sec,
+.tm-panel.tm-sec--first {
+  margin-top: 0;
+}
+.tm-panel.tm-sec > h2 {
+  margin: 0 0 14px;
+  font-size: 1.02rem;
+}
+.tm-panel > .tm-inbox {
+  margin: 0;
+}
+.tm-head__acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tm-head--row > div:first-child:empty {
+  display: none;
+}
+/* a wide table scrolls inside its panel on a phone, not the whole page */
+@media (max-width: 700px) {
+  .tm-panel > table.tm-table:not(.tm-table--rows) {
+    display: block;
+    overflow-x: auto;
+    position: relative;
+  }
+}
+/* the title and its text on the left, the screen's main button on the right */
+@media (min-width: 901px) {
+  .tm-head--row {
+    flex-wrap: nowrap;
+  }
+  .tm-head--row > :first-child {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .tm-head--row > .btn,
+  .tm-head--row > .tm-head__acts {
+    flex: none;
+  }
+}
+.tm-log-none {
+  padding: 18px 0;
+  color: var(--ink-2);
+}
+/* inside a white panel, lists and tables sit on the panel itself */
+.tm-panel .tm-table,
+.tm-panel .tm-table--rows {
+  background: none;
+}
+.tm-panel .tm-table thead th {
+  background: var(--bg-2);
+}
+.tm-panel .tm-inbox__list,
+.tm-panel .tm-inbox__detail {
+  background: none;
+  border: 1px solid var(--line);
+}
+
+/* ---------------------------------------------------------------------------
+   22. The outage desk: numbers like meter readings, the stages, the crews,
+   the clock, the major-outage line, and a muted street map
+   --------------------------------------------------------------------------- */
+
+/* figures in the condensed face, every digit the same width */
+.tm-kpi b,
+.tm-queue__n,
+.tm-gauge figcaption b,
+.tm-figs dd,
+.tm-svc__head b,
+.tm-ri__no,
+.tm-clock {
+  font-family: var(--heading);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+.tm-kpi b {
+  font-size: 2.2rem;
+}
+.tm-clock {
+  font-size: 0.86rem;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+@media (max-width: 1100px) {
+  .tm-clock {
+    display: none;
+  }
+}
+
+/* the line across every screen during a major outage */
+.tm-alertbar {
+  margin: 0;
+  padding: 10px 20px;
+  background: var(--red);
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* OUT-1142 before the place */
+.tm-ri__no {
+  font-size: 0.86rem;
+  color: var(--ink-3);
+  margin-inline-end: 4px;
+}
+.tm-ri__crew {
+  margin-top: 4px;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+/* Reported → Confirmed → Crew dispatched → Restored */
+.tm-steps {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 8px 0 0;
+  padding: 0;
+  font-size: 0.76rem;
+  color: var(--ink-3);
+}
+.tm-steps li {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.tm-steps li + li::before {
+  content: "";
+  width: 14px;
+  height: 1px;
+  background: var(--line-2);
+}
+.tm-steps li.is-done {
+  color: var(--ink-2);
+}
+.tm-steps li.is-now {
+  color: var(--ink);
+  font-weight: 650;
+}
+.tm-steps li.is-done::after {
+  content: "✓";
+  font-size: 0.7rem;
+}
+
+/* how long a place has been out; red after 4 hours */
+.tm-places td.is-long,
+.tm-crews .is-long {
+  color: var(--red);
+  font-weight: 650;
+}
+.tm-crews th {
+  width: 30%;
+}
+.tm-crews th::before {
+  display: none;
+}
+.tm-crews td small {
+  color: var(--ink-2);
+}
+
+/* the crew form */
+.tm-details label {
+  display: grid;
+  gap: 4px;
+  font-size: 0.82rem;
+  color: var(--ink-2);
+}
+
+/* a muted street map, so the status points stand out */
+.tm-mapbox .leaflet-tile-pane {
+  filter: grayscale(0.9) contrast(0.92) brightness(1.04);
+}
+:root[data-theme="dark"] .tm-mapbox .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) grayscale(0.9) brightness(0.9) contrast(0.85);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .tm-mapbox .leaflet-tile-pane {
+    filter: invert(1) hue-rotate(180deg) grayscale(0.9) brightness(0.9) contrast(0.85);
+  }
+}
+
+/* the 3D map: its label when pointing at a place, like the flat map's */
+.tm-3d[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+.tm-maptip3d .maplibregl-popup-content {
+  display: grid;
+  padding: 5px 9px 6px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.76rem;
+  line-height: 1.3;
+  box-shadow: var(--shadow);
+}
+.tm-maptip3d .maplibregl-popup-tip {
+  display: none;
+}
+.tm-maptip3d b {
+  font-size: 0.82rem;
+}
+.tm-maptip3d span {
+  font-weight: 600;
+}
+.tm-maptip3d small {
+  color: var(--ink-2);
+}
+
+/* ---------------------------------------------------------------------------
+   23. Things on the map: generators, utility sites, the spots people
+   reported from, and the small map for placing them
+   --------------------------------------------------------------------------- */
+
+.tm-genpin,
+.tm-sitepin {
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: 3px;
+}
+.tm-genpin svg {
+  width: 12px;
+  height: 12px;
+  fill: currentColor;
+}
+.tm-genpin.is-running {
+  background: var(--ink);
+  color: var(--bg);
+}
+.tm-genpin.is-off,
+.tm-genpin.is-standby {
+  border-color: var(--ink-3);
+  color: var(--ink-3);
+}
+.tm-sitepin svg {
+  width: 14px;
+  height: 14px;
+}
+/* electricity sites are squares, water sites circles */
+.tm-sitepin.is-electricity {
+  border-color: var(--c-power);
+  color: var(--c-power);
+}
+.tm-sitepin.is-water {
+  border-color: var(--c-water);
+  color: var(--c-water);
+  border-radius: 50%;
+}
+.tm-map__key .is-spot::before {
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+}
+.tm-map__key .is-gen::before {
+  border-radius: 2px;
+  background: var(--ink);
+}
+.tm-map__key .is-site::before {
+  border-radius: 2px;
+  background: var(--bg);
+  border: 2px solid var(--c-power);
+  width: 6px;
+  height: 6px;
+}
+
+/* the small map for placing a site or a generator */
+.tm-pick__label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.tm-pick__map {
+  height: 260px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  z-index: 0;
+}
+.tm-pick__bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+/* the list of utility sites */
+.tm-sites {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.tm-site {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+.tm-site:first-child {
+  border-top: 0;
+}
+.tm-site__sym {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--c-power);
+  border-radius: 4px;
+  color: var(--c-power);
+}
+.tm-site__sym.is-water {
+  border-color: var(--c-water);
+  color: var(--c-water);
+  border-radius: 50%;
+}
+.tm-site__sym svg {
+  width: 18px;
+  height: 18px;
+}
+@media (max-width: 560px) {
+  .tm-site {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .tm-site .tm-row-acts {
+    grid-column: 2;
+  }
+}
+
+/* the Generators screen: tabs, and what's still missing */
+.tm-gen-tabs {
+  margin: 0 0 14px;
+}
+.tm-gen-sum {
+  margin: 0 0 14px;
+  color: var(--ink-2);
+}
+
+/* the team's top bar in the brand's blue, like the public site's */
+.tm-top {
+  background: var(--brand);
+  border-bottom: 0;
+  box-shadow: inset 0 -3px 0 var(--c-power);
+  --ink: #ffffff;
+  --ink-2: rgba(255, 255, 255, 0.8);
+  --ink-3: rgba(255, 255, 255, 0.7);
+  --line-2: rgba(255, 255, 255, 0.35);
+  --bg-3: rgba(255, 255, 255, 0.16);
+  --accent-soft: rgba(255, 255, 255, 0.16);
+  --accent-ink: #ffffff;
+}
+.tm-top::after {
+  content: "";
+  position: absolute;
+  inset-inline-end: 0;
+  bottom: 0;
+  width: 50%;
+  height: 3px;
+  background: var(--c-water);
+}
+.tm-top .brand {
+  color: #ffffff;
+}
+.tm-top .tm-service select {
+  background: var(--brand-2);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+.tm-top .tm-acct__menu,
+.tm-top .langs__menu {
+  --ink: var(--page-ink);
+  --ink-2: var(--page-ink-2);
+  --ink-3: var(--page-ink-2);
+  --line: var(--page-line);
+  --bg-3: var(--page-bg-2);
+}
+
+/* The 3D map's buttons and credit line in the site's own colours, so they
+   don't stay white at night */
+body .maplibregl-ctrl-group,
+body .maplibregl-ctrl.maplibregl-ctrl-attrib,
+body .maplibregl-ctrl-attrib.maplibregl-compact {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+body .maplibregl-ctrl-attrib,
+body .maplibregl-ctrl-attrib a,
+body .maplibregl-ctrl-attrib-inner {
+  color: var(--ink-2);
+}
+[data-theme="dark"] body .maplibregl-ctrl button .maplibregl-ctrl-icon {
+  filter: invert(1);
+}

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-title="wd.title">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>Check the words – Erbil Utilities</title>
+<!--#include head -->
+</head>
+<body data-page="words">
+<!--#include header -->
+
+<main id="main">
+<div class="wrap page-head">
+  <h1 id="wd-h" data-i18n="wd.title">Check the words</h1>
+  <p class="lead" id="wd-lead" data-i18n="wd.loading">Opening your list…</p>
+</div>
+
+<div class="wrap wd">
+  <p class="form__error" id="wd-bad" role="alert" hidden></p>
+
+  <div id="wd-app" hidden>
+    <p class="wd__progress" id="wd-progress" aria-live="polite"></p>
+    <div class="wd__bar" aria-hidden="true"><span id="wd-bar"></span></div>
+
+    <div class="toolbar">
+      <div class="filter" role="group" id="wd-filter" data-i18n-attr="aria-label:wd.show">
+        <button type="button" data-f="todo" aria-pressed="true" data-i18n="wd.fTodo">To check</button>
+        <button type="button" data-f="change" aria-pressed="false" data-i18n="wd.fChange">My changes</button>
+        <button type="button" data-f="all" aria-pressed="false" data-i18n="wd.fAll">All</button>
+      </div>
+      <label class="sr-only" for="wd-q" data-i18n="wd.search">Search</label>
+      <input class="field-search" id="wd-q" type="search" autocomplete="off" data-i18n-attr="placeholder:wd.search">
+    </div>
+
+    <ol class="wd__list" id="wd-list"></ol>
+    <p class="list-more"><button type="button" class="btn btn--quiet" id="wd-more" hidden data-i18n="wd.more">Show more</button></p>
+    <p class="empty" id="wd-none" hidden></p>
+  </div>
+
+  <p class="small muted wd__keep" id="wd-keep" hidden data-i18n="wd.keep">This link is only for you. Nothing you write changes the site straight away: the team reads every suggestion first.</p>
+</div>
+</main>
+
+<!--#include footer -->
+
+<!--#include scripts -->
+<script defer src="/assets/js/team/strings.js?v={{v}}"></script>
+<script defer src="/assets/js/pages/words.js?v={{v}}"></script>
+</body>
+</html>

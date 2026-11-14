@@ -1,0 +1,374 @@
+/* © 2026 NorthPoint Tech. All rights reserved.
+
+   runaki.css: Runaki and your bill.
+
+   1. The page head
+   2. The bill estimate: what you type on one side, what you'd pay on the
+      other, laid out like the bill itself
+   3. The price steps, as a table
+   4. Paying the bill
+   5. Where Runaki has reached: the coverage bar and the groups under it
+
+   The coverage bar's shades (.bar, .c-*) are in components.css because the
+   home page uses them too. */
+
+/* ---------------------------------------------------------------------------
+   1. The page head
+   --------------------------------------------------------------------------- */
+
+.rk-head .lead {
+  max-width: 60ch;
+}
+.rk-status {
+  margin-top: 14px;
+  max-width: 60ch;
+  font-size: 1.06rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.rk-bill,
+.rk-steps,
+.rk-pay,
+.rk-where {
+  margin-top: clamp(40px, 6vw, 72px);
+}
+
+/* ---------------------------------------------------------------------------
+   2. The bill estimate
+   --------------------------------------------------------------------------- */
+
+.rk-bill {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius-lg);
+  background: var(--bg);
+  padding: 0;
+  overflow: hidden;
+}
+.rk-bill__in {
+  padding: clamp(22px, 3.5vw, 40px);
+}
+.rk-bill__in h2 {
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 1.8rem);
+}
+/* the torn-off half: a dashed edge, like the stub of a bill */
+.rk-bill__out {
+  padding: clamp(22px, 3.5vw, 40px);
+  background: var(--bg-2);
+  border-inline-start: 2px dashed var(--line-2);
+}
+.rk-label {
+  display: block;
+  margin: 22px 0 8px;
+  font-weight: 600;
+}
+.rk-bill__out .rk-label {
+  margin-top: 0;
+}
+.rk-bill input[type="range"] {
+  width: 100%;
+  max-width: 420px;
+  margin-top: 14px;
+  accent-color: var(--accent);
+}
+.rk-bill__label {
+  margin: 0;
+  color: var(--ink-2);
+}
+.rk-total {
+  margin: 2px 0 0;
+  font-family: var(--heading);
+  font-size: clamp(2.8rem, 2rem + 3vw, 4rem);
+  font-weight: 600;
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+}
+.rk-total::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 4px;
+  margin-top: 12px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+.rk-total small {
+  font-size: 0.38em;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+:lang(ckb) .rk-total,
+:lang(ar) .rk-total {
+  font-weight: 600;
+}
+.rk-for {
+  margin: 10px 0 0;
+  color: var(--ink-2);
+}
+/* "What you paid the generator last month", and the comparison */
+.rk-gen {
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+.compare__result {
+  margin-top: 12px;
+  font-weight: 500;
+}
+.rk-gen .compare__result {
+  margin-top: 10px;
+  font-weight: 500;
+}
+.compare__result.is-good {
+  color: var(--ink);
+  font-weight: 600;
+}
+@media (max-width: 760px) {
+  .rk-bill {
+    grid-template-columns: 1fr;
+  }
+  .rk-bill__out {
+    border-inline-start: 0;
+    border-top: 2px dashed var(--line-2);
+  }
+}
+
+/* A number box with its unit inside it, on the right */
+.kwh-input {
+  display: flex;
+  align-items: center;
+  max-width: 320px;
+  padding-inline-end: 18px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius);
+  background: var(--bg);
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.kwh-input:focus-within {
+  border-color: var(--ink);
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+.kwh-input input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  padding: 14px 18px;
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.rk-kwh input {
+  font-size: 1.6rem;
+}
+.kwh-input span {
+  color: var(--ink-2);
+}
+/* without the browser's spinner arrows */
+.kwh-input input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.kwh-input input[type="number"]::-webkit-inner-spin-button,
+.kwh-input input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   3. The price steps: every band, how much of this month falls in it, and
+   what it costs. Bands you don't reach are grey; the highest one is marked.
+   --------------------------------------------------------------------------- */
+
+.rk-table {
+  width: 100%;
+  max-width: 860px;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.rk-table th,
+.rk-table td {
+  padding: 12px 10px;
+  text-align: start;
+  border-bottom: 1px solid var(--line);
+}
+.rk-table thead th {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-2);
+  border-bottom-color: var(--line-2);
+}
+.rk-table .num {
+  text-align: end;
+}
+.rk-table tbody th {
+  font-weight: 500;
+}
+.rk-table tr.is-unused th,
+.rk-table tr.is-unused td {
+  color: var(--ink-3);
+}
+.rk-table tr.is-top > * {
+  background: var(--accent-soft);
+  font-weight: 600;
+}
+.rk-table tfoot th,
+.rk-table tfoot td {
+  padding-top: 16px;
+  border-bottom: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+.rk-steps .hint {
+  margin-top: 12px;
+}
+@media (max-width: 560px) {
+  .rk-table th,
+  .rk-table td {
+    padding: 10px 6px;
+    font-size: 0.92rem;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   4. Paying the bill: a line above, then the words and the two links
+   --------------------------------------------------------------------------- */
+
+.rk-pay {
+  padding-top: clamp(28px, 4vw, 40px);
+}
+.rk-pay::before {
+  content: "";
+  display: block;
+  max-width: 860px;
+  margin-top: calc(-1 * clamp(28px, 4vw, 40px));
+  margin-bottom: clamp(28px, 4vw, 40px);
+  border-top: 1px solid var(--line);
+}
+.rk-pay h2 {
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 1.8rem);
+}
+.rk-pay p {
+  max-width: 62ch;
+  margin-top: 10px;
+  color: var(--ink-2);
+}
+.rk-pay b {
+  color: var(--ink);
+}
+.rk-pay p.rk-pay__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 22px;
+  margin-top: 18px;
+}
+
+/* ---------------------------------------------------------------------------
+   5. Where Runaki has reached: one bar for the city, then each group and
+   its neighbourhoods
+   --------------------------------------------------------------------------- */
+
+.rk-bar {
+  display: flex;
+  gap: 2px;
+  height: 12px;
+  max-width: 860px;
+  margin: 4px 0 18px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.rk-groups {
+  max-width: 860px;
+  margin: 0 0 28px;
+}
+.rk-group {
+  display: grid;
+  grid-template-columns: minmax(160px, 15rem) minmax(0, 1fr);
+  gap: 6px 24px;
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+}
+.rk-group:last-child {
+  border-bottom: 1px solid var(--line);
+}
+.rk-group dt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+.rk-group__n {
+  margin-inline-start: auto;
+  color: var(--ink-2);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.rk-group dd {
+  margin: 0;
+  line-height: 1.7;
+}
+.rk-group dd a {
+  font-weight: 500;
+}
+.rk-since {
+  color: var(--ink-3);
+  font-size: 0.86rem;
+}
+.rk-key {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex: none;
+}
+@media (max-width: 560px) {
+  .rk-group {
+    grid-template-columns: 1fr;
+  }
+  .rk-group__n {
+    margin-inline-start: 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   The home page's Runaki panel, and the box that shows the neighbourhood
+   you picked there. Kept here with the rest of Runaki.
+   --------------------------------------------------------------------------- */
+
+.runaki-strip {
+  list-style: none;
+  margin: 0 0 22px;
+  padding: 0;
+}
+.runaki-strip li {
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+.runaki-strip strong {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 600;
+  font-size: 0.94rem;
+}
+.runaki-strip .names {
+  display: block;
+  font-size: 0.86rem;
+  color: var(--ink-2);
+  margin-top: 2px;
+  padding-inline-start: 19px;
+}
+.readout {
+  margin-top: 28px;
+  width: min(640px, 100%);
+  text-align: start;
+}
+.readout:empty {
+  display: none;
+}

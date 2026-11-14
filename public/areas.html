@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-title="areas.title">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neighbourhoods – Erbil Utilities</title>
+<meta name="description" content="Power, water and Runaki status for each neighbourhood in Erbil.">
+<!--#include head -->
+</head>
+<body data-page="areas">
+<!--#include header -->
+
+<main id="main">
+<div class="wrap page-head">
+  <h1 data-i18n="areas.title">Neighbourhoods</h1>
+  <p class="lead" data-i18n="areas.lead">Power, water and Runaki for every neighbourhood we cover.</p>
+</div>
+<div class="wrap">
+  <div class="toolbar">
+    <label class="sr-only" for="q" data-i18n="areas.search">Search</label>
+    <input class="field-search" id="q" type="search" autocomplete="off" data-i18n-attr="placeholder:areas.search">
+    <label class="check"><input type="checkbox" id="only"> <span data-i18n="areas.onlyProblems">Only places with problems</span></label>
+    <span class="muted small" id="count" aria-live="polite"></span>
+  </div>
+  <table class="area-table">
+    <thead>
+      <tr>
+        <th scope="col" data-i18n="areas.title">Neighbourhood</th>
+        <th scope="col" data-i18n="svc.electricity">Electricity</th>
+        <th scope="col" data-i18n="svc.water">Water</th>
+        <th scope="col" data-i18n="area.runaki">Runaki</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <p class="empty" id="none" hidden></p>
+</div>
+</main>
+
+<!--#include footer -->
+
+<!--#include scripts -->
+<script defer src="/assets/js/pages/areas.js?v={{v}}"></script>
+</body>
+</html>

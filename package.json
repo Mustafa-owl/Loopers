@@ -1,0 +1,48 @@
+{
+  "name": "erbil-utilities",
+  "version": "2.1.0",
+  "private": true,
+  "description": "Erbil Utilities: neighbours sharing power cuts and water problems. © 2026 NorthPoint Tech. All rights reserved.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.12"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch-path=server --watch-path=views server/index.js",
+    "test": "node --test test/*.test.js",
+    "test:quick": "SKIP_BROWSER=1 node --test test/*.test.js",
+    "seed": "node scripts/seed.js",
+    "create-admin": "node scripts/create-admin.js",
+    "words:apply": "node scripts/apply-words.js",
+    "backup": "node scripts/backup.js",
+    "build:scene": "node scripts/build-scene.js",
+    "render:frames": "node scripts/render-frames.js",
+    "load-test": "node scripts/load-test.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "build:maps": "node scripts/build-maps.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.4.1",
+    "compression": "^1.8.1",
+    "express": "^5.1.0",
+    "web-push": "^3.6.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "@mapbox/mapbox-gl-rtl-text": "^0.2.3",
+    "@protomaps/basemaps": "5.7.2",
+    "axe-core": "^4.10.2",
+    "esbuild": "^0.25.10",
+    "eslint": "^9.15.0",
+    "globals": "^15.12.0",
+    "maplibre-gl": "6.16.0",
+    "playwright": "^1.56.1",
+    "pmtiles": "4.5.0",
+    "prettier": "^3.3.3",
+    "three": "^0.169.0"
+  }
+}

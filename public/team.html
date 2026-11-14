@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-title="tm.title">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Team page – Erbil Utilities</title>
+<meta name="description" content="Sign-in page for the electricity and water teams.">
+<meta name="robots" content="noindex, nofollow">
+<!--#include head -->
+<link rel="stylesheet" href="/assets/vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="/assets/css/team.css?v={{v}}">
+</head>
+<body data-page="team" class="team-page">
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+
+<header class="tm-top">
+  <a class="brand" href="/"><img class="brand__mark" src="/assets/img/logo-132.png" width="33" height="36" alt=""><span data-i18n="brand">Erbil Utilities</span></a>
+  <span class="tm-top__label" data-i18n="tm.title">Team page</span>
+  <div class="tm-top__tools">
+    <span class="tm-clock" id="tm-clock" hidden></span>
+    <span class="tm-live" id="tm-live" role="status" hidden></span>
+    <label class="tm-service" id="tm-service" hidden>
+      <span class="sr-only" data-i18n="tm.showing">Showing</span>
+      <select id="tm-service-pick">
+        <option value="" data-i18n="tm.both">Both services</option>
+        <option value="electricity" data-i18n="svc.electricity">Electricity</option>
+        <option value="water" data-i18n="svc.water">Water</option>
+      </select>
+    </label>
+    <button class="top__theme" type="button" data-theme-toggle aria-pressed="false" data-i18n-attr="aria-label:theme.dark;title:theme.dark"><svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+    <div class="langs tm-lang" data-langs>
+        <button type="button" class="langs__btn" aria-haspopup="menu" aria-expanded="false" aria-controls="tm-langs-menu" data-i18n-attr="aria-label:nav.language">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span class="langs__now" data-lang-now>English</span>
+        </button>
+        <ul class="langs__menu" id="tm-langs-menu" role="menu" hidden>
+          <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-lang="en" lang="en"><span dir="ltr">English</span></button></li>
+          <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-lang="ckb" lang="ckb"><span dir="rtl">کوردی</span><small dir="rtl">سۆرانی</small></button></li>
+          <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-lang="kmr" lang="kmr"><span dir="ltr">Kurdî</span><small dir="ltr">Kurmancî</small></button></li>
+          <li role="none"><button type="button" role="menuitemradio" aria-checked="false" data-lang="ar" lang="ar"><span dir="rtl">العربية</span></button></li>
+        </ul>
+      </div>
+
+    <!-- who is signed in, and the things you do with your own account -->
+    <div class="tm-acct" id="tm-acct" hidden>
+      <button type="button" class="tm-acct__btn" id="tm-acct-btn" aria-expanded="false" aria-controls="tm-acct-menu">
+        <span class="tm-acct__face" id="tm-me-face" aria-hidden="true"></span>
+        <span class="tm-acct__text"><span class="tm-acct__name" id="tm-me-name"></span><span class="tm-acct__role" id="tm-me-role"></span></span>
+      </button>
+      <div class="tm-acct__menu" id="tm-acct-menu" hidden>
+        <p class="tm-acct__who"><span data-i18n="tm.signedInAs">Signed in as</span> <b id="tm-me-user" dir="ltr"></b></p>
+        <button type="button" id="tm-change-pass" data-i18n="tm.changePass">Change password</button>
+        <a href="/" target="_blank" rel="noopener" data-i18n="ad.viewSite">Open the public site</a>
+        <button type="button" id="tm-out" class="is-out" data-i18n="ad.signOut">Sign out</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <!-- signing in -->
+  <section class="tm-gate" id="tm-login" hidden>
+    <div class="tm-gate__card">
+      <img class="tm-gate__logo" src="/assets/img/logo-132.png" width="52" height="57" alt="">
+      <h1 data-i18n="tm.signInTitle">Sign in</h1>
+      <p class="tm-gate__lead" data-i18n="tm.signInLead">For the electricity and water teams. Use the username and password your admin gave you.</p>
+      <form id="login-form" novalidate>
+        <div class="field"><label for="login-user" data-i18n="tm.username">Username</label>
+          <input class="input" id="login-user" autocomplete="username" autocapitalize="off" spellcheck="false" dir="ltr" required></div>
+        <div class="field"><label for="login-pass" data-i18n="tm.password">Password</label>
+          <div class="tm-secret">
+            <input class="input" id="login-pass" type="password" autocomplete="current-password" dir="ltr" required>
+            <button type="button" class="tm-secret__show" data-show="login-pass" aria-pressed="false" data-i18n="tm.showPass">Show</button>
+          </div>
+          <p class="tm-caps" id="login-caps" hidden data-i18n="tm.caps">Caps Lock is on</p>
+        </div>
+        <p class="form__error" id="login-error" role="alert"></p>
+        <button class="btn" type="submit" data-i18n="ad.signIn">Sign in</button>
+      </form>
+    </div>
+    <p class="tm-gate__help" data-i18n="tm.forgot">Forgotten your password? Ask your admin to reset it.</p>
+    <p class="tm-gate__help"><a href="/" data-i18n="ad.viewSite">Open the public site</a></p>
+  </section>
+
+  <!-- first sign-in, or after a reset -->
+  <section class="tm-gate" id="tm-password" hidden>
+    <div class="tm-gate__card">
+      <h1 data-i18n="tm.newPassTitle">Choose your own password</h1>
+      <p class="tm-gate__lead" data-i18n="tm.newPassLead">At least 10 characters. A few words with spaces between them is easy to remember and hard to guess.</p>
+      <form id="pass-form" novalidate>
+        <div class="field"><label for="pass-current" data-i18n="tm.passCurrent">Current password</label>
+          <input class="input" id="pass-current" type="password" autocomplete="current-password" dir="ltr"></div>
+        <div class="field"><label for="pass-next" data-i18n="tm.passNew">New password</label>
+          <div class="tm-secret">
+            <input class="input" id="pass-next" type="password" autocomplete="new-password" dir="ltr" minlength="10">
+            <button type="button" class="tm-secret__show" data-show="pass-next" aria-pressed="false" data-i18n="tm.showPass">Show</button>
+          </div></div>
+        <div class="field"><label for="pass-again" data-i18n="tm.passAgain">New password again</label>
+          <input class="input" id="pass-again" type="password" autocomplete="new-password" dir="ltr"></div>
+        <p class="form__error" id="pass-error" role="alert"></p>
+        <div class="tm-gate__acts">
+          <button class="btn" type="submit" data-i18n="ad.save">Save</button>
+          <button class="btn btn--quiet" type="button" id="pass-cancel" data-i18n="ad.cancel" hidden>Cancel</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- a serious outage, said on every screen until it's over -->
+  <p class="tm-alertbar" id="tm-alertbar" role="alert" hidden></p>
+  <!-- the work -->
+  <div class="tm" id="tm-app" hidden>
+    <nav class="tm-nav" id="tm-nav" aria-label="Team" data-i18n-attr="aria-label:tm.nav.all">
+      <div class="tm-nav__head">
+        <span class="tm-nav__title" data-i18n="tm.nav.all">All screens</span>
+        <button type="button" class="tm-nav__close" id="tm-nav-close" data-i18n-attr="aria-label:tm.close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      </div>
+      <div class="tm-nav__links">
+        <p class="tm-nav__group" data-i18n="tm.grp.work">Today's work</p>
+          <a href="#overview" data-view="overview"><svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20h-5.5v-5.5h-5V20H4z"/></svg><span data-i18n="tm.nav.overview">Home</span></a>
+          <a href="#reports" data-view="reports"><svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 3 19.5h18z"/><path d="M12 10v4.5"/><path d="M12 17v.01"/></svg><span data-i18n="ad.reports">Reports</span><b class="tm-count" data-count="reports"></b></a>
+          <a href="#requests" data-view="requests"><svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13.5 6.5 5h11l2.5 8.5V19H4z"/><path d="M4 13.5h4.8l1.2 2h4l1.2-2H20"/></svg><span data-i18n="tm.nav.requests">Requests</span><b class="tm-count tm-count--wait" data-count="requests"></b></a>
+          <a href="#chats" data-view="chats"><svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 5h15v10.5H10L6 19.5v-4H4.5z"/></svg><span data-i18n="tm.nav.chats">Chats</span><b class="tm-count tm-count--wait" data-count="chats"></b></a>
+          <a href="#photos" data-view="photos"><svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l1.5-2h7L17 7h3v12H4z"/><circle cx="12" cy="12.5" r="3.2"/></svg><span data-i18n="tm.nav.photos">Photos</span><b class="tm-count tm-count--wait" data-count="photos"></b></a>
+        <p class="tm-nav__group" data-i18n="tm.grp.publish">What residents see</p>
+          <a href="#cuts" data-view="cuts"><svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v14H4z"/><path d="M4 10.5h16"/><path d="M8.5 3.5v4"/><path d="M15.5 3.5v4"/></svg><span data-i18n="notice.title">Planned cuts</span></a>
+          <a href="#news" data-view="news"><svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h11v14H6.5A1.5 1.5 0 0 1 5 17.5z"/><path d="M16 9h3v8.5a1.5 1.5 0 0 1-3 0"/><path d="M8 9h5"/><path d="M8 12.5h5"/><path d="M8 16h3"/></svg><span data-i18n="ad.news">News</span></a>
+          <a href="#generators" data-view="generators"><svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5h16v11H4z"/><path d="M12.5 9.5 10 13.5h4l-2.5 4"/></svg><span data-i18n="tm.nav.generators">Generators</span></a>
+          <a href="#popups" data-view="popups" data-role="admin"><svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h3l7 4.5v-13L7 10z"/><path d="M17.5 9.5a3.5 3.5 0 0 1 0 5"/></svg><span data-i18n="tm.nav.popups">Pop-up message</span></a>
+        <p class="tm-nav__group" data-i18n="tm.grp.team">The team and the site</p>
+          <a href="#sites" data-view="sites"><svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6-5.6-6-11a6 6 0 0 1 12 0c0 5.4-6 11-6 11z"/><path d="M10 8h4v4h-4z"/></svg><span data-i18n="tm.nav.sites">Utility sites</span></a>
+          <a href="#log" data-view="log" data-role="supervisor"><svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/></svg><span data-i18n="tm.nav.log">Activity</span></a>
+          <a href="#admin" data-view="admin" data-role="admin"><svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="9" r="3.2"/><circle cx="17" cy="10" r="2.3"/><path d="M3.5 19.5a5.5 5.5 0 0 1 11 0"/><path d="M15.8 15.6a4.2 4.2 0 0 1 4.7 3.9"/></svg><span data-i18n="tm.nav.admin">Team accounts</span></a>
+          <a href="#words" data-view="words" data-role="admin"><svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18.5 8.3 6h1.4L14 18.5"/><path d="M5.6 14h6.8"/><path d="M15 9h6"/><path d="M18 7v2"/><path d="M16.2 9c.6 3 2 5.2 4.3 6.5"/><path d="M19.8 9c-.6 2.6-2 4.8-4 6.3"/></svg><span data-i18n="tm.nav.words">Words</span></a>
+          <a href="#system" data-view="system" data-role="admin"><svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12.5h4l2.2-5.5 4 11 2.3-5.5H21"/></svg><span data-i18n="tm.nav.system">System</span></a>
+      </div>
+    </nav>
+    <div class="tm-scrim" id="tm-scrim" hidden></div>
+    <div class="tm-main" id="tm-view" tabindex="-1"></div>
+    <!-- on a phone: the four screens used most, and the rest under More -->
+    <nav class="tm-tabs" id="tm-tabs" aria-label="Main screens" data-i18n-attr="aria-label:tm.tabs">
+      <a href="#overview" data-view="overview"><svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20h-5.5v-5.5h-5V20H4z"/></svg><span data-i18n="tm.nav.overview">Home</span></a>
+      <a href="#reports" data-view="reports"><svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 3 19.5h18z"/><path d="M12 10v4.5"/><path d="M12 17v.01"/></svg><span data-i18n="ad.reports">Reports</span></a>
+      <a href="#requests" data-view="requests"><svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13.5 6.5 5h11l2.5 8.5V19H4z"/><path d="M4 13.5h4.8l1.2 2h4l1.2-2H20"/></svg><b class="tm-tabs__n" data-count="requests"></b><span data-i18n="tm.nav.requests">Requests</span></a>
+      <a href="#chats" data-view="chats"><svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 5h15v10.5H10L6 19.5v-4H4.5z"/></svg><b class="tm-tabs__n" data-count="chats"></b><span data-i18n="tm.nav.chats">Chats</span></a>
+      <button type="button" id="tm-more" aria-expanded="false" aria-controls="tm-nav"><svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5.5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="18.5" cy="12" r="1.3"/></svg><span data-i18n="tm.more">More</span></button>
+    </nav>
+  </div>
+</main>
+
+<script defer src="/assets/vendor/leaflet/leaflet.js"></script>
+<script defer src="/assets/js/core/data.js?v={{v}}"></script>
+<script defer src="/assets/js/core/ui.js?v={{v}}"></script>
+<script defer src="/assets/js/team/strings.js?v={{v}}"></script>
+<script type="module" src="/assets/js/team/app.js?v={{v}}"></script>
+</body>
+</html>

@@ -1,0 +1,777 @@
+/* © 2026 NorthPoint Tech. All rights reserved.
+
+   area.css: one neighbourhood's page, and the list of all of them.
+
+   In the order people need it on the page: the name and what you can do,
+   power and water right now (since when, and today hour by hour), what
+   neighbours said, planned cuts, alerts, then the last 7 days and month by
+   month.
+
+   1. The header
+   2. Power and water, one row each
+   3. The sections under it
+   4. The last 7 days
+   5. Month by month
+   6. Alerts by text message
+   7. The neighbourhoods list (areas page) */
+
+/* ---------------------------------------------------------------------------
+   1. The header: the name and two plain facts on one side, the buttons on
+   the other
+   --------------------------------------------------------------------------- */
+
+.area-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 20px 40px;
+  padding: 56px 0 24px;
+}
+.area-head h1 {
+  font-size: clamp(2.4rem, 1.4rem + 3.6vw, 4rem);
+  letter-spacing: 0;
+}
+.area-head .other-names {
+  color: var(--ink-2);
+  margin-top: 8px;
+}
+
+/* Facts as label and value. In the header they sit on one line each. */
+.facts {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 4px 28px;
+  background: var(--bg-2);
+  border-radius: var(--radius);
+  padding: 16px 22px;
+}
+.facts div {
+  display: contents;
+}
+.facts dt {
+  font-size: 0.8rem;
+  color: var(--ink-2);
+}
+.facts dd {
+  margin: 0 0 8px;
+  font-weight: 500;
+}
+.area-head .facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 32px;
+  margin-top: 18px;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+}
+.area-head .facts div {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+.area-head .facts dt {
+  font-size: 0.95rem;
+  color: var(--ink-2);
+}
+.area-head .facts dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.area-acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 24px 0 0;
+}
+.area-head .area-acts {
+  margin: 0;
+  justify-content: flex-end;
+}
+
+@media (max-width: 760px) {
+  .area-head {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+  .area-head .area-acts {
+    justify-content: flex-start;
+  }
+}
+@media (max-width: 640px) {
+  /* on a phone: the main button full width, the other two side by side */
+  .area-acts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .area-acts .btn:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   2. Power and water, one row each: the service, then what's happening,
+   since when, and a strip of today from midnight to midnight
+   --------------------------------------------------------------------------- */
+
+#services {
+  display: block;
+  margin-top: 32px;
+  border-top: 1px solid var(--line-2);
+}
+#services > .svc {
+  display: grid;
+  grid-template-columns: 10rem minmax(0, 1fr);
+  column-gap: 28px;
+  align-items: baseline;
+  padding: 20px 0 22px;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+}
+#services .svc__name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+#services .svc__state {
+  font-family: var(--heading);
+  font-size: clamp(1.4rem, 1.2rem + 0.8vw, 1.8rem);
+  font-weight: 600;
+  line-height: 1.2;
+}
+:lang(ckb) .svc__state,
+:lang(ar) .svc__state {
+  font-weight: 600;
+}
+#services .svc--none .svc__state,
+#services .svc--back .svc__state {
+  color: var(--ink-2);
+  font-weight: 500;
+}
+#services .svc__detail {
+  margin-top: 4px;
+  color: var(--ink-2);
+}
+#services .svc__detail.report__fixing {
+  color: var(--ink);
+}
+/* "since 19:55, 1 h 32 min" next to the state */
+.svc__since {
+  font-family: var(--sans, inherit);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--ink-2);
+  margin-inline-start: 10px;
+  white-space: nowrap;
+}
+:lang(ckb) .svc__since,
+:lang(ar) .svc__since {
+  font-family: inherit;
+}
+@media (max-width: 760px) {
+  .svc__since {
+    display: block;
+    margin: 2px 0 0;
+    white-space: normal;
+  }
+}
+@media (max-width: 640px) {
+  #services > .svc {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 2px;
+  }
+  #services .svc__name {
+    font-size: 0.9rem;
+    color: var(--ink-2);
+    font-weight: 500;
+  }
+}
+
+/* Today, midnight to midnight: dark where it was off, grey for single
+   reports, a thin blue line for now. In Sorani and Arabic it runs right to
+   left. */
+.day {
+  margin-top: 14px;
+  max-width: 560px;
+}
+.day__bar {
+  position: relative;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--bg-3);
+  overflow: hidden;
+}
+.day__off {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: var(--ink);
+}
+.day__off--maybe {
+  background: var(--ink-3);
+  opacity: 0.55;
+}
+.day__now {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  background: var(--accent);
+}
+.day__ticks {
+  position: relative;
+  height: 18px;
+  margin-top: 4px;
+  font-size: 0.78rem;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.day__ticks span {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+}
+[dir="rtl"] .day__ticks span {
+  transform: translateX(50%);
+}
+.day__ticks span:first-child {
+  transform: none;
+}
+.day__ticks span:last-child {
+  transform: translateX(-100%);
+}
+[dir="rtl"] .day__ticks span:last-child {
+  transform: translateX(100%);
+}
+
+/* ---------------------------------------------------------------------------
+   3. The sections under it: reports, planned cuts, alerts
+   --------------------------------------------------------------------------- */
+
+.area-sec {
+  margin-top: 64px;
+}
+.area-sec > h2 {
+  font-size: clamp(1.35rem, 1.2rem + 0.6vw, 1.7rem);
+  line-height: 1.25;
+  margin-bottom: 14px;
+}
+.area-sec__lead {
+  color: var(--ink-2);
+  margin: -6px 0 14px;
+  max-width: 40em;
+}
+.area-sec #area-reports {
+  margin: 0;
+  border-top: 1px solid var(--line-2);
+}
+.area-sec .notices--area {
+  margin: 0;
+}
+.alerts--area {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
+  margin: 0 0 24px;
+}
+.area-sec .alerts--area {
+  margin: 0;
+}
+#area-root .week,
+#area-root .months {
+  margin-top: 0;
+  padding-top: 64px;
+}
+@media (max-width: 640px) {
+  .area-sec {
+    margin-top: 48px;
+  }
+  #area-root .week,
+  #area-root .months {
+    padding-top: 48px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   4. The last 7 days: a small bar per day for each service
+   --------------------------------------------------------------------------- */
+
+.week__scroll {
+  overflow-x: auto;
+  padding: 18px 0;
+}
+.week__table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+}
+.week__table th,
+.week__table td {
+  padding: 6px 4px;
+  text-align: center;
+  font-size: 0.84rem;
+}
+.week__table thead th {
+  color: var(--ink-3);
+  font-weight: 500;
+}
+.week__table tbody th {
+  text-align: start;
+  font-weight: 600;
+  padding-inline-end: 14px;
+  white-space: nowrap;
+}
+.week__bar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 48px;
+  width: 70%;
+  max-width: 40px;
+  margin: 0 auto 6px;
+  border-bottom: 2px solid var(--line-2);
+}
+.week__bar i {
+  display: block;
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  background: var(--ink);
+}
+.week__val {
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.is-out .week__val {
+  color: var(--ink);
+  font-weight: 600;
+}
+.is-some .week__val {
+  color: var(--ink-2);
+}
+
+/* ---------------------------------------------------------------------------
+   5. Month by month: hours without power and water, with a grey mark for
+   the average across Erbil
+   --------------------------------------------------------------------------- */
+
+.months__table {
+  width: 100%;
+  max-width: 860px;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.months__table th,
+.months__table td {
+  padding: 12px 10px;
+  text-align: start;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+.months__table thead th {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--ink-2);
+  border-bottom-color: var(--line-2);
+}
+.months__table tbody th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.months__table .num {
+  text-align: end;
+}
+.months__table tr.is-unknown th,
+.months__table tr.is-unknown td {
+  color: var(--ink-3);
+  font-weight: 400;
+}
+.months__val {
+  font-weight: 600;
+}
+.months__times {
+  margin-inline-start: 8px;
+  color: var(--ink-2);
+  font-size: 0.86rem;
+}
+.months__note {
+  display: block;
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--ink-3);
+  white-space: normal;
+}
+.months__bar {
+  position: relative;
+  display: block;
+  height: 6px;
+  margin-top: 8px;
+  max-width: 220px;
+  border-radius: 3px;
+  background: var(--bg-3);
+}
+.months__bar i {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  border-radius: 3px;
+  background: var(--accent);
+}
+.months__bar--water i {
+  background: var(--ink-2);
+}
+.months__bar b {
+  position: absolute;
+  top: -3px;
+  bottom: -3px;
+  width: 2px;
+  margin-inline-start: -1px;
+  background: var(--ink-3);
+}
+@media (max-width: 560px) {
+  .months__table th,
+  .months__table td {
+    padding: 10px 6px;
+  }
+  .months__times {
+    display: block;
+    margin: 2px 0 0;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   6. Alerts by text message: a link that opens a short form
+   --------------------------------------------------------------------------- */
+
+.sms {
+  max-width: 560px;
+  margin: 14px 0 0;
+}
+.sms > summary {
+  cursor: pointer;
+  color: var(--ink);
+  font-size: 0.94rem;
+  text-decoration: underline;
+  text-decoration-color: var(--line-2);
+  text-underline-offset: 0.2em;
+}
+.sms__form {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 18px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+.sms__form .check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-inline-end: 16px;
+}
+.sms__code {
+  font-size: 1.4rem;
+  letter-spacing: 0.3em;
+  max-width: 9em;
+  font-variant-numeric: tabular-nums;
+}
+.sms__done {
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------------
+   7. The neighbourhoods list (areas page): a table on a computer, and on a
+   phone each neighbourhood becomes a small block of its own
+   --------------------------------------------------------------------------- */
+
+.area-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.96rem;
+}
+.area-table th {
+  text-align: start;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--ink-2);
+  padding: 0 12px 10px 0;
+  border-bottom: 1px solid var(--line-2);
+}
+[dir="rtl"] .area-table th {
+  padding: 0 0 10px 12px;
+}
+.area-table td {
+  padding: 16px 12px 16px 0;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+[dir="rtl"] .area-table td {
+  padding: 16px 0 16px 12px;
+}
+.area-table td:first-child a {
+  color: var(--ink);
+  font-weight: 600;
+}
+.area-table td:first-child a:hover {
+  text-decoration: underline;
+}
+/* "Erbil", then "Other Runaki cities" */
+.area-table__group th {
+  padding: 28px 0 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line-2);
+}
+.area-table tbody tr.area-table__group:first-child th {
+  padding-top: 12px;
+}
+.area-table tr:hover td {
+  background: color-mix(in srgb, var(--bg-2) 60%, transparent);
+}
+@media (max-width: 640px) {
+  .area-table thead {
+    display: none;
+  }
+  .area-table tr.area-table__group {
+    display: block;
+    padding: 0;
+    border: 0;
+  }
+  .area-table__group th {
+    display: block;
+  }
+  .area-table tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 12px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .area-table td,
+  [dir="rtl"] .area-table td {
+    padding: 0;
+    border: 0;
+  }
+  .area-table td:first-child {
+    grid-column: 1 / -1;
+    font-size: 1.06rem;
+  }
+  .area-table td:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Generators page: one block per area. The owner's page: a short form.
+   --------------------------------------------------------------------------- */
+.gens-area {
+  margin-top: 28px;
+}
+.gens-area__h {
+  font-size: 1.05rem;
+  margin: 0 0 2px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line-2);
+}
+.gens-area__h a {
+  color: var(--ink);
+}
+.gens-prices td:nth-child(2) {
+  font-weight: 600;
+}
+.own {
+  max-width: 560px;
+}
+/* the owner's page: one question at the top, then one part at a time */
+.own__now,
+.own__part {
+  padding: 20px 0 22px;
+  border-bottom: 1px solid var(--line);
+}
+.own__now {
+  padding-top: 4px;
+}
+.own__now h2,
+.own__part h2 {
+  font-size: 1.2rem;
+  margin: 0 0 12px;
+}
+.own__big {
+  display: grid;
+  gap: 8px;
+}
+.own__big button {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  min-height: 64px;
+  padding: 12px 16px;
+  text-align: start;
+  font: inherit;
+  color: var(--ink);
+  background: var(--bg);
+  border: 2px solid var(--line-2);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+}
+.own__big button b {
+  font-size: 1.08rem;
+}
+.own__big button span {
+  font-size: 0.88rem;
+  color: var(--ink-2);
+}
+.own__big button:hover {
+  border-color: var(--ink-3);
+}
+.own__big button[aria-pressed="true"] {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--bg);
+}
+.own__big button[aria-pressed="true"] span {
+  color: inherit;
+}
+.own__big button[data-status="running"][aria-pressed="true"] {
+  border-color: var(--c-power, var(--accent));
+  background: var(--c-power, var(--accent));
+  color: #fff;
+}
+.own__said {
+  min-height: 1.4em;
+  margin: 10px 0 0;
+  font-weight: 600;
+}
+.own__acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+.own__part .btn {
+  margin-top: 4px;
+}
+.own__range {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+}
+.input--time {
+  width: 5.5em;
+  text-align: center;
+}
+.input--short {
+  max-width: 12em;
+}
+.own__keep {
+  max-width: 560px;
+  margin-top: 24px;
+}
+
+/* A native speaker checking one language (/words.html). A plain list: the
+   English line small and grey, the translation as the thing being read. */
+.wd {
+  max-width: 720px;
+}
+.wd__progress {
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+.wd__bar {
+  height: 4px;
+  background: var(--bg-3);
+  border-radius: 2px;
+  margin: 0 0 20px;
+  overflow: hidden;
+}
+.wd__bar span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+}
+.wd__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.wd__item {
+  padding: 14px 0 16px;
+  border-bottom: 1px solid var(--line);
+}
+.wd__meta {
+  font-size: 0.8rem;
+  color: var(--ink-3);
+  margin: 0 0 4px;
+}
+.wd__meta code {
+  font-size: 0.78rem;
+  overflow-wrap: anywhere;
+}
+.wd__where {
+  margin-inline-end: 6px;
+}
+.wd__en {
+  margin: 0 0 4px;
+  color: var(--ink-2);
+  font-size: 0.92rem;
+}
+.wd__now {
+  margin: 0 0 10px;
+  font-size: 1.08rem;
+}
+.wd__item.is-change .wd__now {
+  text-decoration: line-through;
+  text-decoration-color: var(--ink-3);
+  color: var(--ink-2);
+}
+.wd__mine {
+  margin: 0 0 10px;
+  font-size: 1.08rem;
+}
+.wd__acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.wd__acts .btn--small,
+.wd .btn--small {
+  min-height: 36px;
+  padding: 6px 14px;
+  font-size: 0.9rem;
+}
+.wd__form label {
+  display: block;
+  font-weight: 600;
+  margin: 8px 0 4px;
+}
+.wd__form textarea,
+.wd__form .input {
+  width: 100%;
+}
+.wd__form .wd__acts {
+  margin-top: 10px;
+}
+.wd__keep {
+  margin-top: 24px;
+}
+
+.gens-city {
+  width: auto;
+  min-width: 12em;
+}
+.own__ok {
+  color: var(--ink);
+  font-weight: 600;
+  min-height: 1.5em;
+}

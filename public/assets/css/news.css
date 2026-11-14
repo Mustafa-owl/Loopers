@@ -1,0 +1,43 @@
+/* © 2026 NorthPoint Tech. All rights reserved.
+
+   news.css: the news page, and the news band on the home page.
+   Each item is a headline, where it's from and when, and a line of summary.
+   Headlines in a list are titles, so they're ink, not blue links. */
+
+.news-band {
+  padding: 80px 0 0;
+}
+.news-feature {
+  margin-bottom: 36px;
+}
+.news-item {
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+}
+.news-item:first-child {
+  padding-top: 6px;
+}
+.news-item__meta {
+  font-size: 0.86rem;
+  color: var(--ink-2);
+}
+.news-item__title {
+  font-size: 1.25rem;
+  line-height: 1.35;
+  margin-top: 4px;
+}
+.news-item__title a {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration-color: var(--line-2);
+}
+.news-item__title a:hover {
+  text-decoration-line: underline;
+  text-decoration-color: currentColor;
+  text-underline-offset: 3px;
+}
+.news-item__sum {
+  color: var(--ink-2);
+  margin-top: 6px;
+  max-width: 42em;
+}

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-title="areas.title">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neighbourhood – Erbil Utilities</title>
+<meta name="description" content="Power and water reports for one Erbil neighbourhood.">
+<!--#include head -->
+</head>
+<body data-page="areas">
+<!--#include header -->
+
+<main id="main">
+<div class="wrap" id="area-root">
+  <!-- the name and what you can do, side by side -->
+  <div class="area-head">
+    <div class="area-head__id">
+      <a class="crumb" href="/areas.html" data-i18n="area.back">All neighbourhoods</a>
+      <h1 id="area-name"></h1>
+      <p class="other-names" id="area-other" lang="mul"></p>
+      <dl class="facts" id="facts"></dl>
+    </div>
+    <p class="area-acts">
+      <a class="btn" id="area-report-link" href="/report.html"></a>
+      <a class="btn btn--quiet" id="area-map-link" href="/map.html" data-i18n="area.onMap">Show on map</a>
+      <button class="btn btn--quiet" type="button" id="area-share" data-i18n="share.button">Share</button>
+    </p>
+  </div>
+
+  <!-- right now: each service, since when, and today hour by hour -->
+  <div class="two-up" id="services"></div>
+
+  <!-- 2. what neighbours have said, with "Me too" / "Fine here" -->
+  <section class="area-sec" aria-labelledby="reports-h">
+    <h2 id="reports-h" data-i18n="area.reports">Reports in the last 24 hours</h2>
+    <ul class="reports" id="area-reports"></ul>
+  </section>
+
+  <!-- 3. what's coming -->
+  <section class="area-sec" id="generators" aria-labelledby="gen-h">
+    <h2 id="gen-h" data-i18n="gen.areaTitle">Generators</h2>
+    <ul class="gens" id="area-gens"></ul>
+    <p class="gen-intro" id="gen-intro"></p>
+    <div id="gen-official"></div>
+  </section>
+
+  <section class="area-sec" id="cuts-sec" hidden aria-labelledby="cuts-h">
+    <h2 id="cuts-h" data-i18n="area.cuts">Planned cuts here</h2>
+    <ul class="notices notices--area" id="area-notices" hidden></ul>
+  </section>
+
+  <!-- 4. hearing about it next time -->
+  <section class="area-sec" aria-labelledby="stay-h">
+    <h2 id="stay-h" data-i18n="area.stay">Alerts</h2>
+    <p class="area-sec__lead" data-i18n="area.stayLead">We tell you when a cut here is confirmed or planned.</p>
+    <p class="alerts alerts--area"><button type="button" class="btn btn--quiet" id="area-alerts" hidden></button><span class="small muted" data-alerts-note></span>
+    <a class="more area-cal" id="area-cal" href="#" data-i18n="cal.area">Planned cuts here in your calendar</a></p>
+    <details class="sms" id="sms" hidden>
+    <summary data-i18n="sms.open">Or get alerts by text message</summary>
+    <form class="sms__form" id="sms-start" novalidate>
+      <div class="field"><label for="sms-phone" data-i18n="sms.phone">Mobile number</label>
+        <input id="sms-phone" class="input" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" dir="ltr" placeholder="0750 123 4567"></div>
+      <fieldset class="field" id="sms-channel-f" hidden><legend data-i18n="sms.how">How</legend><div class="choice" id="sms-channels"></div></fieldset>
+      <fieldset class="field"><legend data-i18n="sms.what">About</legend>
+        <label class="check"><input type="checkbox" name="sms-svc" value="electricity" checked> <span data-i18n="svc.electricity">Electricity</span></label>
+        <label class="check"><input type="checkbox" name="sms-svc" value="water" checked> <span data-i18n="svc.water">Water</span></label>
+      </fieldset>
+      <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <p class="hint" data-i18n="sms.hint">We send a 6-digit code first. At most 4 messages a day, each with a link to stop them.</p>
+      <p class="form__error" id="sms-err" role="alert"></p>
+      <button class="btn" type="submit" data-i18n="sms.send">Send me the code</button>
+    </form>
+    <form class="sms__form" id="sms-confirm" hidden novalidate>
+      <div class="field"><label for="sms-code" data-i18n="sms.code">The 6-digit code</label>
+        <input id="sms-code" class="input sms__code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" dir="ltr"></div>
+      <p class="form__error" id="sms-err2" role="alert"></p>
+      <button class="btn" type="submit" data-i18n="sms.confirm">Turn on</button>
+    </form>
+    <p class="sms__done" id="sms-done" hidden role="status"></p>
+  </details>
+  </section>
+
+  <!-- 5. how it has been -->
+  <section class="section week" id="week-sec" hidden aria-labelledby="week-h">
+    <div class="section__head section__head--row">
+      <h2 id="week-h" data-i18n="week.title">The last 7 days</h2>
+      <p class="muted small" data-i18n="week.lead">Hours without power or water, from what neighbours reported and confirmed.</p>
+    </div>
+    <div id="week"></div>
+  </section>
+
+  <section class="section months" id="months-sec" hidden aria-labelledby="months-h">
+    <div class="section__head">
+      <h2 id="months-h" data-i18n="months.title">Month by month</h2>
+      <p data-i18n="months.lead">Hours without power or water, from what neighbours reported and confirmed. The grey mark is the average across Erbil.</p>
+    </div>
+    <div id="months"></div>
+  </section>
+</div>
+<div class="wrap page-head" id="area-missing" hidden>
+  <h1 data-i18n="area.notFound">We don't have that neighbourhood yet.</h1>
+  <p class="lead"><a href="/areas.html" data-i18n="area.back">All neighbourhoods</a></p>
+</div>
+</main>
+
+<!--#include footer -->
+
+<!--#include scripts -->
+<script defer src="/assets/js/pages/area.js?v={{v}}"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-title="own.title">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>Your generator – Erbil Utilities</title>
+<!--#include head -->
+</head>
+<body data-page="generator">
+<!--#include header -->
+
+<main id="main">
+<div class="wrap page-head">
+  <h1 data-i18n="own.title">Your generator</h1>
+  <p class="lead" id="own-lead" data-i18n="own.loading">Opening your generator…</p>
+</div>
+
+<div class="wrap">
+  <p class="form__error" id="own-bad" role="alert" hidden></p>
+
+  <div class="own" id="own-form" hidden>
+    <!-- 1. the one thing that changes most: tapping saves straight away -->
+    <section class="own__now" aria-labelledby="own-now-h">
+      <h2 id="own-now-h" data-i18n="own.nowQ">Is your generator running now?</h2>
+      <div class="own__big" id="own-status" role="group" aria-labelledby="own-now-h">
+        <button type="button" data-status="running"><b data-i18n="gen.s.running">Running</b><span data-i18n="own.runningHint">Power is going to your subscribers</span></button>
+        <button type="button" data-status="standby"><b data-i18n="gen.s.standby">Ready, not running</b><span data-i18n="own.standbyHint">It will start when the grid goes</span></button>
+        <button type="button" data-status="off"><b data-i18n="gen.s.off">Off</b><span data-i18n="own.offHint">Not running today</span></button>
+      </div>
+      <p class="own__said" id="own-said" role="status"></p>
+    </section>
+
+    <!-- 2. today's hours -->
+    <form class="own__part" id="own-hours-form" novalidate>
+      <h2 data-i18n="own.hours">Hours today</h2>
+      <p class="hint" data-i18n="own.hoursHint">For example 14:00 to 18:00 and 20:00 to 01:00. Leave empty if you don't know yet.</p>
+      <div id="own-hours"></div>
+      <div class="own__acts">
+        <button type="button" class="btn btn--quiet" id="own-add-hours" data-i18n="own.addHours">Add hours</button>
+        <button class="btn" type="submit" data-i18n="own.saveHours">Save hours</button>
+      </div>
+      <p class="form__error" data-err role="alert"></p>
+    </form>
+
+    <!-- 3. price and message -->
+    <form class="own__part" id="own-price-form" novalidate>
+      <h2 data-i18n="own.priceTitle">Price and message</h2>
+      <div class="field">
+        <label for="own-price" data-i18n="own.price">Your price this month, dinars per ampere</label>
+        <input class="input input--short" id="own-price" type="text" inputmode="numeric" maxlength="7" dir="ltr" autocomplete="off">
+        <p class="hint" id="own-official"></p>
+      </div>
+      <div class="field">
+        <label for="own-note" data-i18n="own.note">A short message for your subscribers (optional)</label>
+        <input class="input" id="own-note" type="text" maxlength="140" autocomplete="off" data-i18n-attr="placeholder:own.notePh">
+      </div>
+      <button class="btn" type="submit" data-i18n="own.savePrice">Save price and message</button>
+      <p class="form__error" data-err role="alert"></p>
+    </form>
+
+    <!-- 4. where it stands -->
+    <section class="own__part" aria-labelledby="own-where-h">
+      <h2 id="own-where-h" data-i18n="own.whereTitle">Where your generator is</h2>
+      <p class="hint" data-i18n="own.whereHint">Stand next to the generator and tap the button. People then see it on the map.</p>
+      <button type="button" class="btn btn--quiet" id="own-here" data-i18n="own.here">I'm at the generator: save this spot</button>
+      <p class="own__said" id="own-where" role="status"></p>
+    </section>
+  </div>
+
+  <p class="small muted own__keep" id="own-keep" hidden data-i18n="own.keep">Keep this link private: anyone who has it can change what your generator shows. Bookmark it, or keep it in your WhatsApp. If it leaks, ask the electricity team for a new one.</p>
+</div>
+</main>
+
+<!--#include footer -->
+
+<!--#include scripts -->
+<script defer src="/assets/js/pages/generator.js?v={{v}}"></script>
+</body>
+</html>

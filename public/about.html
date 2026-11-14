@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-title="about.title">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About – Erbil Utilities</title>
+<meta name="description" content="What Erbil Utilities is, where its information comes from, and how it treats your privacy.">
+<!--#include head -->
+</head>
+<body data-page="about">
+<!--#include header -->
+
+<main id="main">
+<div class="wrap page-head ab-head">
+  <h1 data-i18n="about.title">About this site</h1>
+  <p class="lead" data-i18n="about.lead">When the power goes out, the first question is always the same.</p>
+  <p class="ab-head__note" data-i18n="about.how1"></p>
+</div>
+
+<!-- One power cut, step by step. The report on the panel is drawn by the
+     same code as the real ones, so it can't drift from what residents see. -->
+<section class="wrap life" aria-labelledby="life-h">
+  <h2 id="life-h" data-i18n="about.lifeTitle">What happens to a report</h2>
+  <p class="life__lead" data-i18n="about.lifeLead"></p>
+  <div class="life__grid">
+    <ol class="life__wire" id="life-steps"></ol>
+    <div class="life__panel">
+      <div class="life__screen" id="life-screen" aria-live="polite"></div>
+      <p class="life__now" id="life-now"></p>
+      <p class="life__text" id="life-text"></p>
+      <div class="life__nav">
+        <button type="button" class="btn btn--quiet" id="life-back" data-i18n="about.back">Back</button>
+        <button type="button" class="btn" id="life-next" data-i18n="about.next">Next</button>
+        <span class="life__count" id="life-count"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap keep" aria-labelledby="privacy">
+  <h2 id="privacy" data-i18n="about.keepTitle">What we keep, who sees it, and for how long</h2>
+  <div class="keep__scroll">
+  <table class="keep__table">
+    <thead><tr>
+      <th scope="col" data-i18n="about.col.what">What</th>
+      <th scope="col" data-i18n="about.col.who">Who can see it</th>
+      <th scope="col" data-i18n="about.col.long">How long</th>
+    </tr></thead>
+    <tbody>
+      <tr><th scope="row" data-i18n="about.k1w"></th><td data-i18n="about.k1s"></td><td data-i18n="about.k1l"></td></tr>
+      <tr><th scope="row" data-i18n="about.k10w"></th><td data-i18n="about.k10s"></td><td data-i18n="about.k10l"></td></tr>
+      <tr><th scope="row" data-i18n="about.k2w"></th><td data-i18n="about.k2s"></td><td data-i18n="about.k2l"></td></tr>
+      <tr><th scope="row" data-i18n="about.k3w"></th><td data-i18n="about.k3s"></td><td data-i18n="about.k3l"></td></tr>
+      <tr><th scope="row" data-i18n="about.k4w"></th><td data-i18n="about.k4s"></td><td data-i18n="about.k4l"></td></tr>
+      <tr><th scope="row" data-i18n="about.k5w"></th><td data-i18n="about.k5s"></td><td data-i18n="about.k5l"></td></tr>
+      <tr><th scope="row" data-i18n="about.k6w"></th><td data-i18n="about.k5s"></td><td data-i18n="about.k6l"></td></tr>
+        <tr><th scope="row" data-i18n="about.k7w"></th><td data-i18n="about.k7s"></td><td data-i18n="about.k7l"></td></tr>
+        <tr><th scope="row" data-i18n="about.k8w"></th><td data-i18n="about.k8s"></td><td data-i18n="about.k8l"></td></tr>
+        <tr><th scope="row" data-i18n="about.k9w"></th><td data-i18n="about.k9s"></td><td data-i18n="about.k9l"></td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="keep__more"><a class="more" href="/privacy.html" data-i18n="pv.more">The whole privacy page</a></p>
+</section>
+
+<div class="wrap pair">
+  <section aria-labelledby="ab-private">
+    <h2 id="ab-private" data-i18n="about.privateTitle">When it's only your house</h2>
+    <p data-i18n="about.private1"></p>
+    <p data-i18n="about.private2"></p>
+    <p><a class="more" href="/report.html" data-i18n="nav.report">Report a problem</a></p>
+  </section>
+  <section aria-labelledby="messages">
+    <h2 id="messages" data-i18n="about.msgTitle">Important messages on your phone</h2>
+    <p data-i18n="about.msg1">Now and then the teams have something everyone should know.</p>
+    <p class="alerts"><button type="button" class="btn" data-alerts-general hidden></button> <span class="small muted" data-alerts-note></span></p>
+  </section>
+</div>
+
+<div class="wrap pair pair--small">
+  <section aria-labelledby="ab-official">
+    <h2 id="ab-official" data-i18n="about.officialTitle">Official websites</h2>
+    <p data-i18n="about.how3"></p>
+    <ul class="ab-links">
+      <li><a href="https://runaki.gov.krd/en/" target="_blank" rel="noopener" data-i18n="link.runaki">Runaki programme</a> <span dir="ltr">runaki.gov.krd</span></li>
+      <li><a href="https://epsule.gov.krd/en/" target="_blank" rel="noopener" data-i18n="link.epsule">e-Psûle</a> <span dir="ltr">epsule.gov.krd</span></li>
+      <li><a href="https://gov.krd/moawr-en/" target="_blank" rel="noopener" data-i18n="link.water">Ministry of Agriculture and Water Resources</a> <span dir="ltr">gov.krd</span></li>
+    </ul>
+  </section>
+  <section aria-labelledby="ab-assistant">
+    <h2 id="ab-assistant" data-i18n="about.assistantTitle">The assistant</h2>
+    <p data-i18n="about.assistantBody"></p>
+    <h2 class="ab-credits-h" data-i18n="about.creditsTitle">Credits</h2>
+    <p class="credits" data-i18n="about.credits1">Map data © OpenStreetMap contributors, map style © CARTO.</p>
+      <p class="credits" data-for-lang="en">Car models on the home page: <a href="https://sketchfab.com/3d-models/2022-toyota-camry-xv70-hybrid-032e14c718cb4e7e8fbd5b968cb79d04" target="_blank" rel="noopener"><bdi dir="ltr">2022 Toyota Camry (XV70) Hybrid</bdi></a> and <a href="https://sketchfab.com/3d-models/2023-nissan-altima-teana-5370d8f6b81a41a89eabfa1b91fc7160" target="_blank" rel="noopener"><bdi dir="ltr">2023 Nissan Altima / Teana</bdi></a> by <a href="https://sketchfab.com/ddiaz-design" target="_blank" rel="noopener"><bdi dir="ltr">Ddiaz Design</bdi></a>, under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener"><bdi dir="ltr">CC BY-NC-SA 4.0</bdi></a> licence (simplified for the web), and a <bdi dir="ltr">2025 Toyota Camry (XV80)</bdi> model.</p>
+      <p class="credits" data-for-lang="ckb" hidden>مۆدێلی ئۆتۆمبێلەکانی لاپەڕەی سەرەکی: <a href="https://sketchfab.com/3d-models/2022-toyota-camry-xv70-hybrid-032e14c718cb4e7e8fbd5b968cb79d04" target="_blank" rel="noopener"><bdi dir="ltr">2022 Toyota Camry (XV70) Hybrid</bdi></a> و <a href="https://sketchfab.com/3d-models/2023-nissan-altima-teana-5370d8f6b81a41a89eabfa1b91fc7160" target="_blank" rel="noopener"><bdi dir="ltr">2023 Nissan Altima / Teana</bdi></a>، دروستکراوی <a href="https://sketchfab.com/ddiaz-design" target="_blank" rel="noopener"><bdi dir="ltr">Ddiaz Design</bdi></a>، بە مۆڵەتی <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener"><bdi dir="ltr">CC BY-NC-SA 4.0</bdi></a> (بۆ وێب سووککراون)، لەگەڵ مۆدێلێکی <bdi dir="ltr">2025 Toyota Camry (XV80)</bdi>.</p>
+      <p class="credits" data-for-lang="kmr" hidden>Modelên otomobîlan li rûpela destpêkê: <a href="https://sketchfab.com/3d-models/2022-toyota-camry-xv70-hybrid-032e14c718cb4e7e8fbd5b968cb79d04" target="_blank" rel="noopener"><bdi dir="ltr">2022 Toyota Camry (XV70) Hybrid</bdi></a> û <a href="https://sketchfab.com/3d-models/2023-nissan-altima-teana-5370d8f6b81a41a89eabfa1b91fc7160" target="_blank" rel="noopener"><bdi dir="ltr">2023 Nissan Altima / Teana</bdi></a> ji aliyê <a href="https://sketchfab.com/ddiaz-design" target="_blank" rel="noopener"><bdi dir="ltr">Ddiaz Design</bdi></a> ve, bi lîsansa <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener"><bdi dir="ltr">CC BY-NC-SA 4.0</bdi></a> (ji bo malperê sivikkirî), û modeleke <bdi dir="ltr">2025 Toyota Camry (XV80)</bdi>.</p>
+      <p class="credits" data-for-lang="ar" hidden>نماذج السيارات في الصفحة الرئيسية: <a href="https://sketchfab.com/3d-models/2022-toyota-camry-xv70-hybrid-032e14c718cb4e7e8fbd5b968cb79d04" target="_blank" rel="noopener"><bdi dir="ltr">2022 Toyota Camry (XV70) Hybrid</bdi></a> و<a href="https://sketchfab.com/3d-models/2023-nissan-altima-teana-5370d8f6b81a41a89eabfa1b91fc7160" target="_blank" rel="noopener"><bdi dir="ltr">2023 Nissan Altima / Teana</bdi></a> من تصميم <a href="https://sketchfab.com/ddiaz-design" target="_blank" rel="noopener"><bdi dir="ltr">Ddiaz Design</bdi></a>، بترخيص <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener"><bdi dir="ltr">CC BY-NC-SA 4.0</bdi></a> (مخفّفة للويب)، ونموذج <bdi dir="ltr">2025 Toyota Camry (XV80)</bdi>.</p>
+  </section>
+</div>
+</main>
+
+<!--#include footer -->
+
+<!--#include scripts -->
+<script defer src="/assets/js/pages/about.js?v={{v}}"></script>
+
+</body>
+</html>

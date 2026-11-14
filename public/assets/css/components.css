@@ -1,0 +1,1500 @@
+/* © 2026 NorthPoint Tech. All rights reserved.
+
+   components.css: pieces used on more than one page.
+
+   1. Status words ("No power", "Back to normal", Runaki coverage)
+   2. Report rows
+   3. Power and water, one row each
+   4. Planned cuts and announcements
+   5. "Erbil right now": every neighbourhood in two columns
+   6. The map: frame, markers, key, the map library's own controls
+   7. The most-urgent list beside the map
+   8. Runaki's coverage bar and its key
+   9. Alerts: the button to turn them on, and the line beside it
+  10. The assistant
+  11. Neighbourhood generators: one row each, the committee's price */
+
+/* ---------------------------------------------------------------------------
+   1. Status words
+   States are said in words, never as coloured dots. Outages and anything
+   that needs doing are in the text colour and a little heavier; quiet
+   states are grey.
+   --------------------------------------------------------------------------- */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--ink-2);
+}
+.tag svg {
+  display: none;
+  width: 15px;
+  height: 15px;
+  flex: none;
+  color: var(--grey);
+}
+.tag--none {
+  color: var(--ink-2);
+  font-weight: 400;
+}
+.tag--unconfirmed {
+  color: var(--ink-2);
+}
+.tag--out,
+.tag--trouble,
+.tag--planned,
+.tag--back {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* A neighbourhood's Runaki stage in the neighbourhoods table */
+.runaki {
+  color: var(--ink-2);
+}
+.runaki--covered {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------------
+   2. Report rows
+   The place, then what's wrong, then a line that reads as a sentence:
+   "Confirmed by the team, 6 people reported this, 10 min ago".
+   --------------------------------------------------------------------------- */
+
+.reports {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.reports--card {
+  padding: 4px 0;
+  border-top: 1px solid var(--line-2);
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+.reports a,
+.reports p a,
+main .reports p a:not(.btn):not(.more):not(.chip) {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration-color: var(--line-2);
+}
+
+.report {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.reports > .report:last-child {
+  border-bottom: 0;
+}
+.report__title {
+  display: block;
+  font-weight: 500;
+  flex-wrap: wrap;
+  gap: 0 8px;
+  align-items: baseline;
+}
+.report.is-resolved .report__title {
+  color: var(--ink-2);
+}
+.report__area {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+.report__title > span:not(.report__mine) {
+  display: block;
+  font-weight: 400;
+}
+.report__mine,
+.report__title .report__mine {
+  font-size: 0.84rem;
+  font-weight: 400;
+  color: var(--ink-2);
+}
+.report__note {
+  color: var(--ink-2);
+  margin-top: 4px;
+  font-size: 0.94rem;
+}
+.report__hint {
+  font-size: 0.84rem;
+  color: var(--ink-2);
+  margin-top: 4px;
+}
+.report__photos {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.report__photos img {
+  display: block;
+  width: 96px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+/* what the team says about it: a note, or that a crew is on the way */
+.report__team {
+  margin-top: 6px;
+  font-size: 0.94rem;
+  color: var(--ink-2);
+}
+.report__fixing {
+  color: var(--ink);
+  font-weight: 600;
+}
+.report__meta {
+  display: block;
+  margin-top: 3px;
+  font-size: 0.84rem;
+  color: var(--ink-2);
+  flex-wrap: wrap;
+  gap: 0 5px;
+}
+.report__meta span:not(:last-child):after {
+  content: ",";
+  margin-inline-end: 0.3em;
+}
+[dir="rtl"] .report__meta span:not(:last-child):after {
+  content: "،";
+}
+.report__unconfirmed {
+  color: var(--ink-2);
+}
+.report__done {
+  font-size: 0.84rem;
+  color: var(--green);
+  font-weight: 500;
+}
+.report__actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+@media (max-width: 640px) {
+  /* on a phone the buttons go under the text instead of squeezing it */
+  .report {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .report__actions {
+    grid-column: 1;
+    justify-content: flex-start;
+    margin-top: 10px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   3. Power and water, one row each (the neighbourhood page has its own
+   wider version in area.css)
+   --------------------------------------------------------------------------- */
+
+.svc {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 4px;
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+}
+.svc:first-of-type,
+.card__head + .svc {
+  border-top: 0;
+}
+.svc__name {
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+.svc__state {
+  font-family: var(--display);
+  font-size: 1.55rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.15;
+}
+.svc--none .svc__state,
+.svc--back .svc__state {
+  font-weight: 500;
+  color: var(--ink-2);
+}
+.svc--out .svc__state {
+  color: var(--ink);
+  font-weight: 600;
+}
+.svc__detail {
+  grid-column: 1;
+  margin-top: 2px;
+  color: var(--ink-2);
+  font-size: 0.9rem;
+}
+.svc__meta {
+  display: block;
+  font-size: 0.84rem;
+  color: var(--ink-2);
+}
+
+/* ---------------------------------------------------------------------------
+   4. Planned cuts and announcements
+   --------------------------------------------------------------------------- */
+
+.notices {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 14px;
+}
+.notices--inline {
+  grid-template-columns: 1fr;
+  margin: 8px 0 6px;
+}
+.notices--area {
+  grid-template-columns: 1fr;
+  margin-bottom: 20px;
+}
+.notice {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  padding: 20px 22px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-2);
+}
+.notices--inline .notice {
+  padding: 14px 16px;
+  border-radius: var(--radius);
+}
+.notice.is-now {
+  box-shadow: inset 0 0 0 1px var(--line-2);
+}
+.notice__title {
+  font-weight: 600;
+}
+.notice__areas {
+  font-weight: 500;
+  color: var(--ink);
+}
+.notice__title .notice__areas {
+  display: block;
+  font-weight: 400;
+  color: var(--ink-2);
+}
+.notice__when {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+  font-size: 0.94rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+/* "Now" on a cut that's happening: a quiet word, not a pulsing badge */
+.notice__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-inline-end: 6px;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--blue-ink);
+  font-size: inherit;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.notice__reason {
+  margin-top: 6px;
+  color: var(--ink-2);
+  font-size: 0.92rem;
+}
+.notice__src {
+  margin-top: 6px;
+  color: var(--ink-3);
+  font-size: 0.8rem;
+}
+.notice__cal {
+  margin: 6px 0 0;
+  font-size: 0.86rem;
+}
+.notice__cal a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--line-2);
+  text-underline-offset: 0.2em;
+}
+
+/* ---------------------------------------------------------------------------
+   5. "Erbil right now": every neighbourhood and its state, in two columns.
+   The name turns heavier when it's out; no dots, no stripes.
+   --------------------------------------------------------------------------- */
+
+.board {
+  list-style: none;
+  margin: 0;
+  padding: 6px 0;
+  columns: 2 340px;
+  column-gap: 0;
+  border-top: 1px solid var(--line-2);
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+.board__item {
+  break-inside: avoid;
+  padding: 0 22px;
+}
+.board__item a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  padding: 10px 0;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  border-inline-start: 0;
+}
+.board__item a:hover {
+  text-decoration: none;
+}
+.board__item a:hover .board__name {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.board__name {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+}
+.board__item.is-out .board__name {
+  color: var(--ink);
+  font-weight: 600;
+}
+.board__item.is-mine .board__name:after {
+  content: attr(data-mine);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--ink-2);
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 2px 8px;
+}
+.board__tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0;
+}
+.board__tags .tag {
+  font-size: 0.84rem;
+}
+.board__tags .tag + .tag {
+  border-inline-start: 0;
+  padding-inline-start: 0;
+}
+.board__tags .tag + .tag::before {
+  content: ",\00a0";
+}
+:lang(ckb) .board__tags .tag + .tag::before,
+:lang(ar) .board__tags .tag + .tag::before {
+  content: "،\00a0";
+}
+.board__quiet {
+  color: var(--ink-3);
+  font-size: 0.84rem;
+}
+
+/* ---------------------------------------------------------------------------
+   6. The map
+   Neighbourhoods are labels on the map, styled by state in ink only: dark
+   for no power or water, a heavy outline for a planned cut, grey for single
+   reports and for back to normal. Labels that would overlap wait until you
+   zoom in (.mk--collapsed) instead of shrinking to dots.
+   --------------------------------------------------------------------------- */
+
+.map-wrap {
+  position: relative;
+  isolation: isolate;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-2);
+  box-shadow: 0 0 0 1px var(--line);
+}
+.map-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 18px;
+  align-items: stretch;
+}
+.map-split > .map-wrap {
+  margin: 0;
+}
+#map {
+  height: min(72vh, 680px);
+  min-height: 420px;
+}
+.map-home {
+  height: min(60vh, 520px);
+  min-height: 360px;
+}
+.map-fallback {
+  display: grid;
+  place-content: center;
+  text-align: center;
+  height: 100%;
+  padding: 32px;
+  color: var(--ink-2);
+}
+/* the note that says how to move the map */
+.map-hint {
+  position: absolute;
+  z-index: 800;
+  inset-inline: 0;
+  top: 50%;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  margin: -20px auto 0;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background: rgba(17, 21, 18, 0.86);
+  color: #fff;
+  font-size: 0.9rem;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.map-hint.is-on {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-hint {
+    transition: none;
+  }
+}
+
+/* The labels */
+.mk {
+  background: none;
+  border: 0;
+}
+.mk--collapsed {
+  visibility: hidden;
+}
+.mk__pill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  white-space: nowrap;
+  padding: 6px 11px;
+  border: 0;
+  border-radius: var(--radius);
+  background: #fff;
+  color: #1d1d1f;
+  font: 600 12.5px/1 var(--sans);
+  box-shadow:
+    0 0 0 1px #00000014,
+    0 2px 8px #0000002e;
+  transition:
+    transform 0.18s var(--ease),
+    box-shadow 0.18s;
+}
+:lang(ckb) .mk__pill,
+:lang(ar) .mk__pill {
+  font-family: var(--arabic);
+  font-size: 13px;
+}
+.mk__pill i {
+  display: none;
+}
+.mk:hover .mk__pill,
+.mk:focus .mk__pill {
+  transform: translate(-50%, -50%) scale(1.07);
+  box-shadow:
+    0 0 0 1px #0000001a,
+    0 6px 16px #0000003d;
+  z-index: 2;
+}
+.mk--out .mk__pill {
+  background: #1d1d1f;
+  color: #fff;
+}
+.mk--trouble .mk__pill {
+  background: #fff;
+  color: #1d1d1f;
+}
+.mk--planned .mk__pill {
+  background: #fff;
+  color: #1d1d1f;
+  box-shadow:
+    0 0 0 2px #1d1d1f,
+    0 2px 8px #0000002e;
+}
+.mk--unconfirmed .mk__pill,
+.mk--back .mk__pill {
+  font-weight: 500;
+  color: #424a53;
+  background: #ffffffeb;
+}
+/* neighbourhoods with nothing reported only appear once you zoom in */
+.mk--none .mk__pill {
+  display: none;
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  background: #fff;
+  color: #424a53;
+  box-shadow: 0 0 0 1.5px rgba(0, 0, 0, 0.35);
+}
+.mk--none .mk__pill span {
+  display: none;
+}
+.map-zoomed .mk--none .mk__pill {
+  display: inline-flex;
+  width: auto;
+  height: auto;
+  padding: 6px 11px;
+  font-weight: 500;
+  color: #424a53;
+  background: #ffffffe6;
+  box-shadow: 0 0 0 1px #00000014;
+}
+.map-zoomed .mk--none .mk__pill span {
+  display: inline-block;
+}
+
+/* The key under the map: a small sample of each label, then the words */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin-top: 16px;
+  color: var(--ink-2);
+  font-size: 0.82rem;
+}
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.mk-key {
+  display: inline-flex;
+  align-items: center;
+}
+.mk-key,
+.mk-key--out,
+.mk-key--planned,
+.mk-key--unconfirmed,
+.mk-key--back,
+.mk-key--none {
+  gap: 8px;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--ink-2);
+  font-weight: 400;
+  font-size: 0.84rem;
+}
+.mk-key::before {
+  content: "";
+  flex: none;
+  width: 20px;
+  height: 12px;
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px #00000033;
+}
+.mk-key--out::before {
+  background: #1d1d1f;
+  box-shadow: none;
+}
+.mk-key--planned::before {
+  box-shadow: inset 0 0 0 2px #1d1d1f;
+}
+.mk-key--unconfirmed::before,
+.mk-key--back::before {
+  background: #fff;
+  opacity: 0.6;
+}
+.mk-key--none::before {
+  background: var(--bg-2);
+  box-shadow: inset 0 0 0 1px var(--line-2);
+}
+
+/* The map library's own pieces. Its stylesheet loads after ours and is
+   written with high specificity, so these overrides need !important. */
+.leaflet-container {
+  font: inherit !important;
+  background: var(--bg-2) !important;
+}
+.leaflet-control-zoom {
+  border: 0 !important;
+  box-shadow: var(--shadow) !important;
+  border-radius: var(--radius) !important;
+  overflow: hidden;
+}
+.leaflet-control-zoom a {
+  width: 38px !important;
+  height: 38px !important;
+  line-height: 38px !important;
+  color: #1d1d1f !important;
+  border-color: #00000014 !important;
+}
+.leaflet-control-attribution {
+  font-size: 10px !important;
+  border-radius: 8px 0 0;
+  background: rgba(255, 255, 255, 0.92) !important;
+  color: #424a53 !important;
+}
+.leaflet-control-attribution a {
+  color: #1f2328 !important;
+  text-decoration: underline;
+}
+.leaflet-popup-content-wrapper {
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow-lg) !important;
+  padding: 4px;
+}
+.leaflet-popup-content {
+  margin: 14px 18px !important;
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+[dir="rtl"] .leaflet-popup-content {
+  direction: rtl;
+  text-align: right;
+}
+.leaflet-popup-content .pop-name {
+  font-weight: 600;
+  font-size: 1.12rem;
+  margin-bottom: 8px;
+  color: #1d1d1f;
+}
+.leaflet-popup-content .pop-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+.leaflet-popup-content .pop-tags .tag {
+  color: #1d1d1f;
+}
+.leaflet-popup-content .pop-tags .tag--out {
+  color: #e0352b;
+}
+.leaflet-popup-content .pop-notice {
+  margin: 0 0 8px;
+  color: #0057b8;
+  font-weight: 500;
+}
+.leaflet-popup-content a {
+  color: #06c;
+}
+
+/* At night the map tiles are turned dark, and the key follows */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .leaflet-tile-pane {
+    filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.88) saturate(0.7);
+  }
+  :root:not([data-theme="light"]) .leaflet-container {
+    background: #1b1d21 !important;
+  }
+  :root:not([data-theme="light"]) .mk-key--out::before {
+    box-shadow: inset 0 0 0 1px #ffffff40;
+  }
+  :root:not([data-theme="light"]) .mk-key--planned::before {
+    box-shadow: inset 0 0 0 2px #fff;
+    background: #1d1d1f;
+  }
+}
+:root[data-theme="dark"] .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.88) saturate(0.7);
+}
+:root[data-theme="dark"] .leaflet-container {
+  background: #1b1d21 !important;
+}
+:root[data-theme="dark"] .mk-key--out::before {
+  box-shadow: inset 0 0 0 1px #ffffff40;
+}
+:root[data-theme="dark"] .mk-key--planned::before {
+  box-shadow: inset 0 0 0 2px #fff;
+  background: #1d1d1f;
+}
+
+/* ---------------------------------------------------------------------------
+   7. The most-urgent list beside the map: no power or water first, then the
+   most people and the longest time. Numbered, and it scrolls on its own.
+   --------------------------------------------------------------------------- */
+
+.urgent {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  max-height: 560px;
+  padding: 18px 0 6px;
+  padding-inline-start: 20px;
+  border-inline-start: 1px solid var(--line);
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+.urgent h2 {
+  font-size: 1.1rem;
+  padding: 0 14px;
+}
+.urgent__lead {
+  padding: 4px 14px 10px;
+  font-size: 0.84rem;
+  color: var(--ink-2);
+  border-bottom: 1px solid var(--line);
+}
+.urgent__list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+  overflow-y: auto;
+  counter-reset: urgent;
+}
+.urgent__row + .urgent__row {
+  border-top: 1px solid var(--line);
+}
+.urgent__row button {
+  display: grid;
+  grid-template-columns: 1.4em 1fr auto;
+  gap: 2px 8px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: var(--radius);
+  background: none;
+  font: inherit;
+  color: var(--ink);
+  text-align: start;
+  cursor: pointer;
+  counter-increment: urgent;
+}
+.urgent__row button::before {
+  content: counter(urgent);
+  grid-row: 1 / 4;
+  color: var(--ink-3);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5rem;
+}
+:lang(ckb) .urgent__row button::before,
+:lang(ar) .urgent__row button::before {
+  content: counter(urgent, arabic-indic);
+}
+.urgent__row button:hover,
+.urgent__row button:focus-visible {
+  background: var(--bg);
+}
+.urgent__name {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+}
+.urgent__when {
+  font-size: 0.8rem;
+  color: var(--ink-3);
+  line-height: 1.5rem;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.urgent__what {
+  grid-column: 2 / 4;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 1px 12px;
+  font-size: 0.875rem;
+  line-height: 1.35rem;
+}
+.urgent__svc,
+.urgent__state {
+  color: var(--ink-2);
+}
+.urgent__state.is-off {
+  color: var(--ink);
+  font-weight: 500;
+}
+.urgent__meta {
+  grid-column: 2 / 4;
+  font-size: 0.8rem;
+  color: var(--ink-3);
+}
+.urgent__none {
+  padding: 14px;
+  color: var(--ink-2);
+}
+@media (max-width: 900px) {
+  .map-split {
+    grid-template-columns: 1fr;
+  }
+  .urgent {
+    max-height: none;
+  }
+  .urgent__list {
+    max-height: 420px;
+  }
+}
+@media (min-width: 901px) {
+  /* exactly as tall as the map beside it, and scrolls inside */
+  .map-split > .urgent {
+    height: 0;
+    min-height: 100%;
+    max-height: none;
+  }
+  .urgent__list {
+    flex: 1 1 0;
+    min-height: 0;
+    max-height: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   8. Runaki's coverage bar: done, on the way, not yet, not known, in shades
+   of the text colour
+   --------------------------------------------------------------------------- */
+
+.bar {
+  display: flex;
+  gap: 3px;
+  height: 10px;
+  margin: 26px 0 18px;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.bar span {
+  min-width: 6px;
+}
+.key {
+  display: inline-block;
+  flex: none;
+  width: 16px;
+  height: 4px;
+  border-radius: 2px;
+}
+/* the Runaki page's lists already say their group in words */
+h3 > i.key {
+  display: none;
+}
+.c-covered {
+  background: var(--ink);
+}
+.c-switching {
+  background: color-mix(in srgb, var(--ink) 55%, var(--bg));
+}
+.c-notyet {
+  background: color-mix(in srgb, var(--ink) 25%, var(--bg));
+}
+.c-unknown {
+  background: var(--bg-3);
+}
+
+/* ---------------------------------------------------------------------------
+   9. Alerts: the button to turn them on, and the line that says what's on
+   --------------------------------------------------------------------------- */
+
+.alerts {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+}
+
+/* ---------------------------------------------------------------------------
+   10. The assistant
+   A panel at the side (a sheet from the bottom on a phone). The conversation
+   is written out like a page, not in bubbles: who said it, then what.
+   --------------------------------------------------------------------------- */
+
+.as {
+  position: fixed;
+  z-index: 90;
+  inset-block: 12px;
+  inset-inline-end: 12px;
+  width: min(420px, calc(100% - 24px));
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: sheet 0.3s var(--ease);
+}
+@media (prefers-reduced-motion: reduce) {
+  .as {
+    animation: none;
+  }
+}
+@media (max-width: 560px) {
+  .as {
+    inset: auto 0 0;
+    width: 100%;
+    height: 88vh;
+    height: 88dvh;
+    border-radius: var(--radius) 22px 0 0;
+  }
+}
+.as__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 16px 16px 12px 22px;
+  border-bottom: 1px solid var(--line);
+}
+[dir="rtl"] .as__head {
+  padding: 16px 22px 12px 16px;
+}
+.as__head h2 {
+  font-size: 1.06rem;
+  letter-spacing: 0;
+}
+.as__titles {
+  min-width: 0;
+  flex: 1;
+}
+.as__sub {
+  margin-top: 2px;
+  font-size: 0.82rem;
+  color: var(--ink-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.as__lang select {
+  font: inherit;
+  font-size: 0.82rem;
+  color: var(--ink-2);
+  background: var(--bg-2);
+  border: 0;
+  border-radius: 8px;
+  padding: 6px 8px;
+  max-width: 11em;
+  cursor: pointer;
+}
+.as__end {
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--ink);
+  background: var(--bg-2);
+  border: 0;
+  border-radius: 8px;
+  padding: 7px 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.as__end:hover,
+.as__lang select:hover {
+  background: var(--bg-3);
+}
+.as__close {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius);
+  border: 0;
+  background: var(--bg-2);
+  color: var(--ink-2);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.as__close svg {
+  width: 14px;
+  height: 14px;
+}
+.as__close:hover {
+  color: var(--ink);
+  background: var(--bg-3);
+}
+
+.as__log {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 8px 22px 20px;
+  overscroll-behavior: contain;
+}
+.as__intro {
+  color: var(--ink-2);
+  font-size: 0.92rem;
+  text-align: center;
+  padding: 8px 12px 10px;
+}
+.as__note {
+  padding: 12px 0;
+  font-size: 0.88rem;
+  color: var(--ink-2);
+  border-bottom: 1px solid var(--line);
+}
+.as__note--offer {
+  display: grid;
+  gap: 8px;
+  color: var(--ink);
+  font-size: 0.94rem;
+}
+.as__offer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.as__presence {
+  font-size: 0.84rem;
+  color: var(--ink-2);
+}
+.as__presence:empty {
+  display: none;
+}
+.as__choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.as__choices .btn--quiet {
+  background: var(--bg-2);
+}
+.as__choices a {
+  align-self: center;
+}
+/* "writing…", then the answer arriving a paragraph at a time */
+.as__writing {
+  color: var(--ink-3);
+  font-size: 0.9rem;
+}
+.as__in {
+  animation: as-in 0.32s var(--ease) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .as__in {
+    animation: none;
+  }
+}
+.as__src {
+  font-size: 0.8rem;
+  color: var(--ink-3);
+  display: block;
+  margin-top: 14px;
+}
+
+/* One message: who said it on a small line, then the words */
+.msg {
+  align-self: stretch;
+  max-width: none;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: none;
+  color: var(--ink);
+  font-size: 0.96rem;
+  line-height: 1.6;
+}
+.msg::before {
+  content: attr(data-who);
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--ink-3);
+}
+.msg--bot::before {
+  color: var(--ink-2);
+}
+.msg--team::before {
+  color: var(--ink);
+}
+.msg--me {
+  font-weight: 500;
+  padding-block: 16px;
+}
+.msg:lang(ckb),
+.msg:lang(ar),
+.msg[dir="rtl"] {
+  font-family: var(--arabic);
+}
+.msg a {
+  color: inherit;
+  text-decoration: underline;
+}
+/* links in the assistant's answers are blue, like links in running text */
+.msg--bot a {
+  color: var(--text-link);
+  text-decoration-color: var(--text-link-line);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+.msg--bot a:hover {
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
+}
+.msg--bot li a {
+  font-weight: 500;
+}
+.msg .tag {
+  font-size: 0.88rem;
+}
+.msg p {
+  margin: 0;
+}
+.msg p + p,
+.msg ul + p,
+.msg p + .as__src,
+.msg ul + .as__src {
+  margin-top: 14px;
+}
+.msg ul + p {
+  margin-top: 22px;
+}
+.msg p:has(+ ul) {
+  font-weight: 500;
+}
+.msg ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+}
+.msg li {
+  padding: 0;
+}
+.msg li + li {
+  margin-top: 8px;
+}
+.msg--bot li + li {
+  margin-top: 16px;
+}
+.msg--bot li .small {
+  display: inline-block;
+  margin: 3px 0 4px;
+  color: var(--ink-2);
+}
+.msg .said-out {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Suggested questions under a message, and under the box */
+.msg__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.msg__chips button,
+.as__chips button {
+  border: 1px solid var(--line-2);
+  background: var(--bg);
+  color: var(--ink);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.msg__chips button {
+  padding: 5px 11px;
+  font-size: 0.84rem;
+  text-align: start;
+}
+.msg__chips button:hover,
+.as__chips button:hover {
+  border-color: var(--ink);
+}
+.msg__chips button:lang(ckb),
+.msg__chips button:lang(ar) {
+  font-family: var(--arabic);
+}
+.as__chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 0 16px 10px;
+}
+.as__chips button {
+  padding: 6px 13px;
+  font-size: 0.86rem;
+}
+.is-chat .as__chips {
+  display: none;
+}
+
+/* The box to type in */
+.as__form {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px 14px;
+  border-top: 1px solid var(--line);
+}
+.as__form input {
+  flex: 1;
+  min-width: 0;
+  min-height: 42px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-2);
+  background: var(--bg);
+  padding: 0 16px;
+  outline: none;
+}
+.as__form input:focus {
+  border-color: var(--ink);
+}
+.as__form button {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--blue);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  font-size: 0;
+}
+.as__form button[type="submit"] {
+  background: var(--press);
+  color: var(--press-ink);
+}
+.as__form button svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ---------------------------------------------------------------------------
+   11. Neighbourhood generators
+   A row like a report row: the name and what it's doing, then the facts
+   as a line of text, the owner's own words, and who said so and when.
+   "Running" is the only state in the accent blue (something is happening
+   for you); the others are grey. Never red or green: those mean the grid.
+   --------------------------------------------------------------------------- */
+
+.gens {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.gen {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+.gens > .gen:last-child {
+  border-bottom: 0;
+}
+/* the first line of a generator: running or not, and its hours */
+.gen__state {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+}
+.gen__state b {
+  font-weight: 700;
+}
+.gen__mark {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  border: 2px solid var(--ink-3);
+}
+.gen--running .gen__mark {
+  background: var(--c-power);
+  border-color: var(--c-power);
+}
+.gen--running .gen__state b {
+  color: var(--c-power);
+}
+.gen--standby .gen__mark {
+  border-color: var(--c-power);
+}
+.gen__state .gen__hours {
+  color: var(--ink-2);
+}
+.gen__vs.is-over {
+  color: var(--ink);
+  font-weight: 600;
+}
+.gen__call {
+  margin: 8px 0 0;
+}
+.gen__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+}
+.gen__name {
+  font-weight: 600;
+}
+.gen__area {
+  color: var(--ink-2);
+  font-size: 0.92rem;
+}
+.gen__status {
+  margin-inline-start: auto;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+.gen--running .gen__status {
+  color: var(--accent-ink);
+  font-weight: 600;
+}
+.gen--off .gen__name,
+.gen--removed .gen__name {
+  color: var(--ink-2);
+}
+.gen__facts {
+  margin: 4px 0 0;
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+.gen__facts > span + span::before {
+  content: ", ";
+}
+[dir="rtl"] .gen__facts > span + span::before {
+  content: "، ";
+}
+.gen__vs {
+  color: var(--ink-2);
+}
+.gen__note {
+  margin: 6px 0 0;
+  color: var(--ink);
+}
+.gen__meta {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: var(--ink-2);
+}
+.gen__meta a {
+  color: var(--ink);
+  font-weight: 500;
+}
+/* "Is it on at your place?" and what the neighbours said */
+.gen__check {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin: 8px 0 0;
+}
+.gen__ask {
+  font-size: 0.88rem;
+  color: var(--ink-2);
+}
+.gen__btns {
+  display: inline-flex;
+  gap: 6px;
+}
+.gen__said {
+  margin: 6px 0 0;
+  font-size: 0.88rem;
+  color: var(--ink-2);
+}
+.gen__said--differs {
+  color: var(--ink);
+  font-weight: 600;
+}
+.gen-intro {
+  color: var(--ink-2);
+  max-width: 62ch;
+  margin: 8px 0 0;
+}
+.gens:not([hidden]) + .gen-intro {
+  margin-top: 4px;
+}
+.gen-official {
+  margin: 10px 0 0;
+  font-size: 0.92rem;
+  max-width: 62ch;
+}
+
+/* The generators page: choose the place, then the summary, the map, the list */
+.gens-pick {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 16px;
+  margin: 0 0 16px;
+}
+.gens-pick .field {
+  margin: 0;
+  min-width: 12em;
+}
+.gens-pick__run {
+  padding-bottom: 10px;
+}
+.gens-sum {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 24px;
+  margin: 0 0 16px;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+.gens-sum p {
+  margin: 0;
+}
+.gens-sum__n b {
+  font-family: var(--heading);
+  font-size: 2rem;
+  font-variant-numeric: tabular-nums;
+  margin-inline-end: 4px;
+}
+.gens-sum__price {
+  color: var(--ink-2);
+  max-width: 48em;
+}
+.gens-map {
+  height: 320px;
+  margin: 0 0 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  z-index: 0;
+}
+.gen-pin {
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  color: var(--ink-3);
+  border: 2px solid var(--ink-3);
+  border-radius: 3px;
+}
+.gen-pin svg {
+  width: 13px;
+  height: 13px;
+  fill: currentColor;
+}
+.gen-pin.is-running {
+  background: var(--c-power);
+  border-color: var(--c-power);
+  color: #fff;
+}

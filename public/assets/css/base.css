@@ -1,0 +1,1188 @@
+/* © 2026 NorthPoint Tech. All rights reserved.
+
+   base.css: the ground every page stands on.
+
+   1. Fonts
+   2. Colours and sizes
+   3. Page basics
+   4. Layout helpers
+   5. Buttons and links
+   6. Form controls
+   7. Motion
+
+   The rules for what things look like (and what they must never look like)
+   are in docs/design-rules.md. Load order is base, layout, components, then
+   the page files; see views/partials/head.html. */
+
+/* ---------------------------------------------------------------------------
+   1. Fonts
+   The brand's fonts. Barlow for English and Kurmanji: drawn from road and
+   public-works signs, so it reads like a utility's own signage. Barlow Semi
+   Condensed, bold, for headings and figures. Noto Sans Arabic for Sorani and Arabic (the face Android uses for
+   Kurdish). Latin is split in two files so the extra Kurmanji letters only
+   load when a page needs them. All self-hosted, SIL Open Font Licence.
+   --------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: EU Sans;
+  src: url(../fonts/barlow-latin-400-normal.woff2) format("woff2");
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: EU Sans;
+  src: url(../fonts/barlow-latin-600-normal.woff2) format("woff2");
+  font-weight: 500 700;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: EU Sans;
+  src: url(../fonts/barlow-latin-ext-400-normal.woff2) format("woff2");
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: EU Sans;
+  src: url(../fonts/barlow-latin-ext-600-normal.woff2) format("woff2");
+  font-weight: 500 700;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: EU Sans;
+  src: url(../fonts/barlow-latin-500-normal.woff2) format("woff2");
+  font-weight: 500;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: EU Sans;
+  src: url(../fonts/barlow-latin-ext-500-normal.woff2) format("woff2");
+  font-weight: 500;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: EU Condensed;
+  src: url(../fonts/barlow-semi-condensed-latin-700-normal.woff2) format("woff2");
+  font-weight: 500 700;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: EU Condensed;
+  src: url(../fonts/barlow-semi-condensed-latin-ext-700-normal.woff2) format("woff2");
+  font-weight: 500 700;
+  font-display: swap;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF,
+    U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: EU Arabic;
+  src: url(../fonts/noto-sans-arabic-400.woff2) format("woff2");
+  font-weight: 400;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200F;
+}
+@font-face {
+  font-family: EU Arabic;
+  src: url(../fonts/noto-sans-arabic-600.woff2) format("woff2");
+  font-weight: 500 700;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200F;
+}
+
+/* ---------------------------------------------------------------------------
+   2. Colours and sizes
+   A plain, neutral palette close to GitHub's: white and light grey surfaces,
+   near-black text, one blue for links, the active page, focus and "in
+   progress". Red only means broken, green only means fixed. Dark mode is the
+   same set of names with night values: it follows the phone unless someone
+   picks light or dark with the switch in the header (data-theme on <html>).
+   --------------------------------------------------------------------------- */
+
+:root {
+  --sans: "EU Sans", "EU Arabic", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --arabic: "EU Arabic", "EU Sans", "Geeza Pro", "Segoe UI", Tahoma, sans-serif;
+  --display: var(--sans);
+  --heading: "EU Condensed", "EU Arabic", "EU Sans", "Arial Narrow", sans-serif;
+  --heading-ar: "EU Arabic", "EU Condensed", sans-serif;
+
+  --bg: #ffffff;
+  --bg-2: #f6f8fa;
+  --bg-3: #eef1f4;
+  --ink: #1f2328;
+  --ink-2: #59636e;
+  --ink-3: #636c76;
+  --line: #d8dee4;
+  --line-2: #c2cad3;
+  --press: #1f2328;
+  --press-ink: #ffffff;
+  --grey: #98989d;
+
+  --accent: #0969da;
+  --accent-ink: #0969da;
+  --accent-soft: rgba(9, 105, 218, 0.12);
+  --link: var(--ink);
+  --text-link: #0969da;
+  --text-link-line: rgba(9, 105, 218, 0.4);
+
+  --red: #cf222e;
+  --red-soft: #ffebe9;
+  --green: #1a7f37;
+  --green-soft: #dafbe1;
+  --blue: #0969da;
+  --blue-soft: #ddf4ff;
+  --blue-ink: #0969da;
+
+  --radius: 6px;
+  --radius-lg: 8px;
+  --shadow: 0 1px 0 rgba(31, 35, 40, 0.04), 0 1px 3px rgba(31, 35, 40, 0.12);
+  --shadow-lg: 0 1px 3px rgba(31, 35, 40, 0.12), 0 8px 24px rgba(66, 74, 83, 0.12);
+
+  --top-h: 52px;
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  color-scheme: light dark;
+}
+
+/* Night values. The same block twice: once for "follow the phone", once for
+   someone who picked dark by hand. Keep the two in step. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d1117;
+    --bg-2: #151b23;
+    --bg-3: #212830;
+    --ink: #f0f6fc;
+    --ink-2: #9198a1;
+    --ink-3: #868f99;
+    --line: #262c36;
+    --line-2: #3d444d;
+    --press: #f0f6fc;
+    --press-ink: #0d1117;
+    --accent: #4493f8;
+    --accent-ink: #4493f8;
+    --accent-soft: rgba(68, 147, 248, 0.15);
+    --link: #2997ff;
+    --text-link: #4493f8;
+    --text-link-line: rgba(68, 147, 248, 0.45);
+    --red: #f85149;
+    --red-soft: rgba(248, 81, 73, 0.15);
+    --green: #3fb950;
+    --green-soft: rgba(63, 185, 80, 0.15);
+    --blue: #4493f8;
+    --blue-soft: rgba(68, 147, 248, 0.15);
+    --blue-ink: #4493f8;
+    --shadow: 0 0 0 1px #3d444d, 0 6px 16px rgba(1, 4, 9, 0.6);
+    --shadow-lg: 0 0 0 1px #3d444d, 0 12px 32px rgba(1, 4, 9, 0.7);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d1117;
+  --bg-2: #151b23;
+  --bg-3: #212830;
+  --ink: #f0f6fc;
+  --ink-2: #9198a1;
+  --ink-3: #868f99;
+  --line: #262c36;
+  --line-2: #3d444d;
+  --press: #f0f6fc;
+  --press-ink: #0d1117;
+  --accent: #4493f8;
+  --accent-ink: #4493f8;
+  --accent-soft: rgba(68, 147, 248, 0.15);
+  --link: #2997ff;
+  --text-link: #4493f8;
+  --text-link-line: rgba(68, 147, 248, 0.45);
+  --red: #f85149;
+  --red-soft: rgba(248, 81, 73, 0.15);
+  --green: #3fb950;
+  --green-soft: rgba(63, 185, 80, 0.15);
+  --blue: #4493f8;
+  --blue-soft: rgba(68, 147, 248, 0.15);
+  --blue-ink: #4493f8;
+  --shadow: 0 0 0 1px #3d444d, 0 6px 16px rgba(1, 4, 9, 0.6);
+  --shadow-lg: 0 0 0 1px #3d444d, 0 12px 32px rgba(1, 4, 9, 0.7);
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+/* ---------------------------------------------------------------------------
+   3. Page basics
+   --------------------------------------------------------------------------- */
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+[hidden] {
+  display: none !important; /* beats any display a component sets */
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  font-size: 106.25%;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--top-h) + 16px);
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 17px/1.6 var(--sans);
+  font-feature-settings: "kern" 1;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+/* Arabic script sits smaller than Latin and needs more room between lines,
+   and never any letter spacing (it breaks the joins between letters) */
+:lang(ckb) body,
+:lang(ar) body,
+body:lang(ckb),
+body:lang(ar) {
+  font-family: var(--arabic);
+  letter-spacing: 0;
+  line-height: 1.8;
+}
+:lang(ckb),
+:lang(ar) {
+  letter-spacing: 0 !important;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}
+main {
+  display: block;
+  min-height: 50vh;
+}
+[id] {
+  scroll-margin-top: calc(var(--top-h) + 20px);
+}
+[tabindex="-1"]:focus {
+  outline: none;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  text-wrap: balance;
+}
+:lang(ckb) :is(h1, h2, h3),
+:lang(ar) :is(h1, h2, h3) {
+  font-family: var(--arabic);
+  line-height: 1.35;
+  font-weight: 600;
+}
+/* one Arabic-script face for headings and text alike, never a second style */
+:lang(ckb) :is(h1, h2, h3, .feat__title),
+:lang(ar) :is(h1, h2, h3, .feat__title) {
+  font-family: var(--heading-ar);
+  font-weight: 600;
+  line-height: 1.45;
+}
+h1,
+h2,
+h3,
+.feat__title,
+.tm-head h1 {
+  font-family: var(--heading);
+  font-weight: 600;
+  letter-spacing: 0;
+}
+h1 {
+  font-size: clamp(2.06rem, 1.5rem + 2.2vw, 3.06rem);
+  line-height: 1.12;
+}
+h2 {
+  font-size: clamp(1.66rem, 1.3rem + 1.2vw, 2.06rem);
+  line-height: 1.2;
+}
+h3 {
+  font-size: 1.33rem;
+  line-height: 1.3;
+}
+main h1 {
+  font-size: clamp(2.1rem, 1.5rem + 2.4vw, 3.1rem);
+  line-height: 1.12;
+}
+:lang(ckb) main h1,
+:lang(ar) main h1 {
+  line-height: 1.4;
+}
+
+p {
+  margin: 0;
+}
+p + p {
+  margin-top: 0.8em;
+}
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--blue) 55%, transparent);
+  outline-color: var(--accent);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* Figures line up in columns everywhere they're compared */
+time,
+.num,
+.svc__meta,
+.report__meta,
+.notice__when,
+.tl,
+.feats__count {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------------------------
+   4. Layout helpers
+   --------------------------------------------------------------------------- */
+
+.wrap {
+  width: min(1080px, 100% - 44px);
+  margin-inline: auto;
+}
+.wrap--narrow {
+  width: min(640px, 100% - 40px);
+}
+.page-head {
+  padding: 64px 0 32px;
+}
+.page-head--narrow {
+  width: min(640px, 100% - 40px);
+}
+.crumb {
+  display: inline-block;
+  font-size: 0.9rem;
+  margin-bottom: 14px;
+}
+.crumb:before {
+  content: "\2039  ";
+}
+[dir="rtl"] .crumb:before {
+  content: "\203a  ";
+}
+
+.lead {
+  margin-top: 0.6em;
+  max-width: 36em;
+}
+.lead {
+  line-height: 1.5;
+}
+.muted {
+  color: var(--ink-2);
+}
+.small,
+small {
+  font-size: max(0.8rem, 13px);
+}
+.hint {
+  font-size: 0.84rem;
+  color: var(--ink-2);
+  margin-top: 8px;
+}
+.empty {
+  color: var(--ink-2);
+  padding: 18px 0;
+}
+
+/* A section of a page: a heading, a line under it, and a link on the far side */
+.section {
+  padding: 72px 0 0;
+}
+.section__head p {
+  color: var(--ink-2);
+  margin-top: 8px;
+}
+.section__head--row {
+  justify-content: space-between;
+}
+.section__head,
+.section__head--row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  column-gap: 24px;
+  row-gap: 8px;
+  margin-bottom: 28px;
+  flex-wrap: initial;
+}
+.section__head > h2,
+.find h2,
+.asksec h2 {
+  grid-column: 1;
+  margin: 0;
+  line-height: 1.2;
+  max-width: none;
+  font-size: clamp(1.7rem, 1.3rem + 1.4vw, 2.35rem);
+}
+.section__head > p,
+.find .lead,
+.asksec__text > p {
+  grid-column: 1;
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 1rem;
+  max-width: 62ch;
+}
+.section__head > .more {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: end;
+  white-space: nowrap;
+}
+.page-head p,
+.section__head > p,
+.lead {
+  font-size: 1.06rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.section--tight {
+  padding-top: 36px;
+}
+.section--tight > h2 {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+}
+@media (max-width: 600px) {
+  /* less empty space between sections on a phone */
+  body:not([data-page="home"]) main > .section,
+  body:not([data-page="home"]) .section {
+    padding-top: 44px;
+  }
+}
+
+/* Main content with a narrower column beside it */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+  gap: 32px;
+  align-items: start;
+}
+.split > aside.tile {
+  margin-top: calc(28px + 2.25rem + 8px);
+}
+@media (max-width: 860px) {
+  .split {
+    grid-template-columns: 1fr;
+  }
+  .split > aside.tile {
+    margin-top: 0;
+  }
+}
+
+.list-more {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.credits {
+  font-size: 0.88rem;
+  color: var(--ink-2);
+}
+.credits a {
+  white-space: nowrap;
+}
+
+/* For screen readers only, and the form field only robots fill in */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.hp {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.skip {
+  position: absolute;
+  inset-inline-start: 12px;
+  top: -60px;
+  z-index: 100;
+  background: var(--press);
+  color: var(--press-ink);
+  padding: 10px 16px;
+  border-radius: var(--radius);
+}
+.skip:focus {
+  top: 10px;
+}
+
+/* The white box the home page shows when you pick your neighbourhood */
+.card {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 26px 26px 22px;
+  animation: rise 0.35s var(--ease);
+}
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    animation: none;
+  }
+}
+.card__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.card__head h3 {
+  font-size: 1.6rem;
+  letter-spacing: 0;
+}
+.card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+/* ---------------------------------------------------------------------------
+   5. Buttons and links
+   Links are ink with a quiet underline; inside running text they're blue so
+   they stand out. Things that are buttons never carry the underline.
+   --------------------------------------------------------------------------- */
+
+a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--line-2);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+a:hover {
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-underline-offset: 0.18em;
+}
+.nav a,
+.brand,
+.btn,
+a.btn,
+.foot a,
+.board__item a,
+.feat a,
+.feats a,
+.skip,
+.mk,
+.news-item__title a,
+.as__offer a {
+  text-decoration: none;
+}
+.as__note a,
+.news-item a,
+.chapter__source a,
+main p a:not(.btn):not(.more):not(.chip) {
+  color: var(--text-link);
+  text-decoration: underline;
+  text-decoration-color: var(--text-link-line);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+.as__note a:hover,
+.news-item a:hover,
+.chapter__source a:hover,
+main p a:not(.btn):not(.more):not(.chip):hover {
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 22px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--press);
+  color: var(--press-ink);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background-color 0.2s var(--ease),
+    transform 0.12s var(--ease),
+    opacity 0.2s;
+}
+.btn:hover {
+  text-decoration: none;
+  opacity: 0.86;
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.btn svg {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+/* secondary buttons get a thin edge so they still read as buttons on a grey row */
+.btn--quiet {
+  background: var(--bg-2);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--line-2);
+}
+.btn--quiet:hover {
+  background: var(--bg-3);
+  opacity: 1;
+}
+.btn--light {
+  background: #fff;
+  color: #1d1d1f;
+}
+.btn--wide {
+  width: 100%;
+  min-height: 52px;
+  font-size: 1.06rem;
+}
+.top__report,
+a.btn {
+  text-decoration: none;
+}
+
+/* "Read more" style links */
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+  text-decoration: underline;
+  text-decoration-color: var(--line-2);
+  text-underline-offset: 0.2em;
+}
+.more:hover {
+  text-decoration-color: currentColor;
+}
+.more:after {
+  font-size: 1.25em;
+  line-height: 1;
+  margin-inline-start: 4px;
+  transform: translateY(-1px);
+}
+.more:after,
+[dir="rtl"] .more:after {
+  content: none;
+}
+.more--light {
+  color: #fff;
+  text-decoration-color: rgba(255, 255, 255, 0.45);
+}
+p > .more {
+  white-space: normal;
+}
+
+/* A button that looks like a link */
+.link-btn {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--link);
+  cursor: pointer;
+  font-size: inherit;
+}
+.link-btn:hover {
+  text-decoration: underline;
+}
+
+/* Small toggle buttons ("Me too", "Fine here") */
+.chip-btn {
+  min-height: 34px;
+  padding: 6px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
+}
+.chip-btn:hover {
+  border-color: var(--ink);
+}
+.chip-btn[aria-pressed="true"] {
+  background: var(--press);
+  color: var(--press-ink);
+  border-color: var(--press);
+}
+
+/* ---------------------------------------------------------------------------
+   6. Form controls
+   --------------------------------------------------------------------------- */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+}
+.form__send {
+  padding: 4px 0 0;
+}
+.form__error {
+  color: var(--red);
+  font-weight: 500;
+  margin-top: 10px;
+  text-align: center;
+}
+.form__error:empty {
+  display: none;
+}
+.field {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+.field legend,
+.field > label {
+  display: block;
+  font-size: 1.12rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  margin-bottom: 12px;
+  padding: 0;
+}
+.field .opt {
+  font-weight: 400;
+  color: var(--ink-3);
+  font-size: 0.9rem;
+  margin-inline-start: 4px;
+}
+
+.input,
+.select,
+textarea {
+  width: 100%;
+  min-height: 54px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-2);
+  background: var(--bg);
+  font-size: 1rem;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.input:focus,
+.select:focus,
+textarea:focus {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 4px var(--bg-2);
+}
+textarea {
+  resize: vertical;
+  min-height: 96px;
+  line-height: 1.5;
+}
+.select-wrap {
+  position: relative;
+}
+.select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-inline-end: 44px;
+  cursor: pointer;
+}
+.select-wrap:after {
+  content: "";
+  position: absolute;
+  inset-inline-end: 18px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border: solid var(--ink-2);
+  border-width: 0 1.6px 1.6px 0;
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  font-size: 0.94rem;
+}
+.check input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--press);
+}
+input[type="range"] {
+  width: 100%;
+  max-width: 420px;
+  margin: 18px 0 6px;
+  accent-color: var(--press);
+}
+input[type="range"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* The search box with a magnifying glass */
+.field-search {
+  flex: 1 1 280px;
+  max-width: 420px;
+  min-height: 48px;
+  padding: 0 20px 0 46px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-2);
+  background: var(--bg)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='10.5' cy='10.5' r='6.5' fill='none' stroke='%2386868b' stroke-width='2'/%3E%3Cpath d='m15.5 15.5 5 5' stroke='%2386868b' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E")
+    no-repeat 16px center / 18px;
+  outline: none;
+}
+[dir="rtl"] .field-search {
+  padding: 0 46px 0 20px;
+  background-position: calc(100% - 16px) center;
+}
+.field-search:focus {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 4px var(--bg-2);
+}
+
+/* A row of filters above a list */
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px 18px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+.toolbar .filter {
+  margin-bottom: 8px;
+}
+
+/* One choice out of a few, side by side (a segmented control). .filter is
+   made of buttons, .choice of radio inputs with labels. */
+.filter,
+.choice {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 3px;
+  background: var(--bg-2);
+  border-radius: var(--radius);
+}
+.filter button,
+.choice label {
+  border: 0;
+  background: none;
+  color: var(--ink);
+  padding: 7px 14px;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  min-height: 36px;
+}
+.filter button:hover,
+.choice label:hover {
+  background: var(--bg-3);
+}
+.filter button[aria-pressed="true"],
+.choice input:checked + label {
+  background: var(--bg);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 0 0 1px var(--line);
+}
+.filter button .muted {
+  margin-inline-start: 4px;
+}
+.choice input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.choice input:focus-visible + label {
+  outline: 2px solid var(--link);
+  outline-offset: 1px;
+}
+.choice--wrap {
+  display: flex;
+}
+
+/* Separate toggle buttons, when a segmented control would be too wide */
+.pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.pills button {
+  min-height: 38px;
+  padding: 7px 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line-2);
+  background: var(--bg);
+  font-size: 0.92rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--ink);
+  transition:
+    border-color 0.2s,
+    background-color 0.2s;
+}
+.pills button:hover {
+  border-color: var(--ink);
+}
+.pills button[aria-pressed="true"] {
+  background: var(--press);
+  color: var(--press-ink);
+  border-color: var(--press);
+}
+
+/* ---------------------------------------------------------------------------
+   7. Motion
+   Shared entrances. Each one is switched off where it's used when someone
+   asks for less motion.
+   --------------------------------------------------------------------------- */
+
+@keyframes rise {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@keyframes sheet {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+}
+@keyframes blink {
+  0%,
+  80%,
+  to {
+    opacity: 0.3;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+@keyframes as-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+@keyframes popup-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Brand: a utility's colours. Deep service blue for the brand (the top bar
+   and the main buttons), electricity in bright blue and water in teal
+   everywhere, red only for no power or no water, green only for restored.
+   Flat and solid: no glows, no gradients, nothing see-through.
+   --------------------------------------------------------------------------- */
+:root {
+  --brand: #0d3b66;
+  --brand-2: #0a2f52;
+  --brand-ink: #ffffff;
+  --c-power: #1f6fd1;
+  --c-water: #0b7a7a;
+  --accent: #1f6fd1;
+  --accent-ink: #1a5fb4;
+  --accent-soft: rgba(31, 111, 209, 0.12);
+  --text-link: #1a5fb4;
+  --text-link-line: rgba(26, 95, 180, 0.4);
+  --press: #0d3b66;
+  --press-ink: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --brand: #12304f;
+    --brand-2: #0d2238;
+    --c-power: #5aa2f5;
+    --c-water: #2bb3b3;
+    --accent: #5aa2f5;
+    --accent-ink: #7ab4f7;
+    --accent-soft: rgba(90, 162, 245, 0.16);
+    --text-link: #7ab4f7;
+    --text-link-line: rgba(122, 180, 247, 0.45);
+    --press: #5aa2f5;
+    --press-ink: #06121f;
+  }
+}
+:root[data-theme="dark"] {
+  --brand: #12304f;
+  --brand-2: #0d2238;
+  --c-power: #5aa2f5;
+  --c-water: #2bb3b3;
+  --accent: #5aa2f5;
+  --accent-ink: #7ab4f7;
+  --accent-soft: rgba(90, 162, 245, 0.16);
+  --text-link: #7ab4f7;
+  --text-link-line: rgba(122, 180, 247, 0.45);
+  --press: #5aa2f5;
+  --press-ink: #06121f;
+}
+
+/* ---------------------------------------------------------------------------
+   Brand UI: the same controls on every page and on the team page.
+   Small square-ish corners on controls (like signs and meter panels), the
+   brand blue for the main action and for anything chosen, a darker blue on
+   hover rather than fading, and one focus ring.
+   --------------------------------------------------------------------------- */
+:root {
+  --radius: 4px;
+  --radius-lg: 8px;
+  --brand-soft: rgba(13, 59, 102, 0.08);
+  --focus: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent);
+  accent-color: var(--accent);
+}
+:root[data-theme="dark"] {
+  --brand-soft: rgba(90, 162, 245, 0.12);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --brand-soft: rgba(90, 162, 245, 0.12);
+  }
+}
+::selection {
+  background: color-mix(in srgb, var(--accent) 25%, transparent);
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius);
+}
+
+/* buttons: the main one in the brand, darker on hover */
+.btn {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.btn:hover {
+  opacity: 1;
+  background: color-mix(in srgb, var(--press) 86%, #000);
+}
+.btn--quiet {
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--line-2);
+}
+.btn--quiet:hover {
+  background: var(--brand-soft);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, var(--line-2));
+}
+.btn[disabled],
+.btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* fields: the brand blue when you're in one */
+.input:focus,
+.select:focus,
+textarea:focus {
+  border-color: var(--accent);
+  box-shadow: var(--focus);
+}
+
+/* choosing one of a few: tabs with a brand-blue line under the chosen one */
+.filter,
+.choice {
+  gap: 0;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  box-shadow: inset 0 -1px 0 var(--line);
+}
+.filter button,
+.choice label {
+  border-radius: 0;
+  min-height: 40px;
+  padding: 8px 14px;
+  color: var(--ink-2);
+  box-shadow: inset 0 -2px 0 transparent;
+}
+.filter button:hover,
+.choice label:hover {
+  background: none;
+  color: var(--ink);
+}
+.filter button[aria-pressed="true"],
+.choice input:checked + label {
+  background: none;
+  color: var(--ink);
+  font-weight: 600;
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+.choice input:focus-visible + label {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+/* small toggles (Me too, On here) */
+.chip-btn:hover {
+  border-color: var(--accent);
+}
+
+/* a quiet notice line, the way a utility notice reads */
+.notice-line {
+  padding: 10px 14px;
+  background: var(--brand-soft);
+  border-radius: var(--radius);
+}

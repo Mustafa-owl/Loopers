@@ -1,0 +1,742 @@
+/* © 2026 NorthPoint Tech. All rights reserved.
+
+   layout.css: what's the same on every page.
+
+   1. The header: brand, menu, tools, language menu, light/dark switch
+   2. The header over the home page's 3D street
+   3. The header on a phone
+   4. The footer
+   5. Things that float: offline strip, toast, the admins' pop-up message
+   6. Printing */
+
+/* ---------------------------------------------------------------------------
+   1. The header
+   --------------------------------------------------------------------------- */
+
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--brand);
+  border-bottom: 1px solid var(--line);
+}
+.top__in {
+  height: var(--top-h);
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+  white-space: nowrap;
+  min-width: 0;
+}
+.brand:hover {
+  text-decoration: none;
+}
+.brand__mark {
+  width: auto;
+  height: 34px;
+  flex: none;
+  display: block;
+}
+.brand span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav {
+  margin-inline-end: auto;
+}
+.nav__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 24px;
+}
+.nav__links a {
+  color: var(--ink);
+  opacity: 0.8;
+  font-size: 0.86rem;
+  transition: opacity 0.2s;
+}
+.nav__links a:hover {
+  opacity: 1;
+  text-decoration: none;
+}
+/* the page you're on: a thick blue line under it */
+.nav__links a[aria-current="page"] {
+  opacity: 1;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 8px;
+}
+.foot a:hover,
+.nav a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.top__tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.top__tools,
+.menu-btn,
+.top__report {
+  flex: none;
+}
+.top__ask {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: var(--ink);
+  opacity: 0.8;
+  font-size: 0.86rem;
+  padding: 6px 10px;
+  border-radius: var(--radius);
+}
+.top__ask:hover {
+  opacity: 1;
+  background: var(--bg-2);
+}
+.top__report {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 4px 14px;
+  border-radius: var(--radius);
+  background: var(--press);
+  color: var(--press-ink);
+  font-size: 0.82rem;
+  font-weight: 500;
+  white-space: nowrap;
+  margin-inline-start: 4px;
+}
+.top__report:hover {
+  text-decoration: none;
+  opacity: 0.86;
+}
+/* no "Report" button on the page that is the report form */
+body[data-page="report"] .top__report {
+  display: none;
+}
+
+/* The language menu: a button that opens a short list */
+.langs {
+  position: relative;
+  flex: none;
+}
+.langs__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: var(--radius);
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.86rem;
+  cursor: pointer;
+}
+.langs__btn:hover,
+.langs__btn[aria-expanded="true"] {
+  background: var(--bg-2);
+}
+.langs__btn svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  opacity: 0.85;
+}
+.langs__btn:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.langs__menu {
+  position: absolute;
+  z-index: 60;
+  top: calc(100% + 6px);
+  inset-inline-end: 0;
+  min-width: 190px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--bg);
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.14);
+}
+.langs__menu [role="menuitemradio"] {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-block: 9px;
+  padding-inline: 28px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.95rem;
+  text-align: start;
+  cursor: pointer;
+  position: relative;
+}
+.langs__menu [role="menuitemradio"]:lang(ckb),
+.langs__menu [role="menuitemradio"]:lang(ar) {
+  font-family: var(--arabic);
+}
+.langs__menu [role="menuitemradio"] small {
+  font-size: 0.78rem;
+  color: var(--ink-3);
+}
+.langs__menu [role="menuitemradio"]:hover,
+.langs__menu [role="menuitemradio"]:focus-visible {
+  background: var(--bg-2);
+  outline: none;
+}
+.langs__menu [aria-checked="true"] {
+  font-weight: 600;
+}
+/* the chosen one gets a small tick before it, on its own reading side */
+.langs__menu [aria-checked="true"]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  inset-inline-start: 11px;
+  width: 8px;
+  height: 4px;
+  margin-top: -4px;
+  border-left: 1.6px solid currentColor;
+  border-bottom: 1.6px solid currentColor;
+  transform: rotate(-45deg);
+}
+
+/* The light/dark switch: the moon while it's light (press for dark), the sun
+   while it's dark. On a phone it moves into the menu (.nav__theme). */
+.top__theme {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+}
+.top__theme:hover {
+  background: var(--bg-2);
+}
+.top__theme:focus-visible,
+.nav__theme button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+.top__theme svg,
+.nav__theme svg {
+  width: 18px;
+  height: 18px;
+}
+[data-theme-toggle] .i-sun {
+  display: none;
+}
+[data-theme-toggle][aria-pressed="true"] .i-sun {
+  display: block;
+}
+[data-theme-toggle][aria-pressed="true"] .i-moon {
+  display: none;
+}
+.nav__theme {
+  display: none;
+}
+
+.menu-btn {
+  display: none;
+  border: 0;
+  background: none;
+  padding: 8px;
+  margin-inline-end: -8px;
+  cursor: pointer;
+  color: var(--ink);
+}
+.menu-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ---------------------------------------------------------------------------
+   2. The header over the home page's 3D street
+   Dark and see-through while the street is behind it; once the page scrolls
+   past the story (body.is-past-story) it turns back into the normal header.
+   --------------------------------------------------------------------------- */
+
+body[data-page="home"] .top {
+  background: color-mix(in srgb, #000 42%, transparent);
+  border-bottom-color: #ffffff1a;
+}
+body[data-page="home"]:not(.is-past-story) .top {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: #06080e99;
+}
+body[data-page="home"] .top :is(.brand, .brand__mark, .nav__links a, .langs__btn, .top__ask, .top__theme, .menu-btn) {
+  color: #f5f5f7;
+}
+body[data-page="home"] .top .top__report {
+  background: #f5f5f7;
+  color: #1d1d1f;
+}
+body[data-page="home"] .top :is(.langs__btn, .top__ask, .top__theme):hover {
+  background: #ffffff1f;
+}
+body[data-page="home"]:not(.is-past-story) .langs__btn:hover,
+body[data-page="home"]:not(.is-past-story) .langs__btn[aria-expanded="true"] {
+  background: #ffffff1f;
+}
+/* past the street: the same solid brand-blue bar as every other page (it was
+   see-through white before, so text under it showed through and the white
+   brand name and links disappeared on it) */
+body[data-page="home"].is-past-story .top {
+  background: var(--brand);
+  border-bottom-color: transparent;
+}
+body[data-page="home"].is-past-story
+  .top
+  :is(.brand, .brand__mark, .nav__links a, .langs__btn, .top__ask, .top__theme, .menu-btn) {
+  color: var(--ink);
+}
+body[data-page="home"].is-past-story .top .top__report {
+  background: var(--press);
+  color: var(--press-ink);
+}
+body[data-page="home"].is-past-story .top :is(.langs__btn, .top__ask, .top__theme):hover {
+  background: var(--bg-2);
+}
+
+/* ---------------------------------------------------------------------------
+   3. The header on a phone: the links fold into a menu that drops down
+   --------------------------------------------------------------------------- */
+
+@media (max-width: 860px) {
+  .top__in {
+    gap: 8px;
+  }
+  .brand {
+    margin-inline-end: auto;
+  }
+  .menu-btn {
+    display: inline-flex;
+  }
+  .top__ask,
+  .top .top__theme {
+    display: none;
+  }
+  .nav {
+    position: fixed;
+    inset: var(--top-h) 0 auto 0;
+    margin: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    padding: 8px 22px 22px;
+    transform: translateY(-8px);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.25s var(--ease),
+      transform 0.25s var(--ease),
+      visibility 0.25s;
+    /* the open menu never runs past the bottom of a short screen */
+    max-height: calc(100dvh - var(--top-h));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .nav.is-open {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+  }
+  .nav__links {
+    flex-direction: column;
+    gap: 0;
+  }
+  .nav__links a {
+    display: block;
+    padding: 14px 0;
+    font-size: 1.35rem;
+    font-weight: 600;
+    opacity: 1;
+    border-bottom: 1px solid var(--line);
+  }
+  /* the open menu is a light panel, even over the home page's dark street */
+  body[data-page="home"] .top .nav .nav__links a {
+    color: var(--ink);
+  }
+  .nav__theme {
+    display: block;
+  }
+  .nav__theme button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 0;
+    border: 0;
+    background: none;
+    color: var(--ink);
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+}
+@media (max-width: 600px) {
+  /* The Kurdish name is longer: on a phone it gets a smaller size instead
+     of being cut off with "…" */
+  :lang(ckb) .brand span,
+  :lang(ar) .brand span {
+    overflow: visible;
+    text-overflow: clip;
+    max-width: none;
+    font-size: 0.86rem;
+  }
+  :lang(ckb) .top__in,
+  :lang(ar) .top__in {
+    gap: 6px;
+  }
+}
+@media (max-width: 480px) {
+  .langs__now {
+    display: none;
+  }
+  .langs__btn {
+    width: 36px;
+    justify-content: center;
+    padding: 0;
+  }
+  .langs__btn svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+@media (max-width: 350px) {
+  .brand span {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   4. The footer
+   --------------------------------------------------------------------------- */
+
+.foot {
+  background: var(--bg-2);
+  color: var(--ink-2);
+  font-size: 0.76rem;
+  line-height: 1.5;
+  margin-top: 96px;
+  padding: 20px 0 28px;
+}
+.foot__grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 24px 48px;
+  padding: 18px 0 20px;
+  border-bottom: 1px solid var(--line);
+}
+.foot__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.foot__brand img {
+  width: auto;
+  height: 44px;
+  flex: none;
+}
+.foot h2 {
+  font: 600 0.76rem/1.4 var(--sans);
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: 0;
+}
+:lang(ckb) .foot h2,
+:lang(ar) .foot h2 {
+  font-family: var(--arabic);
+}
+.foot p {
+  max-width: 46em;
+}
+.foot ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.foot li + li {
+  margin-top: 6px;
+}
+.foot a {
+  color: var(--ink-2);
+}
+.foot a:hover {
+  color: var(--ink);
+}
+.foot__base {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 14px;
+  flex-wrap: wrap;
+}
+.foot__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+}
+.foot__copy bdi {
+  white-space: nowrap;
+}
+@media (max-width: 700px) {
+  .foot__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   5. Things that float
+   --------------------------------------------------------------------------- */
+
+/* A thin line under the header: "you're offline" in red, other notes in grey */
+.strip {
+  background: var(--bg-2);
+  color: var(--ink-2);
+  font-size: 0.8rem;
+}
+.strip__in {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 0;
+  text-align: center;
+  flex-wrap: wrap;
+}
+.strip--offline {
+  background: var(--red);
+  color: #fff;
+}
+
+/* A short message at the bottom ("Saved.") that fades away */
+.toast {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 24px;
+  margin-inline: auto;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  z-index: 80;
+  background: var(--press);
+  color: var(--press-ink);
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  font-size: 0.94rem;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition:
+    opacity 0.25s,
+    transform 0.25s var(--ease);
+}
+.toast.is-on {
+  opacity: 1;
+  transform: none;
+}
+
+/* The admins' pop-up message, in the corner until it's closed */
+.popup {
+  position: fixed;
+  z-index: 80;
+  inset-block-end: 20px;
+  inset-inline-start: 20px;
+  width: min(380px, calc(100% - 32px));
+  padding: 18px 20px 16px;
+  background: var(--bg);
+  color: var(--ink);
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18);
+  animation: popup-in 0.35s var(--ease);
+}
+.popup--urgent {
+  border-top: 4px solid var(--ink);
+}
+.popup__kind {
+  margin: 0 0 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.popup__title {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.35;
+}
+.popup__body {
+  margin: 6px 0 0;
+  color: var(--ink-2);
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+.popup__acts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.popup__phone {
+  margin: 12px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 2px;
+}
+.popup__phone .link-btn {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9rem;
+  text-align: start;
+  text-decoration: underline;
+  text-decoration-color: var(--line-2);
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
+@media (prefers-reduced-motion: reduce) {
+  .popup {
+    animation: none;
+  }
+}
+@media (max-width: 560px) {
+  .popup {
+    inset-inline: 12px;
+    inset-block-end: 12px;
+    width: auto;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   6. Printing: just the page itself
+   --------------------------------------------------------------------------- */
+
+@media print {
+  .top,
+  .foot,
+  .as,
+  .strip,
+  .story {
+    display: none !important; /* over any display a component sets */
+  }
+}
+
+/* The top bar in the brand's blue, solid, with a thin stripe under it in
+   the two services' colours: electricity blue, then water teal. Everything
+   inside takes white; the menus that open from it keep the page's colours. */
+.top {
+  background: var(--brand);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border-bottom: 0;
+  box-shadow: inset 0 -3px 0 var(--c-power);
+  --ink: #ffffff;
+  --ink-2: rgba(255, 255, 255, 0.8);
+  --ink-3: rgba(255, 255, 255, 0.7);
+  --line: rgba(255, 255, 255, 0.22);
+  --line-2: rgba(255, 255, 255, 0.35);
+  --bg-2: rgba(255, 255, 255, 0.12);
+  --bg-3: rgba(255, 255, 255, 0.18);
+  --press: #ffffff;
+  --press-ink: var(--brand);
+  --accent: #ffffff;
+  --accent-ink: #ffffff;
+  --link: #ffffff;
+}
+.top::after {
+  content: "";
+  position: absolute;
+  inset-inline-end: 0;
+  bottom: 0;
+  width: 50%;
+  height: 3px;
+  background: var(--c-water);
+}
+.top .langs__menu,
+.top .nav__links .langs__menu {
+  --ink: var(--page-ink);
+  --ink-2: var(--page-ink-2);
+  --bg-2: var(--page-bg-2);
+  --line: var(--page-line);
+}
+@media (max-width: 860px) {
+  .top .nav {
+    --ink: var(--page-ink);
+    --ink-2: var(--page-ink-2);
+    --ink-3: var(--page-ink-2);
+    --line: var(--page-line);
+    --bg-2: var(--page-bg-2);
+    --bg-3: var(--page-bg-2);
+    --accent: var(--page-accent);
+    --accent-ink: var(--page-accent);
+    --link: var(--page-ink);
+    --press: var(--page-press);
+    --press-ink: var(--page-press-ink);
+  }
+}
+/* the page's own colours, kept so the menus inside the blue bar can use them */
+:root {
+  --page-ink: #1f2328;
+  --page-ink-2: #59636e;
+  --page-bg-2: #f6f8fa;
+  --page-line: #d8dee4;
+  --page-accent: #1a5fb4;
+  --page-press: #0d3b66;
+  --page-press-ink: #ffffff;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --page-ink: #f0f6fc;
+    --page-ink-2: #9198a1;
+    --page-bg-2: #151b23;
+    --page-line: #262c36;
+    --page-accent: #7ab4f7;
+    --page-press: #5aa2f5;
+    --page-press-ink: #06121f;
+  }
+}
+:root[data-theme="dark"] {
+  --page-ink: #f0f6fc;
+  --page-ink-2: #9198a1;
+  --page-bg-2: #151b23;
+  --page-line: #262c36;
+  --page-accent: #7ab4f7;
+  --page-press: #5aa2f5;
+  --page-press-ink: #06121f;
+}

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" dir="ltr" data-title="news.title">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>News – Erbil Utilities</title>
+<meta name="description" content="Planned power and water cuts from the teams, and news about electricity and water in Erbil, with links to the original reports.">
+<!--#include head -->
+</head>
+<body data-page="news">
+<!--#include header -->
+
+<main id="main">
+<div class="wrap page-head">
+  <h1 data-i18n="news.title">News</h1>
+  <p class="lead" data-i18n="news.lead">Planned cuts from the teams, and what has been happening with power and water in Erbil. Every story links to where it was first published.</p>
+</div>
+
+<div class="wrap">
+  <div class="news-feature">
+    <div id="news-slides" hidden></div>
+  </div>
+
+  <div class="toolbar">
+    <div class="filter" role="group" id="news-filter" data-i18n-attr="aria-label:map.show">
+      <button type="button" data-f="all" aria-pressed="true" data-i18n="map.both">Both</button>
+      <button type="button" data-f="electricity" aria-pressed="false" data-i18n="svc.electricity">Electricity</button>
+      <button type="button" data-f="water" aria-pressed="false" data-i18n="svc.water">Water</button>
+    </div>
+  </div>
+
+  <section class="section section--tight" id="cuts-sec" aria-labelledby="cuts-h">
+    <h2 id="cuts-h" data-i18n="notice.title">Planned cuts</h2>
+    <ul class="notices" id="cuts"></ul>
+  </section>
+
+  <section class="section section--tight" aria-labelledby="stories-h">
+    <h2 id="stories-h" data-i18n="news.stories">Stories</h2>
+    <ol class="story-list" id="news"></ol>
+    <p class="list-more" id="news-more-wrap" hidden><button type="button" class="btn btn--quiet" id="news-more"></button> <span class="muted small" id="news-more-note" role="status"></span></p>
+  </section>
+</div>
+</main>
+
+<!--#include footer -->
+
+<!--#include scripts -->
+<script defer src="/assets/js/core/slides.js?v={{v}}"></script>
+<script defer src="/assets/js/pages/news.js?v={{v}}"></script>
+</body>
+</html>

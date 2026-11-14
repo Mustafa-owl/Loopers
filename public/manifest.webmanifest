@@ -1,0 +1,22 @@
+{
+  "name": "Erbil Utilities",
+  "short_name": "Erbil Utilities",
+  "description": "Power cuts and water problems in Erbil, reported by neighbours.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    { "src": "/assets/img/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Report a problem",
+      "url": "/report.html",
+      "icons": [{ "src": "/assets/img/icon-192.png", "sizes": "192x192" }]
+    },
+    { "name": "Map", "url": "/map.html", "icons": [{ "src": "/assets/img/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
